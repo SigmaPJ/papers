@@ -1,167 +1,357 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Paper Reading Notes — LZW</title>
+<title>Paper Reading Notes — 罗重威</title>
 <style>
-  :root { --accent: #2563eb; --green: #10b981; --gray: #6b7280; --bg: #f9fafb; }
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-         max-width: 900px; margin: 0 auto; padding: 2em 1.2em; line-height: 1.6; color: #111827; }
-  h1 { font-size: 1.7em; margin: 0 0 0.2em; }
-  .subtitle { color: var(--gray); margin-bottom: 2em; font-size: 0.95em; }
-  h2 { font-size: 1.1em; margin-top: 2em; color: var(--gray); font-weight: 600;
-       border-bottom: 1px solid #e5e7eb; padding-bottom: 0.3em; }
-  .paper { padding: 0.9em 1em; margin: 0.8em 0; background: var(--bg);
-           border-left: 3px solid var(--accent); border-radius: 4px; }
-  .title { font-weight: 600; font-size: 1.02em; margin-bottom: 0.25em; }
-  .meta { color: var(--gray); font-size: 0.88em; margin-bottom: 0.3em; }
-  .read-date { color: #94a3b8; font-size: 0.78em; margin-bottom: 0.5em; font-variant-numeric: tabular-nums; }
-  .links a { display: inline-block; margin: 0.15em 0.4em 0.15em 0;
-             padding: 0.25em 0.7em; background: var(--accent); color: white;
-             text-decoration: none; border-radius: 3px; font-size: 0.82em; font-weight: 500; }
-  .links a:hover { opacity: 0.85; }
-  .links a.html { background: #f59e0b; }
-  .links a.md   { background: var(--green); }
-  .links a.pdf  { background: var(--gray); }
-  footer { margin-top: 3em; color: var(--gray); font-size: 0.85em;
-           border-top: 1px solid #e5e7eb; padding-top: 1em; }
-  code { background: #e5e7eb; padding: 0 0.3em; border-radius: 3px; font-size: 0.9em; }
+:root {
+  --bg: #f7f8f5;
+  --paper: #ffffff;
+  --ink: #1f2933;
+  --muted: #5b6776;
+  --muted-2: #94a3b8;
+  --line: #e1e5dc;
+  --line-hover: #c5cdb9;
+  --accent: #0f766e;
+  --accent-soft: #e0f2ef;
+  --accent-hover: #0b5d56;
+  --accent-tint: #cbe7e0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+               "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "kern", "liga";
+}
+.container { max-width: 880px; margin: 0 auto; padding: 64px 28px 96px; }
+
+header.site-header { margin-bottom: 28px; }
+h1 {
+  font-size: 2em;
+  margin: 0 0 8px;
+  letter-spacing: -0.012em;
+  font-weight: 700;
+}
+.subtitle { color: var(--muted); margin: 0; font-size: 0.97em; }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 32px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.toolbar-label {
+  color: var(--muted);
+  font-size: 0.82em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+.sort-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.9em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.sort-btn:hover { color: var(--ink); background: rgba(15,118,110,0.04); }
+.sort-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.sort-btn .arrow {
+  font-size: 0.85em;
+  margin-left: 1px;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+.section-heading {
+  font-size: 0.78em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 36px 0 14px;
+}
+
+.papers-list { display: flex; flex-direction: column; gap: 12px; }
+
+.paper {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px 22px;
+  transition: border-color 0.15s ease;
+}
+.paper:hover { border-color: var(--line-hover); }
+
+.paper-title {
+  font-weight: 600;
+  font-size: 1.02em;
+  margin: 0 0 5px;
+  color: var(--ink);
+  letter-spacing: -0.003em;
+  line-height: 1.45;
+}
+.meta { color: var(--muted); font-size: 0.85em; margin-bottom: 2px; }
+.meta em { font-style: italic; }
+.read-date {
+  color: var(--muted-2);
+  font-size: 0.78em;
+  margin-bottom: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.links { display: flex; flex-wrap: wrap; gap: 6px; }
+.links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 0.82em;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.links a.primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+.links a.primary:hover { background: var(--accent-hover); }
+.links a.secondary {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.links a.secondary:hover { background: var(--accent-tint); }
+.links a.tertiary {
+  color: var(--muted);
+  border: 1px solid var(--line);
+  background: transparent;
+}
+.links a.tertiary:hover { color: var(--ink); border-color: var(--line-hover); }
+
+footer {
+  margin-top: 56px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.82em;
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+footer code {
+  background: #ebeee8;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+@media (max-width: 600px) {
+  .container { padding: 40px 18px 60px; }
+  h1 { font-size: 1.55em; }
+}
 </style>
 </head>
 <body>
-<h1>Paper Reading Notes</h1>
-<p class="subtitle">罗重威 (Luo Zhongwei) · Tsinghua University · patch-clamp electrophysiology &amp; neuromodulation</p>
+<div class="container">
+<header class="site-header">
+  <h1>Paper Reading Notes</h1>
+  <p class="subtitle">罗重威 · Tsinghua University · patch-clamp electrophysiology &amp; neuromodulation</p>
+</header>
 
-<h2>Papers</h2>
-<div class="paper">
-<div class="title">Imaging Voltage in Neurons</div>
+<div class="toolbar" role="toolbar" aria-label="Sort papers">
+  <span class="toolbar-label">排序</span>
+  <button class="sort-btn active" data-sort="read" data-default-dir="desc">阅读时间<span class="arrow"></span></button>
+  <button class="sort-btn" data-sort="year" data-default-dir="desc">发表年份<span class="arrow"></span></button>
+  <button class="sort-btn" data-sort="title" data-default-dir="asc">标题<span class="arrow"></span></button>
+  <button class="sort-btn" data-sort="author" data-default-dir="asc">第一作者<span class="arrow"></span></button>
+</div>
+
+<div class="papers-list" id="papers-list">
+<article class="paper" data-read="2026-05-14" data-year="2011" data-title="imaging voltage in neurons" data-author="peterka">
+<h3 class="paper-title">Imaging Voltage in Neurons</h3>
 <div class="meta">Peterka · 2011 · <em>Neuron</em></div>
 <div class="read-date">阅读 2026-05-14</div>
 <div class="links">
-<a class="html" href="Neuron%20-%202011%20-%20Peterka%20-%20Imaging%20Voltage%20in%20Neurons/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Peterka%202011.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Neuron%20-%202011%20-%20Peterka%20-%20Imaging%20Voltage%20in%20Neurons/discussion%20-%20Peterka%202011.md">Discussion</a>
-<a class="pdf" href="Neuron%20-%202011%20-%20Peterka%20-%20Imaging%20Voltage%20in%20Neurons/Neuron%20-%202011%20-%20Peterka%20-%20Imaging%20Voltage%20in%20Neurons.pdf">PDF</a>
+<a class="primary" href="Neuron%20-%202011%20-%20Peterka%20-%20Imaging%20Voltage%20in%20Neurons/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Peterka%202011.html">Explainer</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/Neuron%20-%202011%20-%20Peterka%20-%20Imaging%20Voltage%20in%20Neurons/discussion%20-%20Peterka%202011.md">Discussion</a>
+<a class="tertiary" href="Neuron%20-%202011%20-%20Peterka%20-%20Imaging%20Voltage%20in%20Neurons/Neuron%20-%202011%20-%20Peterka%20-%20Imaging%20Voltage%20in%20Neurons.pdf">PDF</a>
 </div>
-</div>
-<div class="paper">
-<div class="title">Resolving nanosecond kinetics of the optical membrane potential in pulsed electric fields</div>
+</article>
+<article class="paper" data-read="2026-05-13" data-year="2026" data-title="resolving nanosecond kinetics of the optical membrane potential in pulsed electric fields" data-author="semenov">
+<h3 class="paper-title">Resolving nanosecond kinetics of the optical membrane potential in pulsed electric fields</h3>
 <div class="meta">Semenov · 2026 · <em>Bioelectrochemistry</em></div>
 <div class="read-date">阅读 2026-05-13</div>
 <div class="links">
-<a class="html" href="Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Resolving%20nanosecond%20kinetics%20of%20the%20optical%20membrane%20potential%20in%20pulsed%20electric%20fields/Semenov_2026_optical_MP_explainer.html">Explainer (EN)</a>
-<a class="html" href="Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Resolving%20nanosecond%20kinetics%20of%20the%20optical%20membrane%20potential%20in%20pulsed%20electric%20fields/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Semenov%202026.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Resolving%20nanosecond%20kinetics%20of%20the%20optical%20membrane%20potential%20in%20pulsed%20electric%20fields/discussion%20-%20Semenov%202026.md">Discussion</a>
-<a class="pdf" href="Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Resolving%20nanosecond%20kinetics%20of%20the%20optical%20membrane%20potential%20in%20pulsed%20electric%20fields/Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Resolving%20nanosecond%20kinetics%20of%20the%20optical%20membrane%20potential%20in%20pulsed%20electric%20fields.pdf">PDF</a>
+<a class="primary" href="Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Resolving%20nanosecond%20kinetics%20of%20the%20optical%20membrane%20potential%20in%20pulsed%20electric%20fields/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Semenov%202026.html">Explainer</a>
+<a class="primary" href="Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Resolving%20nanosecond%20kinetics%20of%20the%20optical%20membrane%20potential%20in%20pulsed%20electric%20fields/Semenov_2026_optical_MP_explainer.html">Explainer (EN)</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Resolving%20nanosecond%20kinetics%20of%20the%20optical%20membrane%20potential%20in%20pulsed%20electric%20fields/discussion%20-%20Semenov%202026.md">Discussion</a>
+<a class="tertiary" href="Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Resolving%20nanosecond%20kinetics%20of%20the%20optical%20membrane%20potential%20in%20pulsed%20electric%20fields/Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Resolving%20nanosecond%20kinetics%20of%20the%20optical%20membrane%20potential%20in%20pulsed%20electric%20fields.pdf">PDF</a>
 </div>
-</div>
-<div class="paper">
-<div class="title">Optimized deep brain stimulation for anterior cingulate cortex inhibition produces antidepressant-like effects</div>
+</article>
+<article class="paper" data-read="2026-04-16" data-year="2025" data-title="optimized deep brain stimulation for anterior cingulate cortex inhibition produces antidepressant-like effects" data-author="yuan">
+<h3 class="paper-title">Optimized deep brain stimulation for anterior cingulate cortex inhibition produces antidepressant-like effects</h3>
 <div class="meta">Yuan · 2025 · <em>Neuron</em></div>
 <div class="read-date">阅读 2026-04-16</div>
 <div class="links">
-<a class="html" href="Neuron%20-%202025%20-%20Yuan%20-%20Optimized%20deep%20brain%20stimulation%20for%20anterior%20cingulate%20cortex%20inhibition%20produces%20antidepressant-like%20effects/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Yuan%202025.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Neuron%20-%202025%20-%20Yuan%20-%20Optimized%20deep%20brain%20stimulation%20for%20anterior%20cingulate%20cortex%20inhibition%20produces%20antidepressant-like%20effects/discussion%20-%20Yuan%202025.md">Discussion</a>
-<a class="pdf" href="Neuron%20-%202025%20-%20Yuan%20-%20Optimized%20deep%20brain%20stimulation%20for%20anterior%20cingulate%20cortex%20inhibition%20produces%20antidepressant-like%20effects/Neuron%20-%202025%20-%20Yuan%20-%20Optimized%20deep%20brain%20stimulation%20for%20anterior%20cingulate%20cortex%20inhibition%20produces%20antidepressant-like%20effects.pdf">PDF</a>
+<a class="primary" href="Neuron%20-%202025%20-%20Yuan%20-%20Optimized%20deep%20brain%20stimulation%20for%20anterior%20cingulate%20cortex%20inhibition%20produces%20antidepressant-like%20effects/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Yuan%202025.html">Explainer</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/Neuron%20-%202025%20-%20Yuan%20-%20Optimized%20deep%20brain%20stimulation%20for%20anterior%20cingulate%20cortex%20inhibition%20produces%20antidepressant-like%20effects/discussion%20-%20Yuan%202025.md">Discussion</a>
+<a class="tertiary" href="Neuron%20-%202025%20-%20Yuan%20-%20Optimized%20deep%20brain%20stimulation%20for%20anterior%20cingulate%20cortex%20inhibition%20produces%20antidepressant-like%20effects/Neuron%20-%202025%20-%20Yuan%20-%20Optimized%20deep%20brain%20stimulation%20for%20anterior%20cingulate%20cortex%20inhibition%20produces%20antidepressant-like%20effects.pdf">PDF</a>
 </div>
-</div>
-<div class="paper">
-<div class="title">Membrane depolarization mediates both the inhibition of neural activity and cell-type-differences in response to HFS</div>
+</article>
+<article class="paper" data-read="2026-04-16" data-year="2024" data-title="membrane depolarization mediates both the inhibition of neural activity and cell-type-differences in response to hfs" data-author="lee">
+<h3 class="paper-title">Membrane depolarization mediates both the inhibition of neural activity and cell-type-differences in response to HFS</h3>
 <div class="meta">Lee · 2024 · <em>Communications Biology</em></div>
 <div class="read-date">阅读 2026-04-16</div>
 <div class="links">
-<a class="html" href="Communications%20Biology%20-%202024%20-%20Lee%20-%20Membrane%20depolarization%20mediates%20both%20the%20inhibition%20of%20neural%20activity%20and%20cell-type-differences%20in%20response%20to%20HFS/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Lee%202024.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Communications%20Biology%20-%202024%20-%20Lee%20-%20Membrane%20depolarization%20mediates%20both%20the%20inhibition%20of%20neural%20activity%20and%20cell-type-differences%20in%20response%20to%20HFS/discussion%20-%20Lee%202024.md">Discussion</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Communications%20Biology%20-%202024%20-%20Lee%20-%20Membrane%20depolarization%20mediates%20both%20the%20inhibition%20of%20neural%20activity%20and%20cell-type-differences%20in%20response%20to%20HFS/%E5%85%AC%E4%BC%97%E5%8F%B7%E6%96%87%E7%AB%A0%20-%20Lee%202024%20HFS%E4%BC%AA%E8%BF%B9%E4%B8%8E%E5%8E%BB%E6%9E%81%E5%8C%96%E9%98%BB%E6%BB%9E.md">WeChat draft</a>
-<a class="pdf" href="Communications%20Biology%20-%202024%20-%20Lee%20-%20Membrane%20depolarization%20mediates%20both%20the%20inhibition%20of%20neural%20activity%20and%20cell-type-differences%20in%20response%20to%20HFS/Communications%20Biology%20-%202024%20-%20Lee%20-%20Membrane%20depolarization%20mediates%20both%20the%20inhibition%20of%20neural%20activity%20and%20cell-type-differences%20in%20response%20to%20HFS.pdf">PDF</a>
+<a class="primary" href="Communications%20Biology%20-%202024%20-%20Lee%20-%20Membrane%20depolarization%20mediates%20both%20the%20inhibition%20of%20neural%20activity%20and%20cell-type-differences%20in%20response%20to%20HFS/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Lee%202024.html">Explainer</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/Communications%20Biology%20-%202024%20-%20Lee%20-%20Membrane%20depolarization%20mediates%20both%20the%20inhibition%20of%20neural%20activity%20and%20cell-type-differences%20in%20response%20to%20HFS/discussion%20-%20Lee%202024.md">Discussion</a>
+<a class="tertiary" href="https://github.com/SigmaPJ/papers/blob/main/Communications%20Biology%20-%202024%20-%20Lee%20-%20Membrane%20depolarization%20mediates%20both%20the%20inhibition%20of%20neural%20activity%20and%20cell-type-differences%20in%20response%20to%20HFS/%E5%85%AC%E4%BC%97%E5%8F%B7%E6%96%87%E7%AB%A0%20-%20Lee%202024%20HFS%E4%BC%AA%E8%BF%B9%E4%B8%8E%E5%8E%BB%E6%9E%81%E5%8C%96%E9%98%BB%E6%BB%9E.md">WeChat draft</a>
+<a class="tertiary" href="Communications%20Biology%20-%202024%20-%20Lee%20-%20Membrane%20depolarization%20mediates%20both%20the%20inhibition%20of%20neural%20activity%20and%20cell-type-differences%20in%20response%20to%20HFS/Communications%20Biology%20-%202024%20-%20Lee%20-%20Membrane%20depolarization%20mediates%20both%20the%20inhibition%20of%20neural%20activity%20and%20cell-type-differences%20in%20response%20to%20HFS.pdf">PDF</a>
 </div>
-</div>
-<div class="paper">
-<div class="title">Minimally invasive implantation of scalable high-density cortical microelectrode arrays</div>
+</article>
+<article class="paper" data-read="2026-04-16" data-year="2025" data-title="minimally invasive implantation of scalable high-density cortical microelectrode arrays" data-author="hettick">
+<h3 class="paper-title">Minimally invasive implantation of scalable high-density cortical microelectrode arrays</h3>
 <div class="meta">Hettick · 2025 · <em>Nature Biomedical Engineering</em></div>
 <div class="read-date">阅读 2026-04-16</div>
 <div class="links">
-<a class="html" href="Nature%20Biomedical%20Engineering%20-%202025%20-%20Hettick%20-%20Minimally%20invasive%20implantation%20of%20scalable%20high-density%20cortical%20microelectrode%20arrays/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Hettick%202025.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Nature%20Biomedical%20Engineering%20-%202025%20-%20Hettick%20-%20Minimally%20invasive%20implantation%20of%20scalable%20high-density%20cortical%20microelectrode%20arrays/discussion%20-%20Hettick%202025.md">Discussion</a>
-<a class="pdf" href="Nature%20Biomedical%20Engineering%20-%202025%20-%20Hettick%20-%20Minimally%20invasive%20implantation%20of%20scalable%20high-density%20cortical%20microelectrode%20arrays/Nature%20Biomedical%20Engineering%20-%202025%20-%20Hettick%20-%20Minimally%20invasive%20implantation%20of%20scalable%20high-density%20cortical%20microelectrode%20arrays.pdf">PDF</a>
+<a class="primary" href="Nature%20Biomedical%20Engineering%20-%202025%20-%20Hettick%20-%20Minimally%20invasive%20implantation%20of%20scalable%20high-density%20cortical%20microelectrode%20arrays/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Hettick%202025.html">Explainer</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/Nature%20Biomedical%20Engineering%20-%202025%20-%20Hettick%20-%20Minimally%20invasive%20implantation%20of%20scalable%20high-density%20cortical%20microelectrode%20arrays/discussion%20-%20Hettick%202025.md">Discussion</a>
+<a class="tertiary" href="Nature%20Biomedical%20Engineering%20-%202025%20-%20Hettick%20-%20Minimally%20invasive%20implantation%20of%20scalable%20high-density%20cortical%20microelectrode%20arrays/Nature%20Biomedical%20Engineering%20-%202025%20-%20Hettick%20-%20Minimally%20invasive%20implantation%20of%20scalable%20high-density%20cortical%20microelectrode%20arrays.pdf">PDF</a>
 </div>
-</div>
-<div class="paper">
-<div class="title">Resolving artifacts in voltage-clamp experiments with computational modeling</div>
+</article>
+<article class="paper" data-read="2026-04-15" data-year="2025" data-title="resolving artifacts in voltage-clamp experiments with computational modeling" data-author="lei">
+<h3 class="paper-title">Resolving artifacts in voltage-clamp experiments with computational modeling</h3>
 <div class="meta">Lei · 2025 · <em>Advanced Science</em></div>
 <div class="read-date">阅读 2026-04-15</div>
 <div class="links">
-<a class="html" href="Advanced%20Science%20-%202025%20-%20Lei%20-%20Resolving%20artifacts%20in%20voltage-clamp%20experiments%20with%20computational%20modeling/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Lei%202025.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Advanced%20Science%20-%202025%20-%20Lei%20-%20Resolving%20artifacts%20in%20voltage-clamp%20experiments%20with%20computational%20modeling/discussion%20-%20Lei%202025.md">Discussion</a>
-<a class="pdf" href="Advanced%20Science%20-%202025%20-%20Lei%20-%20Resolving%20artifacts%20in%20voltage-clamp%20experiments%20with%20computational%20modeling/Advanced%20Science%20-%202025%20-%20Lei%20-%20Resolving%20artifacts%20in%20voltage-clamp%20experiments%20with%20computational%20modeling.pdf">PDF</a>
+<a class="primary" href="Advanced%20Science%20-%202025%20-%20Lei%20-%20Resolving%20artifacts%20in%20voltage-clamp%20experiments%20with%20computational%20modeling/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Lei%202025.html">Explainer</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/Advanced%20Science%20-%202025%20-%20Lei%20-%20Resolving%20artifacts%20in%20voltage-clamp%20experiments%20with%20computational%20modeling/discussion%20-%20Lei%202025.md">Discussion</a>
+<a class="tertiary" href="Advanced%20Science%20-%202025%20-%20Lei%20-%20Resolving%20artifacts%20in%20voltage-clamp%20experiments%20with%20computational%20modeling/Advanced%20Science%20-%202025%20-%20Lei%20-%20Resolving%20artifacts%20in%20voltage-clamp%20experiments%20with%20computational%20modeling.pdf">PDF</a>
 </div>
-</div>
-<div class="paper">
-<div class="title">Neural mechanisms underlying the recovery of voluntary control of motoneurons after paralysis with spinal cord stimulation</div>
+</article>
+<article class="paper" data-read="2026-04-15" data-year="2025" data-title="neural mechanisms underlying the recovery of voluntary control of motoneurons after paralysis with spinal cord stimulation" data-author="balaguer">
+<h3 class="paper-title">Neural mechanisms underlying the recovery of voluntary control of motoneurons after paralysis with spinal cord stimulation</h3>
 <div class="meta">Balaguer · 2025 · <em>Neuron</em></div>
 <div class="read-date">阅读 2026-04-15</div>
 <div class="links">
-<a class="html" href="Neuron%20-%202025%20-%20Balaguer%20-%20Neural%20mechanisms%20underlying%20the%20recovery%20of%20voluntary%20control%20of%20motoneurons%20after%20paralysis%20with%20spinal%20cord%20stimulation/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Balaguer%202025.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Neuron%20-%202025%20-%20Balaguer%20-%20Neural%20mechanisms%20underlying%20the%20recovery%20of%20voluntary%20control%20of%20motoneurons%20after%20paralysis%20with%20spinal%20cord%20stimulation/discussion%20-%20Balaguer%202025.md">Discussion</a>
-<a class="pdf" href="Neuron%20-%202025%20-%20Balaguer%20-%20Neural%20mechanisms%20underlying%20the%20recovery%20of%20voluntary%20control%20of%20motoneurons%20after%20paralysis%20with%20spinal%20cord%20stimulation/Neuron%20-%202025%20-%20Balaguer%20-%20Neural%20mechanisms%20underlying%20the%20recovery%20of%20voluntary%20control%20of%20motoneurons%20after%20paralysis%20with%20spinal%20cord%20stimulation.pdf">PDF</a>
+<a class="primary" href="Neuron%20-%202025%20-%20Balaguer%20-%20Neural%20mechanisms%20underlying%20the%20recovery%20of%20voluntary%20control%20of%20motoneurons%20after%20paralysis%20with%20spinal%20cord%20stimulation/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Balaguer%202025.html">Explainer</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/Neuron%20-%202025%20-%20Balaguer%20-%20Neural%20mechanisms%20underlying%20the%20recovery%20of%20voluntary%20control%20of%20motoneurons%20after%20paralysis%20with%20spinal%20cord%20stimulation/discussion%20-%20Balaguer%202025.md">Discussion</a>
+<a class="tertiary" href="Neuron%20-%202025%20-%20Balaguer%20-%20Neural%20mechanisms%20underlying%20the%20recovery%20of%20voluntary%20control%20of%20motoneurons%20after%20paralysis%20with%20spinal%20cord%20stimulation/Neuron%20-%202025%20-%20Balaguer%20-%20Neural%20mechanisms%20underlying%20the%20recovery%20of%20voluntary%20control%20of%20motoneurons%20after%20paralysis%20with%20spinal%20cord%20stimulation.pdf">PDF</a>
 </div>
-</div>
-<div class="paper">
-<div class="title">Sub-microsecond optical measurements of cell membrane charging and lesioning by pulsed electric fields</div>
+</article>
+<article class="paper" data-read="2026-04-09" data-year="2026" data-title="sub-microsecond optical measurements of cell membrane charging and lesioning by pulsed electric fields" data-author="semenov">
+<h3 class="paper-title">Sub-microsecond optical measurements of cell membrane charging and lesioning by pulsed electric fields</h3>
 <div class="meta">Semenov · 2026 · <em>Bioelectrochemistry</em></div>
 <div class="read-date">阅读 2026-04-09</div>
 <div class="links">
-<a class="html" href="Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Sub-microsecond%20optical%20measurements%20of%20cell%20membrane%20charging%20and%20lesioning%20by%20pulsed%20electric%20fields/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Semenov%202026.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Sub-microsecond%20optical%20measurements%20of%20cell%20membrane%20charging%20and%20lesioning%20by%20pulsed%20electric%20fields/discussion%20-%20Semenov%202026.md">Discussion</a>
-<a class="pdf" href="Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Sub-microsecond%20optical%20measurements%20of%20cell%20membrane%20charging%20and%20lesioning%20by%20pulsed%20electric%20fields/Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Sub-microsecond%20optical%20measurements%20of%20cell%20membrane%20charging%20and%20lesioning%20by%20pulsed%20electric%20fields.pdf">PDF</a>
+<a class="primary" href="Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Sub-microsecond%20optical%20measurements%20of%20cell%20membrane%20charging%20and%20lesioning%20by%20pulsed%20electric%20fields/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Semenov%202026.html">Explainer</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Sub-microsecond%20optical%20measurements%20of%20cell%20membrane%20charging%20and%20lesioning%20by%20pulsed%20electric%20fields/discussion%20-%20Semenov%202026.md">Discussion</a>
+<a class="tertiary" href="Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Sub-microsecond%20optical%20measurements%20of%20cell%20membrane%20charging%20and%20lesioning%20by%20pulsed%20electric%20fields/Bioelectrochemistry%20-%202026%20-%20Semenov%20-%20Sub-microsecond%20optical%20measurements%20of%20cell%20membrane%20charging%20and%20lesioning%20by%20pulsed%20electric%20fields.pdf">PDF</a>
 </div>
-</div>
-<div class="paper">
-<div class="title">Artifactual hyperpolarization during extracellular electrical stimulation</div>
+</article>
+<article class="paper" data-read="2026-04-09" data-year="2018" data-title="artifactual hyperpolarization during extracellular electrical stimulation" data-author="lesperance">
+<h3 class="paper-title">Artifactual hyperpolarization during extracellular electrical stimulation</h3>
 <div class="meta">Lesperance · 2018 · <em>Brain Stimulation</em></div>
 <div class="read-date">阅读 2026-04-09</div>
 <div class="links">
-<a class="html" href="Brain%20Stimulation%20-%202018%20-%20Lesperance%20-%20Artifactual%20hyperpolarization%20during%20extracellular%20electrical%20stimulation/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Lesperance%202018.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Brain%20Stimulation%20-%202018%20-%20Lesperance%20-%20Artifactual%20hyperpolarization%20during%20extracellular%20electrical%20stimulation/discussion%20-%20Lesperance%202018.md">Discussion</a>
-<a class="pdf" href="Brain%20Stimulation%20-%202018%20-%20Lesperance%20-%20Artifactual%20hyperpolarization%20during%20extracellular%20electrical%20stimulation/Brain%20Stimulation%20-%202018%20-%20Lesperance%20-%20Artifactual%20hyperpolarization%20during%20extracellular%20electrical%20stimulation.pdf">PDF</a>
+<a class="primary" href="Brain%20Stimulation%20-%202018%20-%20Lesperance%20-%20Artifactual%20hyperpolarization%20during%20extracellular%20electrical%20stimulation/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Lesperance%202018.html">Explainer</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/Brain%20Stimulation%20-%202018%20-%20Lesperance%20-%20Artifactual%20hyperpolarization%20during%20extracellular%20electrical%20stimulation/discussion%20-%20Lesperance%202018.md">Discussion</a>
+<a class="tertiary" href="Brain%20Stimulation%20-%202018%20-%20Lesperance%20-%20Artifactual%20hyperpolarization%20during%20extracellular%20electrical%20stimulation/Brain%20Stimulation%20-%202018%20-%20Lesperance%20-%20Artifactual%20hyperpolarization%20during%20extracellular%20electrical%20stimulation.pdf">PDF</a>
 </div>
-</div>
-<div class="paper">
-<div class="title">Low-intensity tFUS engages PV GABAergic interneurons in chronic pain</div>
+</article>
+<article class="paper" data-read="2026-04-09" data-year="2026" data-title="low-intensity tfus engages pv gabaergic interneurons in chronic pain" data-author="kim">
+<h3 class="paper-title">Low-intensity tFUS engages PV GABAergic interneurons in chronic pain</h3>
 <div class="meta">Kim · 2026 · <em>Journal of Neural Engineering</em></div>
 <div class="read-date">阅读 2026-04-09</div>
 <div class="links">
-<a class="html" href="Journal%20of%20Neural%20Engineering%20-%202026%20-%20Kim%20-%20Low-intensity%20tFUS%20engages%20PV%20GABAergic%20interneurons%20in%20chronic%20pain/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Kim%202026.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/Journal%20of%20Neural%20Engineering%20-%202026%20-%20Kim%20-%20Low-intensity%20tFUS%20engages%20PV%20GABAergic%20interneurons%20in%20chronic%20pain/discussion%20-%20Kim%202026.md">Discussion</a>
-<a class="pdf" href="Journal%20of%20Neural%20Engineering%20-%202026%20-%20Kim%20-%20Low-intensity%20tFUS%20engages%20PV%20GABAergic%20interneurons%20in%20chronic%20pain/Journal%20of%20Neural%20Engineering%20-%202026%20-%20Kim%20-%20Low-intensity%20tFUS%20engages%20PV%20GABAergic%20interneurons%20in%20chronic%20pain.pdf">PDF</a>
+<a class="primary" href="Journal%20of%20Neural%20Engineering%20-%202026%20-%20Kim%20-%20Low-intensity%20tFUS%20engages%20PV%20GABAergic%20interneurons%20in%20chronic%20pain/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Kim%202026.html">Explainer</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/Journal%20of%20Neural%20Engineering%20-%202026%20-%20Kim%20-%20Low-intensity%20tFUS%20engages%20PV%20GABAergic%20interneurons%20in%20chronic%20pain/discussion%20-%20Kim%202026.md">Discussion</a>
+<a class="tertiary" href="Journal%20of%20Neural%20Engineering%20-%202026%20-%20Kim%20-%20Low-intensity%20tFUS%20engages%20PV%20GABAergic%20interneurons%20in%20chronic%20pain/Journal%20of%20Neural%20Engineering%20-%202026%20-%20Kim%20-%20Low-intensity%20tFUS%20engages%20PV%20GABAergic%20interneurons%20in%20chronic%20pain.pdf">PDF</a>
 </div>
-</div>
-<div class="paper">
-<div class="title">Spatial heterogeneity of transmembrane potential responses of single guinea‐pig</div>
+</article>
+<article class="paper" data-read="2026-03-25" data-year="2002" data-title="spatial heterogeneity of transmembrane potential responses of single guinea‐pig" data-author="sharma">
+<h3 class="paper-title">Spatial heterogeneity of transmembrane potential responses of single guinea‐pig</h3>
 <div class="meta">Sharma · 2002 · <em>The Journal of Physiology</em></div>
 <div class="read-date">阅读 2026-03-25</div>
 <div class="links">
-<a class="html" href="The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Sharma%202002.html">Explainer (中文)</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig/The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig%20-%20%E8%A7%A3%E8%AF%BB.md">Discussion</a>
-<a class="md" href="https://github.com/SigmaPJ/papers/blob/main/The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig/The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig%20-%20%E5%BE%AE%E4%BF%A1%E5%8F%91%E5%B8%83%E7%A8%BF.md">WeChat draft</a>
-<a class="pdf" href="The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig/The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig.pdf">PDF</a>
+<a class="primary" href="The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3%20-%20Sharma%202002.html">Explainer</a>
+<a class="secondary" href="https://github.com/SigmaPJ/papers/blob/main/The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig/The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig%20-%20%E8%A7%A3%E8%AF%BB.md">Discussion</a>
+<a class="tertiary" href="https://github.com/SigmaPJ/papers/blob/main/The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig/The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig%20-%20%E5%BE%AE%E4%BF%A1%E5%8F%91%E5%B8%83%E7%A8%BF.md">WeChat draft</a>
+<a class="tertiary" href="The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig/The%20Journal%20of%20Physiology%20-%202002%20-%20Sharma%20-%20Spatial%20heterogeneity%20of%20transmembrane%20potential%20responses%20of%20single%20guinea%E2%80%90pig.pdf">PDF</a>
 </div>
+</article>
 </div>
-<div class="paper">
-<div class="title">Towards end-to-end automation of AI research</div>
-<div class="links">
-<a class="pdf" href="Towards%20end-to-end%20automation%20of%20AI%20research/Towards%20end-to-end%20automation%20of%20AI%20research.pdf">PDF</a>
+<h2 class="section-heading">Standalone notes</h2>
+<div class="papers-list">
+<article class="paper"><h3 class="paper-title">胞外电场刺激下，单个心肌细胞的膜电位到底长什么样？.html</h3><div class="links"><a class="primary" href="%E8%83%9E%E5%A4%96%E7%94%B5%E5%9C%BA%E5%88%BA%E6%BF%80%E4%B8%8B%EF%BC%8C%E5%8D%95%E4%B8%AA%E5%BF%83%E8%82%8C%E7%BB%86%E8%83%9E%E7%9A%84%E8%86%9C%E7%94%B5%E4%BD%8D%E5%88%B0%E5%BA%95%E9%95%BF%E4%BB%80%E4%B9%88%E6%A0%B7%EF%BC%9F.html">Open</a></div></article>
 </div>
-</div>
-<h2>Standalone notes</h2>
-<div class="paper"><div class="title">胞外电场刺激下，单个心肌细胞的膜电位到底长什么样？.html</div><div class="links"><a class="html" href="%E8%83%9E%E5%A4%96%E7%94%B5%E5%9C%BA%E5%88%BA%E6%BF%80%E4%B8%8B%EF%BC%8C%E5%8D%95%E4%B8%AA%E5%BF%83%E8%82%8C%E7%BB%86%E8%83%9E%E7%9A%84%E8%86%9C%E7%94%B5%E4%BD%8D%E5%88%B0%E5%BA%95%E9%95%BF%E4%BB%80%E4%B9%88%E6%A0%B7%EF%BC%9F.html">Open</a></div></div>
 <footer>
-<p>HTML files (orange) render directly on GitHub Pages.
-Markdown files (green) link to the GitHub source view for nicer rendering.
-PDFs (gray) are served directly.</p>
+<p>HTML 说明文档（深色按钮）由 Pages 直接渲染；Discussion 链接到 GitHub 上的 Markdown 视图；PDF 在浏览器内置打开。</p>
 <p>Source: <a href="https://github.com/SigmaPJ/papers">github.com/SigmaPJ/papers</a> ·
-Regenerate this index with <code>python3 generate_index.py</code></p>
+重新生成索引：<code>python3 generate_index.py</code></p>
 </footer>
+</div>
+<script>
+(function () {
+  const list = document.getElementById('papers-list');
+  if (!list) return;
+  const buttons = Array.from(document.querySelectorAll('.sort-btn'));
+  let activeSort = 'read';
+  let activeDir = 'desc';
+
+  function applySort() {
+    const papers = Array.from(list.children);
+    papers.sort((a, b) => {
+      const av = (a.dataset[activeSort] || '');
+      const bv = (b.dataset[activeSort] || '');
+      const cmp = av < bv ? -1 : av > bv ? 1 : 0;
+      return activeDir === 'asc' ? cmp : -cmp;
+    });
+    papers.forEach((p) => list.appendChild(p));
+  }
+
+  function updateButtons() {
+    buttons.forEach((b) => {
+      const active = b.dataset.sort === activeSort;
+      b.classList.toggle('active', active);
+      const arrow = b.querySelector('.arrow');
+      if (arrow) arrow.textContent = active ? (activeDir === 'asc' ? ' ↑' : ' ↓') : '';
+    });
+  }
+
+  buttons.forEach((b) => {
+    b.addEventListener('click', () => {
+      const sort = b.dataset.sort;
+      const defaultDir = b.dataset.defaultDir || 'asc';
+      if (activeSort === sort) {
+        activeDir = activeDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        activeSort = sort;
+        activeDir = defaultDir;
+      }
+      updateButtons();
+      applySort();
+    });
+  });
+
+  updateButtons();
+})();
+</script>
 </body>
 </html>

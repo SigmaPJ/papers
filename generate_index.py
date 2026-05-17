@@ -5,7 +5,7 @@ Run from the Papers root:  python3 generate_index.py
 """
 import datetime
 import html
-import re
+import subprocess
 import urllib.parse
 from pathlib import Path
 
@@ -19,6 +19,19 @@ GH_BLOB = f"https://github.com/{GH_USER}/{GH_REPO}/blob/main"
 
 def url(rel_path: str) -> str:
     return urllib.parse.quote(rel_path)
+
+
+def is_git_ignored(path: Path) -> bool:
+    """Return True if path is matched by .gitignore. False if not a git repo."""
+    try:
+        result = subprocess.run(
+            ["git", "check-ignore", "-q", str(path)],
+            cwd=str(ROOT),
+            stderr=subprocess.DEVNULL,
+        )
+        return result.returncode == 0
+    except FileNotFoundError:
+        return False
 
 
 def parse_folder(name: str):
@@ -62,16 +75,25 @@ def collect_paper(folder: Path):
     return info
 
 
-def link_btn(label: str, href: str, kind: str = "") -> str:
-    cls = f' class="{kind}"' if kind else ""
-    return f'<a{cls} href="{href}">{html.escape(label)}</a>'
+def link_btn(label: str, href: str, kind: str) -> str:
+    return f'<a class="{kind}" href="{href}">{html.escape(label)}</a>'
+
+
+def attr(val: str) -> str:
+    return html.escape(val, quote=True)
 
 
 def render_paper(p) -> str:
-    parts = []
-    parts.append('<div class="paper">')
     title = p["title"] or p["folder"]
-    parts.append(f'<div class="title">{html.escape(title)}</div>')
+    data_attrs = (
+        f'data-read="{attr(p.get("read_date") or "0000-00-00")}" '
+        f'data-year="{attr(p.get("year") or "0000")}" '
+        f'data-title="{attr(title.lower())}" '
+        f'data-author="{attr((p.get("author") or "").lower())}"'
+    )
+    parts = [f'<article class="paper" {data_attrs}>']
+    parts.append(f'<h3 class="paper-title">{html.escape(title)}</h3>')
+
     meta_bits = []
     if p["author"]:
         meta_bits.append(html.escape(p["author"]))
@@ -85,24 +107,244 @@ def render_paper(p) -> str:
         parts.append(f'<div class="read-date">阅读 {p["read_date"]}</div>')
 
     parts.append('<div class="links">')
+    explainer = None
+    extras = []
     for name, rel in p["html_files"]:
-        label = "Explainer (中文)" if "说明文档" in name else "Explainer"
-        if "explainer" in name.lower() and "说明文档" not in name:
-            label = "Explainer (EN)"
-        parts.append(link_btn(label, url(rel), "html"))
+        if "说明文档" in name:
+            explainer = (name, rel, "Explainer")
+        elif "explainer" in name.lower():
+            extras.append((name, rel, "Explainer (EN)"))
+        else:
+            extras.append((name, rel, name[:30]))
+    if explainer:
+        parts.append(link_btn(explainer[2], url(explainer[1]), "primary"))
+    for name, rel, label in extras:
+        parts.append(link_btn(label, url(rel), "primary"))
     if p["discussion_md"]:
-        name, rel = p["discussion_md"]
-        parts.append(link_btn("Discussion", f"{GH_BLOB}/{url(rel)}", "md"))
+        _, rel = p["discussion_md"]
+        parts.append(link_btn("Discussion", f"{GH_BLOB}/{url(rel)}", "secondary"))
     if p["wechat_md"]:
-        name, rel = p["wechat_md"]
-        parts.append(link_btn("WeChat draft", f"{GH_BLOB}/{url(rel)}", "md"))
+        _, rel = p["wechat_md"]
+        parts.append(link_btn("WeChat draft", f"{GH_BLOB}/{url(rel)}", "tertiary"))
     for name, rel in p["other_md"]:
-        parts.append(link_btn(name[:40], f"{GH_BLOB}/{url(rel)}", "md"))
+        parts.append(link_btn(name[:30], f"{GH_BLOB}/{url(rel)}", "tertiary"))
     if p["pdf"]:
-        parts.append(link_btn("PDF", url(p["pdf"]), "pdf"))
+        parts.append(link_btn("PDF", url(p["pdf"]), "tertiary"))
     parts.append("</div>")
-    parts.append("</div>")
+    parts.append("</article>")
     return "\n".join(parts)
+
+
+CSS = """
+:root {
+  --bg: #f7f8f5;
+  --paper: #ffffff;
+  --ink: #1f2933;
+  --muted: #5b6776;
+  --muted-2: #94a3b8;
+  --line: #e1e5dc;
+  --line-hover: #c5cdb9;
+  --accent: #0f766e;
+  --accent-soft: #e0f2ef;
+  --accent-hover: #0b5d56;
+  --accent-tint: #cbe7e0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+               "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "kern", "liga";
+}
+.container { max-width: 880px; margin: 0 auto; padding: 64px 28px 96px; }
+
+header.site-header { margin-bottom: 28px; }
+h1 {
+  font-size: 2em;
+  margin: 0 0 8px;
+  letter-spacing: -0.012em;
+  font-weight: 700;
+}
+.subtitle { color: var(--muted); margin: 0; font-size: 0.97em; }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 32px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.toolbar-label {
+  color: var(--muted);
+  font-size: 0.82em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+.sort-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.9em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.sort-btn:hover { color: var(--ink); background: rgba(15,118,110,0.04); }
+.sort-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.sort-btn .arrow {
+  font-size: 0.85em;
+  margin-left: 1px;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+.section-heading {
+  font-size: 0.78em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 36px 0 14px;
+}
+
+.papers-list { display: flex; flex-direction: column; gap: 12px; }
+
+.paper {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px 22px;
+  transition: border-color 0.15s ease;
+}
+.paper:hover { border-color: var(--line-hover); }
+
+.paper-title {
+  font-weight: 600;
+  font-size: 1.02em;
+  margin: 0 0 5px;
+  color: var(--ink);
+  letter-spacing: -0.003em;
+  line-height: 1.45;
+}
+.meta { color: var(--muted); font-size: 0.85em; margin-bottom: 2px; }
+.meta em { font-style: italic; }
+.read-date {
+  color: var(--muted-2);
+  font-size: 0.78em;
+  margin-bottom: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.links { display: flex; flex-wrap: wrap; gap: 6px; }
+.links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 0.82em;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.links a.primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+.links a.primary:hover { background: var(--accent-hover); }
+.links a.secondary {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.links a.secondary:hover { background: var(--accent-tint); }
+.links a.tertiary {
+  color: var(--muted);
+  border: 1px solid var(--line);
+  background: transparent;
+}
+.links a.tertiary:hover { color: var(--ink); border-color: var(--line-hover); }
+
+footer {
+  margin-top: 56px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.82em;
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+footer code {
+  background: #ebeee8;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+@media (max-width: 600px) {
+  .container { padding: 40px 18px 60px; }
+  h1 { font-size: 1.55em; }
+}
+"""
+
+
+SORT_JS = """
+(function () {
+  const list = document.getElementById('papers-list');
+  if (!list) return;
+  const buttons = Array.from(document.querySelectorAll('.sort-btn'));
+  let activeSort = 'read';
+  let activeDir = 'desc';
+
+  function applySort() {
+    const papers = Array.from(list.children);
+    papers.sort((a, b) => {
+      const av = (a.dataset[activeSort] || '');
+      const bv = (b.dataset[activeSort] || '');
+      const cmp = av < bv ? -1 : av > bv ? 1 : 0;
+      return activeDir === 'asc' ? cmp : -cmp;
+    });
+    papers.forEach((p) => list.appendChild(p));
+  }
+
+  function updateButtons() {
+    buttons.forEach((b) => {
+      const active = b.dataset.sort === activeSort;
+      b.classList.toggle('active', active);
+      const arrow = b.querySelector('.arrow');
+      if (arrow) arrow.textContent = active ? (activeDir === 'asc' ? ' ↑' : ' ↓') : '';
+    });
+  }
+
+  buttons.forEach((b) => {
+    b.addEventListener('click', () => {
+      const sort = b.dataset.sort;
+      const defaultDir = b.dataset.defaultDir || 'asc';
+      if (activeSort === sort) {
+        activeDir = activeDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        activeSort = sort;
+        activeDir = defaultDir;
+      }
+      updateButtons();
+      applySort();
+    });
+  });
+
+  updateButtons();
+})();
+"""
 
 
 def main():
@@ -114,9 +356,14 @@ def main():
         if entry.is_symlink():
             continue
         if entry.is_dir() and not entry.name.endswith("_files"):
-            # Skip empty/special dirs
-            has_files = any(f.is_file() for f in entry.iterdir())
-            if has_files:
+            if is_git_ignored(entry):
+                continue
+            has_notes = any(
+                f.is_file()
+                and (f.name.lower().endswith(".md") or f.name.lower().endswith(".html"))
+                for f in entry.iterdir()
+            )
+            if has_notes:
                 papers.append(collect_paper(entry))
         elif entry.is_file() and entry.suffix.lower() == ".html" and entry.name != "index.html":
             standalone_html.append(entry.name)
@@ -126,72 +373,61 @@ def main():
 
     papers.sort(key=sort_key, reverse=True)
 
-    html_doc = []
-    html_doc.append("""<!DOCTYPE html>
-<html lang="en">
+    doc = [f"""<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Paper Reading Notes — LZW</title>
-<style>
-  :root { --accent: #2563eb; --green: #10b981; --gray: #6b7280; --bg: #f9fafb; }
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-         max-width: 900px; margin: 0 auto; padding: 2em 1.2em; line-height: 1.6; color: #111827; }
-  h1 { font-size: 1.7em; margin: 0 0 0.2em; }
-  .subtitle { color: var(--gray); margin-bottom: 2em; font-size: 0.95em; }
-  h2 { font-size: 1.1em; margin-top: 2em; color: var(--gray); font-weight: 600;
-       border-bottom: 1px solid #e5e7eb; padding-bottom: 0.3em; }
-  .paper { padding: 0.9em 1em; margin: 0.8em 0; background: var(--bg);
-           border-left: 3px solid var(--accent); border-radius: 4px; }
-  .title { font-weight: 600; font-size: 1.02em; margin-bottom: 0.25em; }
-  .meta { color: var(--gray); font-size: 0.88em; margin-bottom: 0.3em; }
-  .read-date { color: #94a3b8; font-size: 0.78em; margin-bottom: 0.5em; font-variant-numeric: tabular-nums; }
-  .links a { display: inline-block; margin: 0.15em 0.4em 0.15em 0;
-             padding: 0.25em 0.7em; background: var(--accent); color: white;
-             text-decoration: none; border-radius: 3px; font-size: 0.82em; font-weight: 500; }
-  .links a:hover { opacity: 0.85; }
-  .links a.html { background: #f59e0b; }
-  .links a.md   { background: var(--green); }
-  .links a.pdf  { background: var(--gray); }
-  footer { margin-top: 3em; color: var(--gray); font-size: 0.85em;
-           border-top: 1px solid #e5e7eb; padding-top: 1em; }
-  code { background: #e5e7eb; padding: 0 0.3em; border-radius: 3px; font-size: 0.9em; }
-</style>
+<title>Paper Reading Notes — 罗重威</title>
+<style>{CSS}</style>
 </head>
 <body>
-<h1>Paper Reading Notes</h1>
-<p class="subtitle">罗重威 (Luo Zhongwei) · Tsinghua University · patch-clamp electrophysiology &amp; neuromodulation</p>
-""")
+<div class="container">
+<header class="site-header">
+  <h1>Paper Reading Notes</h1>
+  <p class="subtitle">罗重威 · Tsinghua University · patch-clamp electrophysiology &amp; neuromodulation</p>
+</header>
 
-    if papers:
-        html_doc.append("<h2>Papers</h2>")
-        for p in papers:
-            html_doc.append(render_paper(p))
+<div class="toolbar" role="toolbar" aria-label="Sort papers">
+  <span class="toolbar-label">排序</span>
+  <button class="sort-btn active" data-sort="read" data-default-dir="desc">阅读时间<span class="arrow"></span></button>
+  <button class="sort-btn" data-sort="year" data-default-dir="desc">发表年份<span class="arrow"></span></button>
+  <button class="sort-btn" data-sort="title" data-default-dir="asc">标题<span class="arrow"></span></button>
+  <button class="sort-btn" data-sort="author" data-default-dir="asc">第一作者<span class="arrow"></span></button>
+</div>
+
+<div class="papers-list" id="papers-list">"""]
+
+    for p in papers:
+        doc.append(render_paper(p))
+
+    doc.append("</div>")
 
     if standalone_html:
-        html_doc.append("<h2>Standalone notes</h2>")
+        doc.append('<h2 class="section-heading">Standalone notes</h2>')
+        doc.append('<div class="papers-list">')
         for n in standalone_html:
-            html_doc.append(
-                '<div class="paper"><div class="title">'
-                + html.escape(n)
-                + '</div><div class="links">'
-                + link_btn("Open", url(n), "html")
-                + "</div></div>"
+            doc.append(
+                '<article class="paper">'
+                f'<h3 class="paper-title">{html.escape(n)}</h3>'
+                '<div class="links">'
+                + link_btn("Open", url(n), "primary")
+                + "</div></article>"
             )
+        doc.append("</div>")
 
-    html_doc.append(f"""<footer>
-<p>HTML files (orange) render directly on GitHub Pages.
-Markdown files (green) link to the GitHub source view for nicer rendering.
-PDFs (gray) are served directly.</p>
+    doc.append(f"""<footer>
+<p>HTML 说明文档（深色按钮）由 Pages 直接渲染；Discussion 链接到 GitHub 上的 Markdown 视图；PDF 在浏览器内置打开。</p>
 <p>Source: <a href="https://github.com/{GH_USER}/{GH_REPO}">github.com/{GH_USER}/{GH_REPO}</a> ·
-Regenerate this index with <code>python3 generate_index.py</code></p>
+重新生成索引：<code>python3 generate_index.py</code></p>
 </footer>
+</div>
+<script>{SORT_JS}</script>
 </body>
 </html>
 """)
 
-    OUT.write_text("\n".join(html_doc), encoding="utf-8")
+    OUT.write_text("\n".join(doc), encoding="utf-8")
     print(f"Wrote {OUT} ({len(papers)} papers, {len(standalone_html)} standalone)")
 
 
