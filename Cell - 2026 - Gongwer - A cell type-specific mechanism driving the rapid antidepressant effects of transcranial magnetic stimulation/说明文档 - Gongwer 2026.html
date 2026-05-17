@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>aiTBS 抗抑郁的细胞类型机制 | Gongwer 2026 论文说明</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5b6776;
+      --line: #d9ded6;
+      --accent: #0f766e;
+      --accent-soft: #e0f2ef;
+      --warn: #9a5b13;
+      --code: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: #f0f3ee;
+    }
+
+    .toc h1 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .toc .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 10px;
+      margin: 3px 0;
+      border-radius: 7px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .toc a.active,
+    .toc a:hover {
+      color: #064e45;
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 42px 48px 80px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 52px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
+    }
+
+    header.paper-title {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+    }
+
+    h2, h3 {
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: 26px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-card, .note, .term, .figure-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .info-card {
+      padding: 14px 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #111827;
+    }
+
+    .note {
+      padding: 16px 18px;
+      margin: 18px 0;
+      background: #f6fbfa;
+      border-color: #b9ded8;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #e8c98f;
+      color: #5f3b08;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #075e55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 14px 16px;
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .figure-card {
+      margin: 22px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-card figcaption {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .figure-card figcaption strong {
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f1;
+      text-align: left;
+      color: #123b36;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    ul, ol { padding-left: 1.35em; }
+
+    .source-list li {
+      margin: 6px 0;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc {
+        position: sticky;
+        z-index: 5;
+        height: auto;
+        max-height: 45vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 14px 52px; }
+      article { padding: 26px 18px; }
+      header h2 { font-size: 26px; }
+      .info-grid, .terms { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="文章目录">
+      <h1>Gongwer 2026<br>aiTBS 抗抑郁的细胞类型机制</h1>
+      <div class="meta">Cell | 经颅磁刺激 · IT/PT 投射神经元 · 树突棘</div>
+      <a href="#paper">论文信息</a>
+      <a href="#takeaway">一句话定位</a>
+      <a href="#why">为什么值得读</a>
+      <a href="#terms">术语先说明</a>
+      <a href="#figures">图文导读</a>
+      <a href="#evidence">证据链结构</a>
+      <a href="#connection">和你的研究怎么接上</a>
+      <a href="#limits">局限与未解之谜</a>
+      <a href="#reading">建议阅读顺序</a>
+      <a href="#sources">来源链接</a>
+    </nav>
+
+    <main>
+      <article>
+        <header class="paper-title">
+          <p class="eyebrow">论文精读说明文档</p>
+          <h2>A cell type-specific mechanism driving the rapid antidepressant effects of transcranial magnetic stimulation</h2>
+          <p class="subtitle">用清醒小鼠 focal rTMS + fiber photometry + 化学遗传，证明 aiTBS 抗抑郁效应通过 dmPFC 中的 IT（intratelencephalic）投射神经元起作用——PT 神经元不参与。</p>
+          <div class="tags">
+            <span class="tag">rTMS / aiTBS</span>
+            <span class="tag">前额叶皮层 dmPFC</span>
+            <span class="tag">IT vs PT 投射神经元</span>
+            <span class="tag">抑郁症</span>
+            <span class="tag">光纤光度测量</span>
+            <span class="tag">化学遗传 DREADD</span>
+            <span class="tag">树突棘可塑性</span>
+          </div>
+        </header>
+
+        <!-- ===== 论文信息 ===== -->
+        <section id="paper">
+          <h2>论文信息</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <strong>标题</strong>
+              A cell type-specific mechanism driving the rapid antidepressant effects of transcranial magnetic stimulation
+            </div>
+            <div class="info-card">
+              <strong>作者</strong>
+              Michael W. Gongwer, Alex Qi, Alexander S. Enos, Sophia A. Rueda Mora, Sabahaddin Taha Solakoglu, Russell N. Ahmed, Cassandra B. Klune, Meelan Shari, Adrienne Q. Kashay, Owen H. Williams, Aliza Hacking, Jack P. Riley, Gary A. Wilke, Yihong Yang, Hanbing Lu, Andrew F. Leuchter, Laura A. DeNardo*, Scott A. Wilke*
+            </div>
+            <div class="info-card">
+              <strong>单位</strong>
+              UCLA David Geffen 医学院（生理系 / 神经科学跨学科项目 / MSTP / Semel 神经科学与人类行为研究所神经调控部）；NIDA-NIH 神经影像研究分部
+            </div>
+            <div class="info-card">
+              <strong>期刊 &amp; 时间</strong>
+              Cell, Vol. 189, pp. 3052–3070, May 14, 2026
+            </div>
+            <div class="info-card">
+              <strong>DOI</strong>
+              <a href="https://doi.org/10.1016/j.cell.2025.12.040" target="_blank" rel="noopener noreferrer">10.1016/j.cell.2025.12.040</a>
+            </div>
+            <div class="info-card">
+              <strong>许可</strong>
+              CC BY 4.0 Open Access
+            </div>
+            <div class="info-card">
+              <strong>本地 PDF</strong>
+              <code>Cell - 2026 - Gongwer - …transcranial magnetic stimulation.pdf</code>
+            </div>
+            <div class="info-card">
+              <strong>阅读时间</strong>
+              2026-05-17
+            </div>
+          </div>
+
+          <div class="note">
+            通讯作者 Laura A. DeNardo（环路示踪/标记技术），Scott A. Wilke（临床精神病学 + rTMS 转化研究）。两人协作把"小鼠 focal rTMS 平台"和"投射神经元因果实验"结合到了一篇 Cell。第一作者 Gongwer 是 UCLA MD-PhD 的 MSTP 学员，这是他博士工作的核心成果。
+          </div>
+        </section>
+
+        <!-- ===== 一句话定位 ===== -->
+        <section id="takeaway">
+          <h2>一句话定位</h2>
+          <p>
+            rTMS 临床上能快速缓解抑郁，过去几十年没人知道"它到底改变了哪种神经元"。这篇文章给了第一个细胞类型分辨的答案：<strong>把临床 SAINT aiTBS 协议（5 天压成 1 天的高强度 iTBS）打到小鼠 dmPFC 上，只有 IT（投射到对侧 PFC、皮层、纹状体）这一类锥体神经元被持续激活、树突棘被修复；如果在 aiTBS 期间化学遗传抑制 IT，抗抑郁效应完全消失；抑制 PT（投射到中脑、脑干）则毫无影响。</strong>下游环路落在屏状核（claustrum, CLA），效应持续 7 天。
+          </p>
+        </section>
+
+        <!-- ===== 为什么值得读 ===== -->
+        <section id="why">
+          <h2>为什么值得读</h2>
+
+          <h3>1. 第一次给 rTMS 治疗机制画出了"细胞类型分辨率"</h3>
+          <p>
+            以前关于 rTMS 机制的研究只能说"它引起 LTP/LTD 样可塑性"或"它影响 PFC 活动"，但 PFC 里有几十种细胞类型，到底是哪些被改变没人答得出来。这篇用 fiber photometry + 病毒标记 + 化学遗传三件套，把答案锁在 IT 投射神经元身上，并且用 loss-of-function 实验封顶为因果关系。
+          </p>
+
+          <h3>2. 小鼠 rTMS 模型 face validity 极高</h3>
+          <p>
+            过去的小鼠 rTMS 实验通常违反临床场景的几个关键约束：要么用麻醉小鼠（rTMS 在麻醉下的效应可能和清醒相反），要么线圈太大刺激了大半个脑（破坏 focality），要么强度不到激活阈值。作者用前期发表的小型水冷线圈解决了这些问题，<strong>focal &lt; 2 mm、suprathreshold、清醒头固定、临床原始 SAINT 协议</strong>，四个约束同时满足，这在小鼠 rTMS 文献里是史无前例的。
+          </p>
+
+          <h3>3. "几何无法解释 IT/PT 差异"是个非常硬的反证</h3>
+          <p>
+            一个常见解释会是"PT 锥体细胞和电场方向不平行所以激活效率低"。作者用神经元角度、树突段角度两套几何参数做了详细相关分析，<strong>都没有显著相关</strong>（Fig S4E–S4L）。这把解释空间挤压到了"细胞内禀性质 + 局部输入差异"——这是后续机制研究（以及对你研究的启示）的真正悬念。
+          </p>
+
+          <h3>4. 配套 NMDAR 假说提供了清晰的下一步</h3>
+          <p>
+            Discussion 引用临床证据（pharmacological NMDAR modulation 能增强 iTBS 疗效），结合体外 LTP 机制（NMDAR + Ca²⁺ + intertrain interval 持续 plateau），给出可检验假说：<strong>aiTBS 在 IT 神经元上产生的"train 后持续 8 秒去极化"是钙通过 NMDAR 进入并触发突触增强的物理基础</strong>。
+          </p>
+        </section>
+
+        <!-- ===== 术语先说明 ===== -->
+        <section id="terms">
+          <h2>术语先说明</h2>
+          <div class="terms">
+            <div class="term">
+              <strong>rTMS（repetitive Transcranial Magnetic Stimulation）</strong>
+              重复经颅磁刺激。利用线圈产生快速变化的磁场，在脑组织中诱导电场（~100 V/m 量级），驱动神经元放电。临床用于抑郁、强迫症、慢性疼痛等。
+            </div>
+            <div class="term">
+              <strong>aiTBS（accelerated intermittent Theta Burst Stimulation）</strong>
+              加速间歇 theta 爆发刺激。把 1800 脉冲组织成"5 Hz 重复出现的 50 Hz 3-脉冲簇"（即 iTBS），并在 1 天内重复 10 个 session（间隔 50 min）。这是 Stanford SAINT 协议——临床上把 6 周 rTMS 疗程压缩到 5 天，快速起效。本文小鼠版本进一步压成 1 天。
+            </div>
+            <div class="term">
+              <strong>dmPFC（dorsomedial Prefrontal Cortex）</strong>
+              背内侧前额叶皮层。在啮齿类身上被认为与人类 dlPFC（背外侧前额叶）功能类似——抑郁靶向治疗主要打这里。
+            </div>
+            <div class="term">
+              <strong>IT 神经元（intratelencephalic）</strong>
+              皮层 5 层锥体神经元的一大类，投射目标在"端脑内"——对侧 PFC、其它皮层区、纹状体、屏状核。承担高级认知整合任务。
+            </div>
+            <div class="term">
+              <strong>PT 神经元（pyramidal tract）</strong>
+              皮层 5 层锥体神经元的另一大类，投射到中脑、脑桥、丘脑、脊髓。承担运动/自主输出。和 IT 互斥不重叠。
+            </div>
+            <div class="term">
+              <strong>fiber photometry（光纤光度测量）</strong>
+              把表达 GCaMP（钙指示剂）的细胞激发出荧光，光纤把发射光收回，反映"群体平均钙信号 ≈ 群体放电"。可在清醒动物自由行为时连续记录。
+            </div>
+            <div class="term">
+              <strong>AAVrg-Cre（逆行病毒）</strong>
+              一种从轴突末梢被神经元摄取并逆行运回胞体的 AAV，可在投射目标区注射、在投射源区表达 Cre。本文用 AAVrg-Cre 打 cmPFC 标记 IT、打 PAG 标记 PT。
+            </div>
+            <div class="term">
+              <strong>DREADD / hM4Di / CNO</strong>
+              化学遗传"silencer"：hM4Di 是改造过的人 M4 毒蕈碱受体，只对外源配体 CNO（clozapine-N-oxide）反应，激活后通过 Gi 通路超极化神经元。等价于一个药物可控的细胞类型选择性"关电源开关"。
+            </div>
+            <div class="term">
+              <strong>CORT 慢性应激模型</strong>
+              chronic corticosterone：长期外源给药皮质酮（应激激素），稳定诱导小鼠抑郁样行为（FST 不动增加、糖水偏好降低、anhedonia）。
+            </div>
+            <div class="term">
+              <strong>FST / TST / EZM / OFT / SPT / AAC</strong>
+              抑郁/焦虑行为学组合拳：强迫游泳、悬尾、高架零迷宫、旷场、糖水偏好、approach-avoidance conflict。FST/TST 测被动应对，EZM/OFT 测焦虑，SPT 测 anhedonia，AAC 测奖励/威胁决策。
+            </div>
+            <div class="term">
+              <strong>树突棘形态（spine morphology）</strong>
+              thin / mushroom = 成熟、稳定、AMPA 强突触；filopodial / stubby = 新生或重塑中。形态变化反映突触状态。
+            </div>
+            <div class="term">
+              <strong>屏状核（CLA, claustrum）</strong>
+              位于皮层下、紧贴岛叶的薄层灰质核团，被认为是"皮层信息整合枢纽"。临床抑郁患者 CLA 代谢减低与 anhedonia 相关。
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 图文导读 ===== -->
+        <section id="figures">
+          <h2>图文导读</h2>
+
+          <h3>Figure 1 · 搭一套 focal 小鼠 rTMS 平台 + 复现抗抑郁行为</h3>
+          <p>
+            前置工程：用前期开发的水冷小型线圈实现 focal &lt; 2 mm 的清醒小鼠 rTMS；以 motor cortex 后肢区的单脉冲诱发肢体抽动作为 focality 验证。CORT/UCMS 模型稳定诱发 FST 不动时间增加。1 天 10-session aiTBS 显著降 FST 不动，复合行为评分改善；approach-avoidance conflict 任务里选择性恢复 ITI（低威胁）期的奖励驱动，而 tone（高威胁）期回避不变。把线圈挪到 M1 → 无效——证实区域特异性。
+          </p>
+          <figure class="figure-card">
+            <img src="figures/Fig1.png" alt="Figure 1: Focal aiTBS over dmPFC reverses behavioral effects of chronic stress">
+            <figcaption>
+              <strong>Figure 1 · 焦点 aiTBS 通过 dmPFC 逆转慢性应激引起的行为缺陷。</strong>
+              <br>A：实验装置（水冷线圈 + 3 轴定位器 + 头固定 + 跑轮）；B–C：focality 验证；D：aiTBS 协议（1 天内 10 个 session，间隔 50 min）；E：CORT 和 UCMS 都增加 FST 不动；F–H：aiTBS 显著降低 FST 不动、提升复合评分；I–M：approach-avoidance conflict 任务里选择性恢复 ITI 期的奖励偏好和 reward poke 数量。
+            </figcaption>
+          </figure>
+
+          <h3>Figure 2 · aiTBS 期间 IT 和 PT 神经元的活动差异是核心物理观察</h3>
+          <p>
+            用 AAVrg-Cre 逆行病毒分别标记 IT（投 cmPFC）和 PT（投 PAG），dmPFC 局部表达 GCaMP7f，斜向侧插光纤避开线圈。记录第一个 10-min iTBS session 期间的钙信号。把活动对齐到每个 2-s TBS 簇 onset → <strong>IT 在 train 后持续升高 8 秒</strong>；PT 在 train 内升高、train 结束立即回落甚至低于 baseline。看整个 10-min 累积：IT 累积上扬，PT 反向。
+          </p>
+          <div class="note">
+            <strong>这一图是全文的物理基础。</strong>同一个磁脉冲、同一片皮层，IT 和 PT 表现出截然不同的"train 后余热"。这种差异不能用磁场几何分布解释（场强差异在 IT/PT 之间小），只能解释为<strong>细胞内禀性质或突触整合差异</strong>。
+          </div>
+          <figure class="figure-card">
+            <img src="figures/Fig2.png" alt="Figure 2: aiTBS drives cell type-specific neuromodulation">
+            <figcaption>
+              <strong>Figure 2 · aiTBS 驱动细胞类型特异性神经调控。</strong>
+              <br>A：AAVrg 逆行病毒策略；B–C：侧向光纤植入 + 病毒表达验证；D：实验时间线；E：IT 在 TBS 后维持升高 8 秒；F：PT 在 TBS 结束立即回落；G：对 sham normalize 后 IT 显著高于 PT；H–J：整个 10 分钟 session IT 累积升高、PT 反向。
+            </figcaption>
+          </figure>
+
+          <h3>Figure 3 · aiTBS 后第二天，IT 在挣扎行为中活动更强</h3>
+          <p>
+            aiTBS 后第二天做 TST，用 photometry 把活动对齐到挣扎 bout 开始/结束。IT 在挣扎 onset 前已有 ramping，onset 后持续 15 秒升高；PT 完全无变化。用 GLM 拟合"photometry 信号 vs 挣扎 vigor"，aiTBS 让 IT 的 R² 显著抬升、PT 不变。OFT 和 Pavlovian 奖励/厌恶任务里 IT 都没变——<strong>aiTBS 不是"全局抬升 IT"，而是行为状态依赖地增强 IT 招募</strong>。
+          </p>
+          <figure class="figure-card">
+            <img src="figures/Fig3.png" alt="Figure 3: Behavioral effects of aiTBS are associated with increased IT neuron activity">
+            <figcaption>
+              <strong>Figure 3 · aiTBS 行为效应伴随 IT 神经元活动增强。</strong>
+              <br>A：TST immobility；B：IT 挣扎 onset 对齐显著升高；C：PT 同分析无效；D–E：挣扎 offset 都无效；F–G：GLM 拟合 photometry vs 挣扎 vigor，aiTBS 选择性提升 IT 的相关性。
+            </figcaption>
+          </figure>
+
+          <h3>Figure 4 · aiTBS 选择性修复 IT（不动 PT）的树突棘损失</h3>
+          <p>
+            MORF3 稀疏标记 + AAVrg-Cre 限定到 IT 或 PT，共聚焦量化 apical 和 basal 棘密度。CORT 让 IT 和 PT 棘密度都下降；aiTBS <strong>只在 IT 上</strong>部分恢复（apical 和 basal 都有效），PT 完全无变化。stubby（短粗）棘是主要增加的类型。神经元/树突段几何取向都和棘变化无相关——再次反证"取向不是 IT/PT 差异的来源"。区域对照：把量化挪到刺激位点前方 1 mm 的 anterior PL → 无变化，棘修复局限在 &lt; 1 mm。
+          </p>
+          <figure class="figure-card">
+            <img src="figures/Fig4.png" alt="Figure 4: aiTBS selectively elicits dendritic spine growth in IT neurons">
+            <figcaption>
+              <strong>Figure 4 · aiTBS 选择性诱导 IT 神经元树突棘生长。</strong>
+              <br>A：MORF3 稀疏标记 + AAVrg-Cre 限定 IT/PT；B：时间线；C：代表性 confocal 图；D–E：IT 棘密度 naive vs CORT+sham vs CORT+aiTBS 显著恢复（apical + basal）；F–G：PT 无任何变化。
+            </figcaption>
+          </figure>
+
+          <h3>Figure 5 · 化学遗传抑制 IT 在 aiTBS 期间，抗抑郁效应完全消失</h3>
+          <p>
+            把 hM4Di 限定到 IT 或 PT，在 aiTBS 期间注射 CNO 抑制活动。mCherry 对照里 aiTBS 仍然降 FST 不动（说明 CNO 本身不干扰）；IT-hM4Di + aiTBS 组里 <strong>FST 不动时间和 sham 完全一样——抗抑郁效应被打到 0</strong>；PT-hM4Di + aiTBS 组效应完全保留。这是全文 causality 的关键证据。
+          </p>
+          <div class="note warning">
+            <strong>实验设计精度：</strong>三组对照（mCherry/IT-hM4Di/PT-hM4Di）× 两个 TMS 条件（sham/aiTBS）= 6 个组同时跑。这种设计排除了 CNO 单独效应、长期 hM4Di 表达效应、PT-also-active confounding 等多重伪迹。
+          </div>
+          <figure class="figure-card">
+            <img src="figures/Fig5.png" alt="Figure 5: Inhibition of IT neurons blocks the antidepressant effects of aiTBS">
+            <figcaption>
+              <strong>Figure 5 · 抑制 IT 神经元阻断 aiTBS 抗抑郁效应。</strong>
+              <br>A：化学遗传策略；B：hM4Di 在 IT/PT 中的表达；C：时间线；D：FST 不动时间，IT-hM4Di 组 aiTBS 失效；E：aiTBS 引起的不动时间变化在 IT-hM4Di 中归零。
+            </figcaption>
+          </figure>
+
+          <h3>Figure 6 · 行为效应扩展到 reward-threat 决策，下游网络落在 CLA</h3>
+          <p>
+            重复化学遗传抑制 IT，但行为切到 approach-avoidance conflict assay。aiTBS 显著抬升 ITI 期的奖励驱动；IT-hM4Di 把它压回 sham 水平。Fos 染色查 IT 的下游靶（AI / CLA / BLA），<strong>只有 CLA</strong> 在 aiTBS 后 Fos 显著升高，并且 IT-hM4Di 把 CLA 的升高也压下去。说明 aiTBS → dmPFC IT → CLA 是核心环路；BLA（情绪杏仁核）反而没被招募。
+          </p>
+          <figure class="figure-card">
+            <img src="figures/Fig6.png" alt="Figure 6: Inhibition of IT neurons blocks the effects of aiTBS on the balance of approach and avoidance behaviors during threat">
+            <figcaption>
+              <strong>Figure 6 · 抑制 IT 阻断 aiTBS 对 approach-avoidance 平衡的影响。</strong>
+              <br>A–C：双侧 IT 化学遗传抑制 + conflict assay；D：训练期 shock avoidance 三组都正常学会；E–G：retrieval 期 aiTBS 提升 reward 偏好，IT-hM4Di 失效；H：dmPFC IT 自身 Fos：aiTBS↑ → IT-hM4Di 压回；I–J：下游 AI/CLA/BLA Fos 中只有 CLA 被选择性招募。
+            </figcaption>
+          </figure>
+
+          <h3>Figure 7 · 行为和 IT basal 棘的修复持续 7 天</h3>
+          <p>
+            aiTBS 一次（1 天 10 session）后第 7 天再测 FST：不动时间仍然显著低于 sham；IT basal 棘密度仍然高；apical 棘 7 天后差异不再显著。<strong>basal 棘是更稳定的结构记忆载体</strong>——它接收来自 ventral hippocampus、对侧 PFC 等深层输入，是作者推测的"长期抗抑郁效应物质载体"。
+          </p>
+          <figure class="figure-card">
+            <img src="figures/Fig7.png" alt="Figure 7: Behavioral and structural effects of aiTBS persist 7 days after stimulation">
+            <figcaption>
+              <strong>Figure 7 · aiTBS 行为和结构效应持续 7 天。</strong>
+              <br>A：7 天后 FST 不动仍显著降低；B：IT basal 棘密度持续升高，apical 棘衰退到 baseline。
+            </figcaption>
+          </figure>
+        </section>
+
+        <!-- ===== 证据链结构 ===== -->
+        <section id="evidence">
+          <h2>证据链结构</h2>
+          <p>整篇文章的论证逻辑是层层加码、最后用 loss-of-function 封顶：</p>
+          <table>
+            <thead>
+              <tr>
+                <th>层次</th>
+                <th>问题</th>
+                <th>方法</th>
+                <th>结论</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>小鼠 rTMS 能否复现临床效应？</td>
+                <td>focal &lt; 2 mm 水冷线圈 + CORT/UCMS 模型 + 行为学组合</td>
+                <td>aiTBS 显著改善 FST、composite、conflict assay 中的 reward 驱动</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>aiTBS 在皮层哪类细胞上起效？</td>
+                <td>AAVrg-Cre + GCaMP + fiber photometry 比较 IT vs PT</td>
+                <td>IT 在 TBS 后持续升高 8 秒；PT 立即回落甚至下降</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>这种细胞类型差异在行为里也有吗？</td>
+                <td>aiTBS 后 TST 的 photometry，GLM 拟合活动 vs 挣扎</td>
+                <td>IT 挣扎相关性显著抬升，PT 不变；OFT 和奖励刺激都无效</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>结构上也有差异吗？</td>
+                <td>MORF3 稀疏标记 + 共聚焦量化 spine</td>
+                <td>IT 棘 partial rescue（apical + basal），PT 完全无变化</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>IT 活动是不是必要的（causality）？</td>
+                <td>hM4Di + CNO 在 aiTBS 期间抑制 IT 或 PT</td>
+                <td>抑制 IT → 抗抑郁效应消失；抑制 PT → 效应完整保留</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>下游环路落在哪？</td>
+                <td>Fos IHC 量化 AI / CLA / BLA</td>
+                <td>只有 CLA 被 aiTBS 选择性招募，且依赖 IT 活动</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>效应能持续多久？</td>
+                <td>aiTBS 后第 7 天复测 FST + spine</td>
+                <td>FST 行为和 IT basal 棘都持续 7 天</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="note">
+            <strong>读懂这种证据链的窍门：</strong>每一行的"结论"都包含一个 IT/PT 的对照——这是全文最核心的写作选择。如果没有 PT 的反例，所有 IT 的发现都只能算"correlative"。作者用"双轨实验"把每个发现的特异性都封死了。
+          </div>
+        </section>
+
+        <!-- ===== 和你的研究怎么接上 ===== -->
+        <section id="connection">
+          <h2>和你的研究怎么接上</h2>
+
+          <h3>1. 同一个底层物理：电场驱动跨膜去极化</h3>
+          <p>
+            你做 EFS（extracellular field stimulation） + patch-clamp，他们做 TMS（磁感应诱导电场） + fiber photometry。表面看一个是"电"一个是"磁"，<strong>但实际作用机制都是电场在细胞膜上诱导跨膜电压</strong>。区别只在尺度：
+          </p>
+          <table>
+            <thead>
+              <tr><th>维度</th><th>你的 EFS 实验</th><th>他们的 rTMS 实验</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>诱导方式</td><td>双电极直接施加电流</td><td>磁场诱导电场（涡流）</td></tr>
+              <tr><td>场强量级</td><td>~10 V/m（脑片局部）</td><td>~100 V/m（皮层局部）</td></tr>
+              <tr><td>脉冲宽度</td><td>100 μs – 10 ms</td><td>~100 μs（单脉冲）</td></tr>
+              <tr><td>时序模式</td><td>单脉冲或脉冲串扫描</td><td>iTBS：5 Hz × 50 Hz 簇</td></tr>
+              <tr><td>记录尺度</td><td>单细胞、亚毫秒 Vm</td><td>群体钙信号、~10 ms</td></tr>
+              <tr><td>主要变量</td><td>脉宽、幅度、极性</td><td>focal、suprathreshold、协议</td></tr>
+            </tbody>
+          </table>
+
+          <h3>2. "几何不能解释 IT/PT 差异"= 你正好能回答的问题</h3>
+          <p>
+            作者在 Fig S4E–S4L 用神经元角度、树突角度做了相关分析，<strong>都没找到 IT/PT 差异的几何解释</strong>。这意味着差异必然来自细胞内禀性质（$R_m$、$C_m$、Ih 通道密度、被动电学）或突触整合差异。这恰好是你能用差分测量 $V_m = V_i - V_e$ 在脑片上直接回答的问题：
+          </p>
+          <ul>
+            <li>在 IT 和 PT 神经元上分别做同等强度 EFS，<strong>实测的 $V_m$ 时程到底差多少？</strong></li>
+            <li>"持续 8 秒后去极化"在你的电路模型里对应什么——是 plateau potential？NMDAR 后电流？局部网络 reverberation？</li>
+            <li>你的等效电路模型（$R_m C_m$ → 时间常数 10–50 ms）和 8 秒持续不匹配——这是必然要补充"活跃机制"的暗示。</li>
+          </ul>
+
+          <h3>3. 你的 IEEE TIM 论文可以引用的角度</h3>
+          <p>
+            这是 2026 年 5 月新发的 Cell，可在 Discussion 里引用作为：
+          </p>
+          <ul>
+            <li><strong>细胞类型差异是 EFS/rTMS 效果异质性来源之一的高强度证据</strong>——补强你已经在用的 Radman 2009（cortical cell type/morphology in uniform EFS），形成"离体单细胞场反应 → 在体细胞类型分辨临床机制"的引文链。</li>
+            <li><strong>"先搭最小可行模型再做发现"的写作范式</strong>——他们 Fig 1 完全是工具搭建+复现现象，第 2 层才进入机制。这和你"先建差分测量框架，再做 EFS 物理测量"是同构的论证结构。</li>
+            <li><strong>测量技术互补性论证</strong>——光学方法（GCaMP/photometry）的优势是行为状态依赖，电学方法（patch-clamp/差分测量）的优势是单细胞精度和直接 $V_m$ 测量。两者结合是未来的发力方向。</li>
+          </ul>
+
+          <h3>4. 公众号选题候选</h3>
+          <p>
+            这篇 Cell 2026 是"细胞类型分辨临床机制"的标志性工作，可以做一期面向工科背景读者的科普：<strong>"经颅磁刺激抗抑郁，到底改变了脑里的哪种细胞？"</strong>，把 IT/PT 投射类型、photometry vs patch-clamp 互补性、电场驱动的物理统一性串起来，连接你已经发的 patch-clamp 系列推文。
+          </p>
+        </section>
+
+        <!-- ===== 局限与未解之谜 ===== -->
+        <section id="limits">
+          <h2>局限与未解之谜</h2>
+
+          <h3>方法学局限</h3>
+          <ul>
+            <li><strong>fiber photometry 是群体平均</strong>，无法区分"更多 IT 细胞被招募"还是"同一群 IT 更强放电"。要双光子或 in vivo patch 才能分清。</li>
+            <li><strong>样本量普遍偏小</strong>（n=3–8 mice/group）。结构实验里 n=3 mice + 多段树突的设计虽然规避了部分伪复制，但仍偏小。</li>
+            <li><strong>CORT 应激模型 ≠ 临床抑郁</strong>。作者在 Limitations 自己承认这点。</li>
+          </ul>
+
+          <h3>机制留白</h3>
+          <ul>
+            <li><strong>没有 patch-clamp 验证 IT/PT 内禀差异</strong>。作者排除了几何解释，但没做电生理证实细胞内禀响应差异——这是你能补的窗口。</li>
+            <li><strong>棘形态变化的分子层面没量化</strong>。只看了 stubby 增多，没做 PSD-95、SV2A、AMPA 受体定量。</li>
+            <li><strong>"train 后持续 8 秒"的离子机制不明</strong>。Discussion 推测和 NMDAR + Ca²⁺ + plateau potential 有关，但没直接验证。</li>
+            <li><strong>basal 棘修复是新生还是稳定？</strong>没用 in vivo 双光子做时间序列追踪。</li>
+          </ul>
+        </section>
+
+        <!-- ===== 建议阅读顺序 ===== -->
+        <section id="reading">
+          <h2>建议阅读顺序</h2>
+          <ol>
+            <li><strong>看 Fig 1A + Fig 1G</strong>：知道实验平台长什么样、抗抑郁效应有多强。</li>
+            <li><strong>跳到 Fig 2E vs Fig 2F</strong>：理解 IT 和 PT "train 后余热"的核心差异。这是全文最关键的物理观察。</li>
+            <li><strong>看 Fig 5D</strong>：化学遗传 loss-of-function 把相关性升级成因果。这是机制的封顶。</li>
+            <li><strong>读 Discussion 第 1–2 段</strong>：作者自己的高站位总结。</li>
+            <li><strong>有时间再回头看 Fig 4（结构）和 Fig 6（环路）</strong>：补充机制完整性。</li>
+            <li><strong>关心 EFS/TMS 物理对照的话，重点读 Fig S4E–S4L</strong>（取向无关性的反证）和 Discussion 倒数第 3 段（NMDAR 假说）。</li>
+          </ol>
+        </section>
+
+        <!-- ===== 来源链接 ===== -->
+        <section id="sources">
+          <h2>来源链接</h2>
+          <ul class="source-list">
+            <li>论文 DOI：<a href="https://doi.org/10.1016/j.cell.2025.12.040" target="_blank" rel="noopener noreferrer">10.1016/j.cell.2025.12.040</a></li>
+            <li>Cell 官方页面：<a href="https://www.cell.com/cell/fulltext/S0092-8674(25)01489-8" target="_blank" rel="noopener noreferrer">cell.com/cell/fulltext/S0092-8674(25)01489-8</a></li>
+            <li>通讯作者实验室：DeNardo Lab（UCLA Physiology）/ Wilke Lab（UCLA Semel Institute）</li>
+            <li>本文配套数据：Star Methods 中的 Table S1 给出所有详细统计；Figures S1–S6 是 supplementary controls</li>
+          </ul>
+
+          <div class="footer-note">
+            本文件为中文精读说明文档，图像来自本论文文件夹内的 <code>figures/</code> 子目录（Fig1–Fig7）。正式 PDF 及图像资源保存于原中文路径下。配套的结构化精读笔记见 <code>discussion - Gongwer 2026.md</code>。
+          </div>
+        </section>
+      </article>
+    </main>
+  </div>
+</body>
+</html>
