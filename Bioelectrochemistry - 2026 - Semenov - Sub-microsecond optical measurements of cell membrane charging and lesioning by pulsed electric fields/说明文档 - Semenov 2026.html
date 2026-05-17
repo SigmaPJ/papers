@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semenov 2026 | 亚微秒光学测量细胞膜充电与损伤</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5b6776;
+      --line: #d9ded6;
+      --accent: #0f766e;
+      --accent-soft: #e0f2ef;
+      --warn: #9a5b13;
+      --code: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: #f0f3ee;
+    }
+
+    .toc h1 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .toc .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 10px;
+      margin: 3px 0;
+      border-radius: 7px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .toc a.active,
+    .toc a:hover {
+      color: #064e45;
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 42px 48px 80px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 52px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
+    }
+
+    header.paper-title {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+    }
+
+    h2, h3 {
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: 26px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-card, .note, .term, .figure-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .info-card {
+      padding: 14px 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #111827;
+    }
+
+    .note {
+      padding: 16px 18px;
+      margin: 18px 0;
+      background: #f6fbfa;
+      border-color: #b9ded8;
+    }
+
+    .note.warning {
+      background: #fff8ed;
+      border-color: #e8c98f;
+      color: #5f3b08;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #075e55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 14px 16px;
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .figure-card {
+      margin: 22px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-card figcaption {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .figure-card figcaption strong {
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f1;
+      text-align: left;
+      color: #123b36;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    ul, ol { padding-left: 1.35em; }
+
+    .source-list li {
+      margin: 6px 0;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc {
+        position: sticky;
+        z-index: 5;
+        height: auto;
+        max-height: 45vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 14px 52px; }
+      article { padding: 26px 18px; }
+      header h2 { font-size: 26px; }
+      .info-grid, .terms { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="文章目录">
+      <h1>Semenov 2026<br>亚微秒光学测量膜充电与损伤</h1>
+      <div class="meta">Bioelectrochemistry | 脉冲电场 · 膜电位 · 电穿孔</div>
+      <a href="#paper">论文信息</a>
+      <a href="#takeaway">一句话定位</a>
+      <a href="#why">为什么值得读</a>
+      <a href="#terms">术语先说明</a>
+      <a href="#figures">图文导读</a>
+      <a href="#mechanisms">机制横向对照</a>
+      <a href="#connection">和你的研究怎么接上</a>
+      <a href="#limits">证据链和局限</a>
+      <a href="#reading">建议阅读顺序</a>
+      <a href="#sources">来源链接</a>
+    </nav>
+
+    <main>
+      <article>
+        <header class="paper-title">
+          <p class="eyebrow">论文精读说明文档</p>
+          <h2>Sub-microsecond optical measurements of cell membrane charging and lesioning by pulsed electric fields</h2>
+          <p class="subtitle">用亚微秒脉冲激光频闪荧光成像，实测电穿孔阈值与电穿孔后膜电导率的微秒级恢复动力学。</p>
+          <div class="tags">
+            <span class="tag">脉冲电场</span>
+            <span class="tag">电穿孔</span>
+            <span class="tag">膜电位染料</span>
+            <span class="tag">跨膜电位</span>
+            <span class="tag">光学测量</span>
+            <span class="tag">Schwann 方程</span>
+          </div>
+        </header>
+
+        <!-- ===== 论文信息 ===== -->
+        <section id="paper">
+          <h2>论文信息</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <strong>标题</strong>
+              Sub-microsecond optical measurements of cell membrane charging and lesioning by pulsed electric fields
+            </div>
+            <div class="info-card">
+              <strong>作者</strong>
+              Iurii Semenov, Giedre Silkuniene, Mantas Silkunas, Olga N. Pakhomova, Joel N. Bixler, Bennett L. Ibey, Peter Kochunov, Andrei G. Pakhomov（通讯）
+            </div>
+            <div class="info-card">
+              <strong>单位</strong>
+              Frank Reidy Research Center for Bioelectrics, Old Dominion University；Air Force Research Laboratory；University of Texas Health Science Center at San Antonio
+            </div>
+            <div class="info-card">
+              <strong>期刊</strong>
+              Bioelectrochemistry 171 (2026) 109283；收稿 2025-12-09，接收 2026-03-14，在线 2026-03-15
+            </div>
+            <div class="info-card">
+              <strong>DOI</strong>
+              <a href="https://doi.org/10.1016/j.bioelechem.2026.109283" target="_blank" rel="noopener noreferrer">10.1016/j.bioelechem.2026.109283</a>
+            </div>
+            <div class="info-card">
+              <strong>本地 PDF</strong>
+              <code>Bioelectrochemistry - 2026 - Semenov - Sub-microsecond optical measurements of cell membrane charging and lesioning by pulsed electric fields.pdf</code>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 一句话定位 ===== -->
+        <section id="takeaway">
+          <h2>一句话定位</h2>
+          <p>
+            这篇论文以亚微秒时间分辨率，用脉冲激光频闪荧光成像定量标定了两种膜电位染料（荧光探针 FluoVolt 和 Di-8-ANEPPS）在脉冲电场 (PEF, pulsed electric field) 下的响应范围与线性极限，确定了中国仓鼠卵巢细胞（CHO-K1）发生电穿孔 (electroporation) 的诱导跨膜电位阈值约为 500 mV，并首次在 6 μs 的时间窗口内追踪了电穿孔后膜电导率的恢复动力学。
+          </p>
+        </section>
+
+        <!-- ===== 为什么值得读 ===== -->
+        <section id="why">
+          <h2>为什么值得读</h2>
+          <p>
+            外加电场在细胞膜上诱导的跨膜电位（诱导膜电位，IMP, induced membrane potential）是一切电场生物效应的起点：神经激活、细胞电化疗 (electrochemotherapy)、基因转染，以及不可逆电穿孔 (IRE, irreversible electroporation) 消融肿瘤。然而，在接近或超过电穿孔阈值的高场强条件下，patch-clamp 电极封接会被击穿，传统电生理方法完全不可用；这正是光学测量方法的核心价值所在。
+          </p>
+          <p>
+            对你而言，这篇论文在三个层面上直接相关。第一，你的 IEEE TIM 差分测量工作面对的是"胞外电刺激污染了 patch-clamp 记录"的问题；这篇论文面对的是"在超强场强下 patch-clamp 根本不可用"的问题——两个工作从两个不同的量级出发，共同指向同一结论：<strong>在外加电场下，传统电生理方法面临原理性困难，需要额外的方法学设计才能得到正确的膜电位信号。</strong> 第二，论文系统标定了 FluoVolt 和 Di-8-ANEPPS 两种染料的线性范围，为你未来用光学方法独立验证差分 patch-clamp 结果提供了直接可参考的选型依据。第三，论文量化了电穿孔的 IMP 阈值（~500 mV），用 Schwann 方程可以反推：在你当前的刺激条件下（~1 mA、距细胞 ~200 μm），胞体 IMP 仅约 19 mV，离电穿孔阈值有 25 倍的安全边距，但这个边界数据是你在将来设计更强刺激实验时的定量参考。
+          </p>
+        </section>
+
+        <!-- ===== 术语先说明 ===== -->
+        <section id="terms">
+          <h2>术语先说明</h2>
+          <div class="terms">
+            <div class="term">
+              <strong>脉冲电场（PEF, pulsed electric field）</strong>
+              持续时间极短（纳秒至微秒级）、场强极高（数百至数千 V/cm）的矩形电压脉冲。本文使用 0.3 μs 和 1 μs 单极方波脉冲，场强范围 43–1400 V/cm。区别于神经刺激常用的低场强（~10 V/cm）长脉冲，PEF 的核心生物效应是电穿孔。
+            </div>
+            <div class="term">
+              <strong>不可逆电穿孔（IRE, irreversible electroporation）</strong>
+              外加电场在细胞膜上诱导足够高的跨膜电位后，膜脂双分子层形成纳米级孔洞并永久性破坏的过程，细胞因此不可逆死亡。IRE 在肿瘤消融中作为一种非热损伤手段被广泛研究。本文通过双脉冲方案追踪了从可逆到不可逆损伤的过渡。
+            </div>
+            <div class="term">
+              <strong>诱导跨膜电位（IMP, induced membrane potential）</strong>
+              外加均匀电场在球形细胞上诱导的跨膜电位分布，由 Schwann 方程描述：IMP<sub>C</sub>(t) = 1.5 · E · R · cosθ · (1 − e<sup>−t/τ</sup>)。其中 E 为外加场强，R 为细胞半径，θ 为方位角，τ 为充电时间常数。该方程在未发生电穿孔时精确成立。
+            </div>
+            <div class="term">
+              <strong>膜电位染料（VSD, voltage-sensitive dye）</strong>
+              能将跨膜电场变化转换为荧光强度变化的探针。本文使用两种：<a href="https://www.thermofisher.com/order/catalog/product/F10488" target="_blank" rel="noopener noreferrer">FluoVolt（Invitrogen，货号 F10488）</a>，灵敏度高但动态范围窄（±200 mV 饱和）；<a href="https://www.thermofisher.com/order/catalog/product/D3167" target="_blank" rel="noopener noreferrer">Di-8-ANEPPS（Invitrogen，货号 D3167）</a>，灵敏度低但线性范围宽至 ±500 mV。ANNINE-6plus 作为对照概念被提及——它是通过 Stark 效应（分子电致变色）响应膜电场的纯电子机制染料，本文不直接使用。
+            </div>
+            <div class="term">
+              <strong>电穿孔（electroporation）</strong>
+              当细胞膜上的 IMP 超过临界值（本文实测约 500 mV），膜脂双层中形成亲水孔洞，膜的离子通透性急剧增加的现象。可逆电穿孔后膜可在微秒至毫秒内自行修复（本文实测轻度电穿孔 6 μs 内恢复）；严重电穿孔（高场强）则导致 IRE。电穿孔是膜电导率突变的物理机制，也是 Schwann 方程在高场强下失效的直接原因。
+            </div>
+            <div class="term">
+              <strong>膜充电时间常数（τ, membrane charging time constant）</strong>
+              IMP 从零充电至稳态值 1/e 所需的时间，约为 τ = R · C<sub>m</sub> / (σ<sub>i</sub> + 2σ<sub>e</sub>) 量级（R = 细胞半径，C<sub>m</sub> = 比膜电容，σ<sub>i</sub>/σ<sub>e</sub> = 胞内/外电导率）。对本文 CHO 细胞（R ≈ 7–9 μm），τ 约在 0.5–1 μs 量级。脉冲宽度远大于 τ 时，膜充至稳态 IMP；脉冲宽度与 τ 可比时，膜只能部分充电。
+            </div>
+            <div class="term">
+              <strong>脉冲激光频闪荧光成像（pulsed-laser stroboscopic fluorescence microscopy）</strong>
+              用纳秒级激光闪光在 PEF 施加后某一特定延迟时刻对染色细胞拍摄单帧荧光图像，从而"冻结"那一瞬间的 IMP 空间分布。本文将激光闪光时刻设为 PEF onset 后 275 ns（0.3 μs 脉冲）或 900 ns（1 μs 脉冲），通过 100 次重复平均提高信噪比。该技术的时间分辨率在原理上等于激光脉冲宽度（~纳秒），远优于任何电生理方法。
+            </div>
+            <div class="term">
+              <strong>Gd<sup>3+</sup>（三价钆离子）</strong>
+              非选择性机械门控通道和大孔道阻断剂，在本文中作为膜稳定剂使用（1 mM 浴液添加）。Gd<sup>3+</sup> 通过增加膜的机械硬度，使电穿孔阈值上移，从而帮助区分"染料本身饱和"与"膜电穿孔导致的 IMP 偏离"——这是全文最关键的控制实验之一。
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 图文导读 ===== -->
+        <section id="figures">
+          <h2>图文导读</h2>
+
+          <figure class="figure-card">
+            <img src="figures/Fig1.png" alt="Figure 1: Pulsed-laser stroboscopic imaging of PEF-induced membrane polarization at different field strengths">
+            <figcaption>
+              <strong>Fig. 1 — 随场强升高，Di-8-ANEPPS 荧光从完美偶极子分布走向电穿孔特征图案。</strong>
+              1 μs PEF onset 后 900 ns 拍摄的 IMP 伪彩色图像矩阵（行 = 不同细胞，列 = 场强 43–1400 V/cm）。43–360 V/cm 时，阳极面（上极）呈均匀去极化（红），阴极面（下极）呈超极化（蓝），完美符合 Schwann 方程的偶极子预测。570 V/cm 起阴极极开始"暗化"——不是极化减弱，而是电穿孔后膜漏电使电荷无法蓄积；780–1400 V/cm 时两极均暗化，而赤道区域反而出现明显极化，反映了电荷从穿孔极点重新分配到赤道的机制。这张图直观地呈现了"Schwann 方程预测失效的边界"从何处开始。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig2.png" alt="Figure 2: Stability of dye response across repeated PEF and laser-flash cycles">
+            <figcaption>
+              <strong>Fig. 2 — 非电穿孔场强下，两种染料的重复测量信号高度稳定；电穿孔场强下 Di-8-ANEPPS 出现累积衰减。</strong>
+              每轮实验包含 9 组递增场强、每组 60 次 PEF 加激光闪光（共 800+ 次脉冲、480 次激光）。在 ≤570 V/cm 条件下，FluoVolt 和 Di-8-ANEPPS 的 ΔF 均无统计学显著漂移，证明多次重复采样的可靠性。在 1000 V/cm 电穿孔条件下，Di-8-ANEPPS 的 ΔF 逐渐下降约 20%，指示膜损伤有累积效应；FluoVolt 在该场强下已饱和，因此"看不出"衰减——这一对比是后续选择 Di-8-ANEPPS 作为高场强定量工具的方法学依据。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig3.png" alt="Figure 3: Calibration of FluoVolt and Di-8-ANEPPS fluorescence response against calculated IMP">
+            <figcaption>
+              <strong>Fig. 3 — 两种染料的标定曲线揭示了截然不同的动态范围：高灵敏度 vs 宽线性范围的不可兼得。</strong>
+              将沿细胞周长每个方位角的实测 ΔF，对应到由 Schwann 方程（各细胞单独拟合 R 和 τ）计算的理论 IMP，绘制标定曲线。FluoVolt（粉色）在 ±150 mV 内灵敏度 26% ΔF/100 mV，但在 ±200 mV 处已明显偏离线性，±255 mV（阴极）/-320 mV（阳极）时完全饱和。Di-8-ANEPPS（绿色）灵敏度仅 9.1% ΔF/100 mV，但在 −500 mV 到 +550 mV 的宽范围内保持线性。这张图是选择测量工具的决策图：低 IMP 场景（如你的电刺激实验，IMP ~几十 mV）选 FluoVolt；高场强电穿孔研究选 Di-8-ANEPPS。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig4.png" alt="Figure 4: Azimuthal distribution of membrane polarization and limits of IMP at escalating field strengths">
+            <figcaption>
+              <strong>Fig. 4 — 方位角分布曲线把"哪里先穿孔"写在了几何图案里：极点偏离余弦，赤道始终不偏。</strong>
+              沿细胞周长 360° 分辨的 ΔF 曲线（蓝）与理论余弦分布（红）叠加对比，分别展示 FluoVolt（A）和 Di-8-ANEPPS（B/C）在 1 μs PEF 不同场强下的结果，以及 Di-8-ANEPPS 在 0.3 μs PEF 下的结果（D）。低场强时实测曲线与余弦精确吻合；570 V/cm（1 μs）时 Di-8-ANEPPS 阴极极开始偏低于理论值——这是电穿孔发生的第一个光学证据。关键发现：赤道区域（θ ≈ 90°）在所有场强下均符合余弦，说明电穿孔严格局限于极点；且阴极极偏离比阳极极更早、更严重，提示阴极面的去极化方向使膜更易穿孔。0.3 μs 和 1 μs 脉冲的极化极限在同一 IMP 量级，证明阈值由 IMP 幅值而非脉冲时长决定。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig5.png" alt="Figure 5: Effect of Gd3+ on membrane charging limits and electroporation-induced conductivity">
+            <figcaption>
+              <strong>Fig. 5 — Gd<sup>3+</sup> 实验是区分"染料饱和"与"膜穿孔"的外科手术刀。</strong>
+              Gd<sup>3+</sup>（1 mM，棕色）通过提高膜的穿孔阈值，使 Di-8-ANEPPS 标定曲线的线性段被延伸：阴极极 IMP 极限从对照的约 −542 mV 扩展到约 −864 mV，证明 Di-8-ANEPPS 本身的线性范围并未饱和，是电穿孔（而非染料）造成了对照组的 IMP 上限。面板 B 由实测 IMP 相对于理论 IMP_C 的百分比，反推出等效膜电导率 λ<sub>m,eff</sub> 的倍增因子：在对照组 1000 V/cm 下，电穿孔使膜电导率升高约 7–10 倍；Gd<sup>3+</sup> 组则将这一增幅压低 2–3 倍（面板 C）。这一设计思路与你用 bare electrode 对比真实细胞响应来标定电容补偿的逻辑完全类比。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig6.png" alt="Figure 6: Ca2+ mobilization by single and repeated 1 μs PEFs confirms electroporation threshold">
+            <figcaption>
+              <strong>Fig. 6 — Ca<sup>2+</sup> 内流作为独立检测手段，将电穿孔阈值固定在约 650–780 V/cm。</strong>
+              用 Fluo-4 钙指示剂监测 Ca<sup>2+</sup> 内流，以独立于染料标定的方式确认电穿孔。单个 1 μs PEF（面板 A）：1000 V/cm 以上出现明显 Ca<sup>2+</sup> 信号，780 V/cm 仅有 28% 细胞响应。60 次 1 μs PEF 串（6 Hz，面板 B）：230 V/cm 时 Ca<sup>2+</sup> 响应率为 0%，随场强升高单调递增，1000 V/cm 时达 94%。Ca<sup>2+</sup> 数据和染料 ΔF 数据综合定位：电穿孔阈值 ~500–600 mV IMP，对应 1 μs 脉冲约 570–780 V/cm。注意 Ca<sup>2+</sup> 内流不区分孔道来源（电穿孔孔隙 vs 机械门控通道），但在该场强范围内电穿孔是主导机制。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig7.png" alt="Figure 7: Early restoration of membrane polarizability and estimated effective conductivity after electroporation">
+            <figcaption>
+              <strong>Fig. 7 — 双脉冲方案揭示了电穿孔后膜电导率的微秒级恢复：轻度损伤 6 μs 内完全恢复，重度损伤则持续。</strong>
+              实验方案：一个 conditioning pulse（1 μs，150–1400 V/cm）诱导电穿孔，间隔 5 μs 后，施加弱 test pulse（150 V/cm）探测当时膜的极化能力。面板 A 展示双脉冲下的方位角 ΔF 分布，面板 B 提取极区（±5°）的 ΔF 对比。结果：conditioning 场强 ≤760 V/cm 时，test pulse 极化幅度与未电穿孔基准完全一致——轻度可逆电穿孔在 6 μs 内完全修复；1000 V/cm 后 test pulse 极化降至约 80%；1200–1400 V/cm 后降至约 50%，表明严重、持续的膜损伤。面板 C 由此推断的极区有效膜电导率：可逆电穿孔恢复快，IRE 条件下电导率增加持续存在。这是迄今最高时间分辨率的电穿孔后膜恢复动力学直接测量。
+            </figcaption>
+          </figure>
+        </section>
+
+        <!-- ===== 机制横向对照 ===== -->
+        <section id="mechanisms">
+          <h2>机制横向对照</h2>
+          <p>
+            以下表格对比了三种独立手段如何共同定位电穿孔阈值，以及各方法的信息内容和局限性。
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>手段</th>
+                <th>电穿孔指征</th>
+                <th>定位场强（1 μs PEF）</th>
+                <th>对应 IMP</th>
+                <th>局限</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>FluoVolt ΔF 饱和</td>
+                <td>ΔF 不再随场强增大</td>
+                <td>~360 V/cm</td>
+                <td>~±200 mV</td>
+                <td>饱和来自染料本身动态范围，不能区分染料极限与膜穿孔，不可单独用于定阈</td>
+              </tr>
+              <tr>
+                <td>Di-8-ANEPPS ΔF 偏离余弦</td>
+                <td>极区实测 ΔF 低于 Schwann 方程预测</td>
+                <td>~570 V/cm</td>
+                <td>~500 mV</td>
+                <td>需要精确测量细胞半径和时间常数；赤道区信号始终线性，可作内参</td>
+              </tr>
+              <tr>
+                <td>Ca<sup>2+</sup> 内流（Fluo-4）</td>
+                <td>胞内钙信号上升</td>
+                <td>650–780 V/cm（28% 响应率）</td>
+                <td>~500–600 mV</td>
+                <td>Ca<sup>2+</sup> 可来自多种来源，且单脉冲时 780 V/cm 仅 28% 响应，信号离散度大</td>
+              </tr>
+              <tr>
+                <td>Gd<sup>3+</sup> 条件 + Di-8-ANEPPS</td>
+                <td>膜稳定后线性段延伸至更高 IMP</td>
+                <td>~700 V/cm（对照阈值上移）</td>
+                <td>~500–600 mV（与对照一致）</td>
+                <td>Gd<sup>3+</sup> 本身可能影响通道活性；但对被动充电的 CHO 细胞影响有限</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="note">
+            三种手段定位的阈值高度一致（IMP ~500 mV），相互独立，相互印证，是本文方法学可信度的核心支撑。FluoVolt 的"早饱和"是方法局限，不是生物信号。
+          </div>
+        </section>
+
+        <!-- ===== 和你的研究怎么接上 ===== -->
+        <section id="connection">
+          <h2>和你的研究怎么接上</h2>
+
+          <h3>PEF 膜响应的时间尺度与你的脉宽设计</h3>
+          <p>
+            本文实测 CHO 细胞的膜充电时间常数 τ 约在 0.5–1 μs 量级（R ≈ 7–9 μm）。你实验中神经元胞体 R ≈ 10 μm，τ 量级相近，但会被树突和轴突的复杂形态修正。关键结论：你常用的 <strong>100 μs 脉宽 >> τ</strong>，膜在脉冲期间已充电达稳态；Schwann 方程的稳态值适用。反之，如果未来用亚微秒脉冲，膜只能部分充电，IMP 将低于稳态预测——这正是本文 0.3 μs vs 1 μs 实验组对比所展示的。这个框架帮助你理解：<strong>脉宽不仅影响电荷量，还决定膜是否来得及"感受"到完整的等效电场。</strong>
+          </p>
+
+          <h3>光学测量 vs 电极测量：覆盖参数空间的互补</h3>
+          <p>
+            把 Semenov 的光学方案与你的差分 patch-clamp 方案并排放，它们覆盖了完全不同的参数区间：
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>维度</th>
+                <th>你的差分 patch-clamp</th>
+                <th>Semenov 的脉冲激光频闪成像</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>时间分辨率</td>
+                <td>~4 μs（250 kHz 采样）</td>
+                <td>~亚微秒（激光闪光时刻精确控制）</td>
+              </tr>
+              <tr>
+                <td>IMP 量程</td>
+                <td>不受染料限制；毫伏级精确</td>
+                <td>受染料动态范围限制（FluoVolt ±200 mV；Di-8-ANEPPS ±500 mV）</td>
+              </tr>
+              <tr>
+                <td>空间分辨率</td>
+                <td>单点（记录电极位置）</td>
+                <td>沿细胞周长 360° 全分布</td>
+              </tr>
+              <tr>
+                <td>适用场强</td>
+                <td>低场强（~10 V/cm 量级，神经刺激）</td>
+                <td>高场强（43–1400 V/cm，PEF/IRE 研究）</td>
+              </tr>
+              <tr>
+                <td>对细胞的扰动</td>
+                <td>电极破膜（全细胞 patch）或接近（loose patch）</td>
+                <td>无接触，染料嵌入膜但不破坏封接</td>
+              </tr>
+              <tr>
+                <td>校准基准</td>
+                <td>绝对电压（mV），直接标定</td>
+                <td>ΔF/F 需与 Schwann 方程交叉标定才能换算 mV</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            两者不竞争，互补。如果你将来希望用光学方法<strong>独立验证</strong>差分 patch-clamp 的结果，本文提供的标定数据给出了直接参考：在你的 IMP 量级（~几十 mV 以内），选 <strong>FluoVolt</strong>，它在该范围完全线性（26% ΔF/100 mV，信噪比好）；<em>不要</em>选 Di-8-ANEPPS 来测低 IMP——灵敏度 9.1%/100 mV 在毫伏级 IMP 下信噪比极差。
+          </p>
+
+          <h3>差分测量在快速电场下的挑战：刺激伪迹与充电时间的类比</h3>
+          <p>
+            你在 IEEE TIM 工作中处理的是刺激伪迹（stimulus artifact）：电极施加的外部电位污染了 patch-clamp 的记录通道，需要通过差分测量剔除。这篇论文揭示了一个在更高场强下同样存在的挑战：当电穿孔发生时，膜本身的电导率在纳秒内突变，使得 PEF 期间的 IMP 分布不再由静态 Schwann 方程描述，而是与膜孔道动力学耦合。这与你遇到的"电极伪迹改变了记录系统等效阻抗"问题在物理结构上同源——都是<strong>被测对象的阻抗状态被测量场景所改变，且改变本身还随时间演化</strong>。本文的 Gd<sup>3+</sup> 对照实验（固定膜阻抗，再测 IMP）在概念上类似于你用 bare electrode（无细胞）来标定纯电场伪迹的做法。
+          </p>
+          <p>
+            此外，本文的双脉冲方案（conditioning + test pulse 间隔 5 μs）在测量策略上与差分测量有相似之处：用一个已知量值的弱 test 信号作为探针，通过响应大小推断系统当时的状态参数（膜电导率）。这种"主动探针 + 已知参考"的设计思路在你设计未来验证实验时可以借鉴。
+          </p>
+
+          <h3>电穿孔安全边界与你的最大刺激强度</h3>
+          <p>
+            用本文的电穿孔阈值（~500 mV IMP）反推你的实验安全边界。以点电流源近似，距离 r 处的电场强度 E ≈ I / (4πσr<sup>2</sup>)（σ ≈ 1.6 S/m）。对 1 mA 刺激：r = 200 μm 时 E ≈ 12.4 V/cm，胞体 IMP<sub>max</sub> ≈ 19 mV，安全边距 ~25 倍；即使靠近到 r = 50 μm，E ≈ 200 V/cm，IMP<sub>max</sub> ≈ 300 mV，仍在阈值以下。但如果你观察到强刺激下有细胞出现不可逆失活，靠近电极尖端的局部细胞（r &lt; 20 μm）在大电流（>1 mA）下有可能已进入可逆甚至不可逆电穿孔区间——这是本文数据提供的定量预警框架。
+          </p>
+        </section>
+
+        <!-- ===== 证据链和局限 ===== -->
+        <section id="limits">
+          <h2>证据链和局限</h2>
+          <ol>
+            <li>
+              <strong>CHO 细胞的理想化局限。</strong> 球形、无电压门控离子通道——这使得 Schwann 方程成为精确的参考标准，也正是这个精确性使得全文的标定逻辑成立。但真实神经元形态复杂、有丰富的主动通道，Schwann 方程只能提供粗略估算，光学成像的信噪比也会因脑片散射而大幅下降。
+            </li>
+            <li>
+              <strong>缺乏同步电生理验证。</strong> 全文无 patch-clamp 数据作为独立 IMP 参考。在高场强条件下这是方法本身的硬约束（封接会被击穿），但意味着所有绝对 IMP 值均依赖 Schwann 方程计算，而非实测电压。
+            </li>
+            <li>
+              <strong>单脉冲 / 低频重复，未探讨 kHz 级累积效应。</strong> 图 2 涉及了 6 Hz 重复的稳定性，但神经调控常用的 100 Hz–1 kHz 重复刺激下膜充电/恢复的累积动力学未被覆盖。
+            </li>
+            <li>
+              <strong>室温实验（21–23°C）。</strong> 生理温度（37°C）下膜流动性增加，电穿孔阈值可能不同，恢复动力学也可能更快。
+            </li>
+            <li>
+              <strong>FluoVolt 的饱和在本文中已被澄清，但需注意跨文献引用时的错误使用。</strong> 不少文献（包括 Lesperance 2018）在低 IMP 条件下使用 FluoVolt 完全正确；本文的贡献是明确了其上限，以避免他人在高场强实验中误读已饱和的 FluoVolt 信号。
+            </li>
+          </ol>
+          <div class="note warning">
+            本文的 IMP 定量完全依赖 Schwann 方程作为"理论参考标准"。Schwann 方程成立的前提（球形细胞、均匀电导率、无穿孔）在高场强下已经不满足——因此在 IMP 超过 ~300 mV 时，"理论 IMP_C"本身就是电穿孔发生前的预测值，而不是真实 IMP。论文作者用 Gd<sup>3+</sup> 实验部分规避了这个循环问题，但不能彻底消除。读者在引用电穿孔阈值"~500 mV IMP"时，应理解这个数值是"与 Schwann 方程预测的理论值的比较结果"，而不是一个完全独立测量的绝对值。
+          </div>
+        </section>
+
+        <!-- ===== 建议阅读顺序 ===== -->
+        <section id="reading">
+          <h2>建议阅读顺序</h2>
+          <ol>
+            <li>先读 <strong>Abstract</strong> 和 <strong>Introduction</strong>，抓住"为什么光学方法在高场强下比电生理更可行"的核心动机，以及 Schwann 方程的适用前提。</li>
+            <li>看 <strong>Methods 2.3–2.5</strong>（细胞制备、脉冲参数、激光频闪成像系统），理解一次实验循环的时序安排——这是理解后续所有图的基础。</li>
+            <li>精读 <strong>Fig. 3</strong>（染料标定）和其正文对应段落（Results 3.3），建立"ΔF ↔ IMP"换算的直觉，以及何时 FluoVolt 可用、何时必须换 Di-8-ANEPPS。</li>
+            <li>读 <strong>Fig. 5</strong>（Gd<sup>3+</sup> 实验），理解"染料饱和"与"膜穿孔"如何通过控制实验被区分开——这是全文方法学最精彩的一笔。</li>
+            <li>读 <strong>Fig. 7</strong>（双脉冲方案），看电穿孔后膜电导率的时间恢复曲线——对理解 IRE 和可逆电穿孔的边界最有帮助。</li>
+            <li>最后读 <strong>Discussion</strong>，对照本说明文档的"和你的研究怎么接上"一节，梳理与你的实验设计的联系。</li>
+          </ol>
+        </section>
+
+        <!-- ===== 来源链接 ===== -->
+        <section id="sources">
+          <h2>来源链接</h2>
+          <ul class="source-list">
+            <li>
+              <strong>本文 DOI：</strong>
+              <a href="https://doi.org/10.1016/j.bioelechem.2026.109283" target="_blank" rel="noopener noreferrer">10.1016/j.bioelechem.2026.109283</a>
+            </li>
+            <li>
+              <strong>ScienceDirect 原始页面：</strong>
+              <a href="https://www.sciencedirect.com/science/article/abs/pii/S1567539426000691" target="_blank" rel="noopener noreferrer">Bioelectrochemistry 171 (2026) 109283 — ScienceDirect</a>
+            </li>
+            <li>
+              <strong>期刊主页（Elsevier）：</strong>
+              <a href="https://www.journals.elsevier.com/bioelectrochemistry" target="_blank" rel="noopener noreferrer">Bioelectrochemistry | Elsevier</a>
+            </li>
+            <li>
+              <strong>通讯作者实验室主页：</strong>
+              <a href="https://sites.wp.odu.edu/pakhomovlab/" target="_blank" rel="noopener noreferrer">Pakhomov Research Group — Old Dominion University</a>
+            </li>
+            <li>
+              <strong>Frank Reidy Research Center for Bioelectrics：</strong>
+              <a href="https://www.odu.edu/bioelectrics" target="_blank" rel="noopener noreferrer">Center for Bioelectrics — ODU</a>
+            </li>
+            <li>
+              <strong>FluoVolt 产品页（Invitrogen）：</strong>
+              <a href="https://www.thermofisher.com/order/catalog/product/F10488" target="_blank" rel="noopener noreferrer">FluoVolt Membrane Potential Kit — Thermo Fisher Scientific</a>
+            </li>
+            <li>
+              <strong>Di-8-ANEPPS 产品页（Invitrogen）：</strong>
+              <a href="https://www.thermofisher.com/order/catalog/product/D3167" target="_blank" rel="noopener noreferrer">Di-8-ANEPPS — Thermo Fisher Scientific</a>
+            </li>
+            <li>
+              <strong>ANNINE-6plus 原始论文（Fromherz et al., 2007）：</strong>
+              <a href="https://pubmed.ncbi.nlm.nih.gov/17687549/" target="_blank" rel="noopener noreferrer">PubMed PMID 17687549</a>
+              （本文术语节中对照提及的第三种电位敏感染料）
+            </li>
+            <li>
+              <strong>Semenov 姊妹论文（纳秒动力学，同期发表）：</strong>
+              <a href="https://www.sciencedirect.com/science/article/abs/pii/S1567539425002464" target="_blank" rel="noopener noreferrer">Resolving nanosecond kinetics of the optical membrane potential in pulsed electric fields — ScienceDirect</a>
+            </li>
+          </ul>
+          <div class="note">
+            上述 ScienceDirect 链接（论文页面）、期刊主页、实验室主页均经过 2026-05 网络搜索核实。ODU Bioelectrics Center 主页（odu.edu/bioelectrics）在搜索结果中出现，直链未做独立测试，如失效可改用目录页 <a href="https://www.odu.edu/bioelectrics/directory" target="_blank" rel="noopener noreferrer">odu.edu/bioelectrics/directory</a>。
+          </div>
+        </section>
+
+        <p class="footer-note">
+          本文件为中文精读说明文档，图像来自本文件夹 <code>figures/</code> 子目录（Fig1.png–Fig7.png，共 7 幅）。内容基于 <code>discussion - Semenov 2026.md</code> 底稿撰写，2026-05 生成。
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const sections = links
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -68% 0px',
+      threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+    if (sections[0]) setActive(sections[0].id);
+  </script>
+</body>
+</html>

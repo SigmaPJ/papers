@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Optimized DBS for ACC Inhibition | Yuan 2025 论文说明</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5b6776;
+      --line: #d9ded6;
+      --accent: #0f766e;
+      --accent-soft: #e0f2ef;
+      --warn: #9a5b13;
+      --code: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: #f0f3ee;
+    }
+
+    .toc h1 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .toc .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 10px;
+      margin: 3px 0;
+      border-radius: 7px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .toc a.active,
+    .toc a:hover {
+      color: #064e45;
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 42px 48px 80px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 52px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
+    }
+
+    header.paper-title {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+    }
+
+    h2, h3 {
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: 26px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-card, .note, .term, .figure-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .info-card {
+      padding: 14px 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #111827;
+    }
+
+    .note {
+      padding: 16px 18px;
+      margin: 18px 0;
+      background: #f6fbfa;
+      border-color: #b9ded8;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #e8c98f;
+      color: #5f3b08;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #075e55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 14px 16px;
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .figure-card {
+      margin: 22px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-card figcaption {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .figure-card figcaption strong {
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f1;
+      text-align: left;
+      color: #123b36;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    ul, ol { padding-left: 1.35em; }
+
+    .source-list li {
+      margin: 6px 0;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc {
+        position: sticky;
+        z-index: 5;
+        height: auto;
+        max-height: 45vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 14px 52px; }
+      article { padding: 26px 18px; }
+      header h2 { font-size: 28px; }
+      .info-grid, .terms { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="文章目录">
+      <h1>Yuan 2025<br>DBS 抑制 ACC 产生抗抑郁效果</h1>
+      <div class="meta">Neuron | 深脑电刺激 · 参数优化 · 前扣带皮层</div>
+      <a href="#paper">论文信息</a>
+      <a href="#takeaway">一句话定位</a>
+      <a href="#why">为什么值得读</a>
+      <a href="#terms">术语先说明</a>
+      <a href="#figures">图文导读</a>
+      <a href="#mechanisms">机制横向对照</a>
+      <a href="#connection">和你的研究怎么接上</a>
+      <a href="#limits">证据链和局限</a>
+      <a href="#reading">建议阅读顺序</a>
+      <a href="#sources">来源链接</a>
+    </nav>
+
+    <main>
+      <article>
+        <header class="paper-title">
+          <p class="eyebrow">论文精读说明文档</p>
+          <h2>Optimized Deep Brain Stimulation for Anterior Cingulate Cortex Inhibition Produces Antidepressant-Like Effects in Mice</h2>
+          <p class="subtitle">系统优化深脑电刺激波形参数，实现对前扣带皮层的精确抑制，并在小鼠抑郁模型中产生快速、持久的抗抑郁行为效果。</p>
+          <div class="tags">
+            <span class="tag">深脑电刺激 DBS</span>
+            <span class="tag">前扣带皮层 ACC</span>
+            <span class="tag">参数优化</span>
+            <span class="tag">抑郁症</span>
+            <span class="tag">光纤光度测量</span>
+            <span class="tag">刺激伪迹相关</span>
+          </div>
+        </header>
+
+        <!-- ===== 论文信息 ===== -->
+        <section id="paper">
+          <h2>论文信息</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <strong>标题</strong>
+              Optimized Deep Brain Stimulation for Anterior Cingulate Cortex Inhibition Produces Antidepressant-Like Effects in Mice
+            </div>
+            <div class="info-card">
+              <strong>作者</strong>
+              Zhengwei Yuan*, Haonan Yang, Peng Wang, Xiaoning Hou, Ke Xu, Yu Zhou, Ruicheng Dai, Yuan Gao, Xinwei Gao, Qingchun Guo, Yulong Li, Jianning Zhang, Zhiqi Mao*, Minmin Luo*
+            </div>
+            <div class="info-card">
+              <strong>单位</strong>
+              北京脑科学与类脑研究所 / 中国脑科学研究院（CIBR）；解放军总医院神经外科；北京大学
+            </div>
+            <div class="info-card">
+              <strong>期刊 &amp; 时间</strong>
+              Neuron, Vol. 113, Issue 20, pp. 3476–3490, October 15, 2025
+            </div>
+            <div class="info-card">
+              <strong>DOI</strong>
+              <a href="https://doi.org/10.1016/j.neuron.2025.07.018" target="_blank" rel="noopener noreferrer">10.1016/j.neuron.2025.07.018</a>
+            </div>
+            <div class="info-card">
+              <strong>本地 PDF</strong>
+              <code>Neuron - 2025 - Yuan - Optimized deep brain stimulation for anterior cingulate cortex inhibition produces antidepressant-like effects.pdf</code>
+            </div>
+          </div>
+
+          <div class="note">
+            本文是 Neuron 原始研究文章，通讯作者为 Zhengwei Yuan、Zhiqi Mao 和 Minmin Luo（解放军总医院 + CIBR 合作）。Minmin Luo 实验室长期研究中缝背核 5-HT 神经元和情绪回路，本文是他们将 DBS 技术引入 ACC 情绪调控的系统研究。
+          </div>
+        </section>
+
+        <!-- ===== 一句话定位 ===== -->
+        <section id="takeaway">
+          <h2>一句话定位</h2>
+          <p>
+            这篇文章相当于"DBS 参数手册 + 行为验证"：用光纤钙信号（fiber photometry）作为实时读出，系统扫描波形对称性、脉宽和频率的组合，在小鼠前扣带皮层（anterior cingulate cortex，ACC）里找到了可靠抑制神经元活动的不对称双相高频参数，以及可靠兴奋的对称长脉宽低频参数；再用抑郁动物模型证明"抑制 ACC → 抗抑郁，兴奋 ACC → 促快感缺失"的因果链。
+          </p>
+        </section>
+
+        <!-- ===== 为什么值得读 ===== -->
+        <section id="why">
+          <h2>为什么值得读</h2>
+
+          <h3>DBS 参数优化缺乏细胞级机制指导</h3>
+          <p>
+            临床 DBS 参数长期依赖经验调整，核心原因是刺激伪迹（stimulation artifact）覆盖了刺激期间的电生理信号，使得只能分析刺激结束后的数据，无法实时看到刺激对单个神经元的影响。论文作者把这个问题明确写在 Introduction 里。本文用光学方法（钙信号不受电伪迹影响）绕开这个限制，实现了"边刺激边读神经元状态"的参数优化闭环，是在工程约束下的巧妙设计。
+          </p>
+
+          <h3>ACC 与抑郁：一个有明确靶标意义的脑区</h3>
+          <p>
+            人类 MDD（重度抑郁症，major depressive disorder）患者的 ACC 持续显示代谢和结构异常。化学遗传学（chemogenetics）和光遗传学（optogenetics）抑制 ACC 锥体神经元可以缓解小鼠抑郁样行为，但这两类工具无法用于临床。DBS 是唯一可以临床翻译的精确调控手段，因此"怎样用 DBS 精确抑制 ACC"具有直接的转化研究价值。
+          </p>
+
+          <h3>抑制性刺激范式的反直觉意义</h3>
+          <p>
+            传统观点认为 DBS 的高频刺激主要是激活局部神经元（因为细胞外电流直接去极化），但本文发现不对称高频 DBS 实际上产生广泛区域抑制——而且同时压制了锥体神经元（excitatory）和 VGAT+ 中间神经元（inhibitory），排除了"通过兴奋抑制性中间神经元间接抑制锥体神经元"的经典解释。这个反直觉结果对理解 DBS 的细胞机制具有重要意义。
+          </p>
+        </section>
+
+        <!-- ===== 术语先说明 ===== -->
+        <section id="terms">
+          <h2>术语先说明</h2>
+          <div class="terms">
+            <div class="term">
+              <strong>深脑电刺激（DBS, deep brain stimulation）</strong>
+              将微电极植入脑深部靶区，持续施加电脉冲以调控局部神经元活动的临床神经调控技术。已在帕金森病、特发性震颤中广泛应用，对难治性抑郁症的疗效正在探索中。
+            </div>
+            <div class="term">
+              <strong>前扣带皮层（ACC, anterior cingulate cortex）</strong>
+              位于大脑内侧额叶的皮层区域，参与情绪评价、疼痛感知和认知控制。MDD 患者中 ACC 活动异常增高，是抑郁症研究的核心靶区之一。
+            </div>
+            <div class="term">
+              <strong>抑郁动物模型</strong>
+              本文使用两种范式：慢性束缚应激（CRS, chronic restraint stress，每天限制小鼠活动 2 小时、持续 2 周）和脂多糖（LPS, lipopolysaccharide）炎症诱导。两种模型分别模拟心理性和炎症性抑郁，交叉验证 DBS 效果的普适性。
+            </div>
+            <div class="term">
+              <strong>刺激参数（频率 / 幅度 / 脉宽 / 双相波形）</strong>
+              DBS 的四个核心参数。频率（Hz）决定脉冲节律；幅度（μA）决定电流强度；脉宽（μs）决定每个脉冲持续时间；双相波形（biphasic）意味着每个脉冲由正相和负相组成，电荷总量为零（充电平衡），避免组织电解损伤。不对称双相指正负相的电流幅度和脉宽不等但电荷相同。
+            </div>
+            <div class="term">
+              <strong>高频刺激抑制效应（HFS-induced inhibition）</strong>
+              高频电刺激（通常 &gt;100 Hz）导致神经元活动受抑制而非激活的现象。可能机制包括：去极化阻滞（depolarization block，Na+ 通道持续失活）、突触囊泡耗竭、细胞外 K+ 积累等。本文实验结果支持"广泛区域抑制"而非单一机制。
+            </div>
+            <div class="term">
+              <strong>光纤光度测量与钙信号（fiber photometry / Ca²⁺ imaging）</strong>
+              将细光纤植入脑内，记录基因编码钙指示剂（本文为 GCaMP7s）的荧光强度，间接反映神经元群体的放电活动。时间分辨率约 100 ms，不受电刺激伪迹影响。与膜片钳（patch clamp）相比，时间分辨率差约 3 个数量级，但可在自由活动动物中长期记录。
+            </div>
+            <div class="term">
+              <strong>c-Fos 与 pPDH（神经元活动标记）</strong>
+              c-Fos 是经典的即早基因（immediate early gene），神经元激活后约 30–90 分钟表达升高，用于标记活跃神经元。磷酸化丙酮酸脱氢酶（pPDH, phosphorylated pyruvate dehydrogenase）是神经元活动的逆向代谢标记——活动受抑时 pPDH 升高。本文用 pPDH 映射 DBS 抑制了哪些脑区，高 pPDH 区域 = 被抑制区域。
+            </div>
+            <div class="term">
+              <strong>行为测试（强迫游泳 / 蔗糖偏好）</strong>
+              强迫游泳测试（FST, forced swim test）：将小鼠置于水中，记录其"放弃挣扎静止不动"（不动时间）的时长，作为绝望行为（behavioral despair）的指标。蔗糖偏好测试（SPT, sucrose preference test）：给予普通水和蔗糖水，记录蔗糖水消耗比例，低偏好 = 快感缺失（anhedonia）。两者测量抑郁的不同维度。
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 图文导读 ===== -->
+        <section id="figures">
+          <h2>图文导读</h2>
+
+          <figure class="figure-card">
+            <img src="figures/Fig1.png" alt="Figure 1: 抑制性 DBS 参数优化">
+            <figcaption>
+              <strong>Fig. 1 — 不对称双相高频波形实现 ACC 神经元可靠抑制。</strong>
+              这是全文最核心的参数优化实验。在 ACC 中同时植入 DBS 电极和光纤，注射 AAV-CaMKII-GCaMP7s 标记锥体神经元，然后系统扫描波形参数。对称波形（200 μA/50 μs、180 μA/100 μs、140 μA/140 μs）在 130 Hz 下均表现不佳——或只有短暂钙瞬态，或抑制弱且不稳定。而不对称波形（阳极相 180 μA/100 μs + 阴极相 100 μA/180 μs，电荷各 18 nC 相等但时间分布不同）在 130 Hz 下产生了快速（数秒内起效）、稳健、完全可逆的 Ca²⁺ 信号抑制。额外发现：DBS 同时抑制了 VGAT+ 中间神经元（抑制性神经元），说明不是"通过激活 GABA 能中间神经元来抑制锥体神经元"的经典机制，而是不依赖局部抑制回路的广泛区域性压制。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig2.png" alt="Figure 2: 兴奋性 DBS 参数识别">
+            <figcaption>
+              <strong>Fig. 2 — 频率与脉宽必须协同调节才能产生可靠兴奋。</strong>
+              本图揭示了参数空间的另一极。单纯降低频率（从 130 Hz 降到 5–15 Hz）并不能可靠激活 ACC——15 Hz 对称波形只有不稳定的短暂兴奋趋势。关键发现是：需要同时延长脉宽至 300 μs 并结合低频（20 Hz），对称 100 μA/300 μs 波形在此条件下才产生稳健、可重复的 ACC 兴奋。这说明脉宽和频率不是独立参数：长脉宽延长去极化相持续时间，可能允许更多电压门控 Na⁺ 通道在单个脉冲内激活；而低频避免了高频引起的通道失活或囊泡耗竭。这一结论对所有用电刺激调控神经元的场景都有参考意义。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig3.png" alt="Figure 3: ACC DBS 双向调控抑郁样行为">
+            <figcaption>
+              <strong>Fig. 3 — 抑制性 DBS 快速持久改善抑郁，兴奋性 DBS 诱导快感缺失。</strong>
+              这是从细胞水平跳到行为水平的关键验证。CRS 和 LPS 两种模型小鼠接受抑制性 DBS（i-DBS，不对称波形 130 Hz，每天 2 小时，持续 1 周）后，强迫游泳不动时间显著缩短，效果在 DBS 关闭 2 小时后仍存在，单次 i-DBS 即可产生至少 3 天的持续效果。但蔗糖偏好的改善需要在线刺激（DBS 关闭后恢复），提示绝望行为和快感缺失的神经基础阈值不同。健康小鼠接受兴奋性 DBS（e-DBS，对称 100 μA/300 μs，20 Hz）1 周后蔗糖偏好下降但 FST 不受影响，证明 ACC 过激活选择性诱导快感缺失而非广泛的抑郁表型。两种 DBS 均不影响自发运动（旷场测试）和焦虑（高架十字迷宫），排除了运动副作用的混淆。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig4.png" alt="Figure 4: 全脑 pPDH 网络映射">
+            <figcaption>
+              <strong>Fig. 4 — ACC i-DBS 通过多突触通路驱动广泛的全脑网络抑制。</strong>
+              这张图将细胞水平的局部抑制扩展为系统级的网络图谱。i-DBS 后 15 分钟灌注固定取脑，全脑切片进行 pPDH 免疫染色（高 pPDH = 低活动）。结果：ACC 局部强 pPDH 标记，符合直接抑制；直接接收 ACC 轴突投射的区域（杏仁核基底外侧核 BLA、伏隔核 NAc、腹侧被盖区 VTA、背侧缝核 DRN 等）均显示 pPDH 升高；无直接 ACC 投射的区域（中央杏仁核 CeA、外侧缰核 LHb）也出现 pPDH 升高，说明存在多突触传播。光纤光度测量实时验证了 ACC→BLA 投射神经元 Ca²⁺ 信号在 i-DBS 期间的即时降低。特别值得注意的是 DRN 对 i-DBS 的高敏感性：ACC i-DBS 后 ACC 局部 5-HT 释放被显著压制，提示 DRN 5-HT 投射是抗抑郁效果的重要下游通路。
+            </figcaption>
+          </figure>
+        </section>
+
+        <!-- ===== 机制横向对照 ===== -->
+        <section id="mechanisms">
+          <h2>机制横向对照</h2>
+          <p>下表汇总了本文关键参数组合与神经效应的对应关系，以及对理解刺激波形-神经响应映射的参考价值：</p>
+          <table>
+            <thead>
+              <tr>
+                <th>参数组合</th>
+                <th>波形特征</th>
+                <th>频率</th>
+                <th>ACC 神经效应</th>
+                <th>行为结果</th>
+                <th>可能的细胞机制</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>不对称 180-100（i-DBS）</strong></td>
+                <td>180 μA/100 μs + 100 μA/180 μs，充电平衡</td>
+                <td>130 Hz</td>
+                <td>锥体神经元 + 中间神经元均受抑制，数秒内起效，可逆</td>
+                <td>抗抑郁（FST↓，SPT↑），持续 ≥3 天</td>
+                <td>去极化阻滞（Na⁺ 通道持续失活）+ 突触囊泡耗竭；不依赖局部 GABAergic 回路</td>
+              </tr>
+              <tr>
+                <td><strong>对称 200-50（无效对照）</strong></td>
+                <td>200 μA/50 μs 对称</td>
+                <td>130 Hz</td>
+                <td>仅短暂 Ca²⁺ 瞬态，无持续抑制</td>
+                <td>—</td>
+                <td>短脉宽使每脉冲注入电荷不足以维持阻滞；过短时间内 Na⁺ 通道可以恢复</td>
+              </tr>
+              <tr>
+                <td><strong>对称 100-300（e-DBS）</strong></td>
+                <td>100 μA/300 μs 对称</td>
+                <td>20 Hz</td>
+                <td>锥体神经元稳健兴奋，可重复</td>
+                <td>健康小鼠快感缺失（SPT↓），FST 不受影响</td>
+                <td>长脉宽允许更多 Na⁺ 通道激活；低频避免失活积累；每脉冲净效果为去极化</td>
+              </tr>
+              <tr>
+                <td><strong>对称 140-140（部分对照）</strong></td>
+                <td>140 μA/140 μs 对称</td>
+                <td>130 Hz</td>
+                <td>抑制弱且不一致</td>
+                <td>—</td>
+                <td>波形对称时两相效果相互抵消，净抑制作用减弱</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="note">
+            不对称性的关键：两相电荷相等（各 18 nC），但高电流短脉宽相（180 μA × 100 μs）产生的跨膜电压变化速率远高于低电流长脉宽相（100 μA × 180 μs）。这种不对称的时间分布可能对电压门控通道的动力学产生不对称影响，但论文未提供定量的生物物理模型——这正是后续研究（包括离体脑片差分膜片钳实验）可以填补的空白。
+          </div>
+        </section>
+
+        <!-- ===== 和你的研究怎么接上 ===== -->
+        <section id="connection">
+          <h2>和你的研究怎么接上</h2>
+
+          <h3>DBS 参数空间与差分测量的伪迹排查</h3>
+          <p>
+            论文 Introduction 明确指出刺激伪迹是 DBS 实时电生理记录的核心瓶颈，原文为："In humans, however, stimulation artifacts restrict analysis to post-stimulation epochs and preclude cellular resolution."这与你的 TIM 论文处理的技术问题属于同一类——胞外电刺激（EES, extracellular electrical stimulation）产生的伪迹污染电生理读出。区别在于场景和解决策略：
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>维度</th>
+                <th>Yuan 2025（在体 DBS）</th>
+                <th>你的 TIM 论文（脑片 patch clamp）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>伪迹来源</td>
+                <td>DBS 电极在脑组织中产生的大幅电场</td>
+                <td>胞外刺激电极产生的 V_e(t) 叠加到 V_m 记录</td>
+              </tr>
+              <tr>
+                <td>解决策略</td>
+                <td>绕开伪迹：改用光学读出（Ca²⁺ 信号）</td>
+                <td>修正伪迹：差分测量减去 V_e(t)</td>
+              </tr>
+              <tr>
+                <td>时间分辨率</td>
+                <td>~100 ms（Ca²⁺ 动力学限制）</td>
+                <td>μs 级（保持电生理原生时间分辨率）</td>
+              </tr>
+              <tr>
+                <td>信息内容</td>
+                <td>群体平均神经元活动</td>
+                <td>单细胞跨膜电位动态</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            你的差分方法有潜力将 DBS 期间的单细胞电生理记录变为可能（至少在离体脑片上），这是目前光学方法无法提供的时间分辨率信息。Yuan 2025 可以作为你论文"应用动机"部分的典型引用案例。
+          </p>
+
+          <h3>高频刺激诱导抑制的细胞机制</h3>
+          <p>
+            本文最反直觉的结果——高频 DBS 同时抑制锥体神经元和 GABA 能中间神经元——意味着抑制机制不依赖局部抑制回路，很可能涉及通道级别的内在属性：去极化阻滞（Na⁺ 通道持续失活）、突触囊泡耗竭，或细胞外 K⁺ 积累导致的静息电位改变。你的差分膜片钳方法在脑片上可以直接区分这些机制：
+          </p>
+          <ul>
+            <li><strong>去极化阻滞</strong>：在 DBS 脉冲期间测量跨膜电位，如果 V_m 持续接近 Na⁺ 通道失活阈值（约 −40 mV），则支持此机制</li>
+            <li><strong>突触囊泡耗竭</strong>：通过比较 DBS 期间 EPSC 幅度的衰减动力学来区分</li>
+            <li><strong>K⁺ 积累</strong>：表现为刺激期间 V_m 缓慢去极化而非锁相于刺激频率的振荡</li>
+          </ul>
+          <p>
+            这些都是你的方法能回答、而光学方法无法回答的具体问题。
+          </p>
+
+          <h3>行为输出与单细胞响应的链路</h3>
+          <p>
+            Yuan 在细胞（Ca²⁺ 信号）→ 行为（FST/SPT）→ 回路（pPDH 全脑映射）三个层面都建立了 DBS 效果的证据，但缺少刺激期间单神经元跨膜电位响应的直接记录，无法从生物物理层面解释为什么不对称波形比对称波形更有效。这是你的差分测量方法可以接入的具体科学问题，也是将技术论文（TIM）和机制研究（ACC DBS）连接起来的切入点。你的等效电路框架（R_s, C_m, R_m，离子通道动力学）可以直接用于预测和解释不对称波形下 V_m 响应的时间进程，从电容性-电阻性分流的角度给出 Yuan 现象学发现的生物物理解读。
+          </p>
+        </section>
+
+        <!-- ===== 证据链和局限 ===== -->
+        <section id="limits">
+          <h2>证据链和局限</h2>
+
+          <h3>强项</h3>
+          <ol>
+            <li><strong>系统性参数优化框架：</strong>通过波形对称性 × 脉宽 × 频率的系统扫描，以实时光学读出指导参数选择，提供了可复制的 DBS 优化方法学。</li>
+            <li><strong>双向因果证据：</strong>抑制 ACC → 抗抑郁，兴奋 ACC → 促快感缺失，形成完整的双向因果链，远超单向操控研究。</li>
+            <li><strong>多层验证：</strong>细胞（Ca²⁺）→ 行为（FST/SPT）→ 回路（pPDH + BLA 光纤）→ 分子（5-HT/DA 传感器），证据链完整。</li>
+            <li><strong>两种独立抑郁模型：</strong>CRS（心理性应激）和 LPS（炎症性）交叉验证，增强了结论的普适性。</li>
+            <li><strong>运动和焦虑对照：</strong>OFT 和 EPM 排除了运动能力或焦虑水平变化对行为测试的混淆。</li>
+          </ol>
+
+          <h3>不足之处</h3>
+          <ol>
+            <li><strong>Ca²⁺ 信号时间分辨率局限：</strong>fiber photometry 只能报告群体平均 Ca²⁺（~100 ms），无法解析刺激期间单个神经元的跨膜电压动态，无法区分直接去极化/超极化效应与突触介导的间接效应。</li>
+            <li><strong>DBS 空间选择性未量化：</strong>论文声称 pPDH 标记显示"局部 ACC 抑制，溢出极少"，但缺乏对 DBS 电场空间分布的计算建模验证——实际激活/抑制了多大范围的组织？</li>
+            <li><strong>不对称波形机制缺失生物物理解释：</strong>为什么不对称比对称更有效地抑制？论文只有现象学描述，没有通道动力学建模或离体电生理验证。</li>
+            <li><strong>小鼠模型到临床的外推局限：</strong>FST 作为抑郁测试指标在领域内本身存在争议；小鼠抑郁模型（CRS/LPS）与人类 MDD 的异质性和治疗抵抗性有本质差异。</li>
+            <li><strong>长期效果和安全性数据不足：</strong>仅追踪 7 天的效果持续性；慢性 DBS 的组织损伤、适应性改变、反弹效应均未评估。</li>
+          </ol>
+
+          <div class="note warning">
+            引用本文时注意：行为测试（FST 特别是"不动时间"指标）本身的有效性仍有争议，不宜把"FST 不动时间减少"直接等同于"抗抑郁效果"，应与蔗糖偏好等多个指标一起综合解读。
+          </div>
+        </section>
+
+        <!-- ===== 建议阅读顺序 ===== -->
+        <section id="reading">
+          <h2>建议阅读顺序</h2>
+          <ol>
+            <li>先读 <strong>Abstract + Introduction</strong>，定位问题：DBS 为什么难做到"精确抑制 ACC"，刺激伪迹如何成为瓶颈，作者如何用光学方法解决这个问题。</li>
+            <li>看 <strong>Figure 1</strong> + 对应 Results 段落，理解不对称双相波形的参数筛选逻辑——这是全文方法论的核心。</li>
+            <li>看 <strong>Figure 2</strong>，理解兴奋性参数的筛选逻辑，重点关注频率和脉宽必须协同调节这一结论。</li>
+            <li>看 <strong>Figure 3</strong>，逐一对照行为测试：FST 的 onset 和持续时间，SPT 的在线依赖性，OFT/EPM 对照。</li>
+            <li>看 <strong>Figure 4</strong>，理解 pPDH 全脑映射的逻辑：哪些区域是直接投射，哪些是多突触传播，DRN 的特殊意义。</li>
+            <li>最后读 <strong>Discussion</strong>，关注作者如何解释高频抑制机制（他们选择不给出确定答案）和临床转化的前景与限制。</li>
+          </ol>
+        </section>
+
+        <!-- ===== 来源链接 ===== -->
+        <section id="sources">
+          <h2>来源链接</h2>
+          <ul class="source-list">
+            <li>
+              <a href="https://doi.org/10.1016/j.neuron.2025.07.018" target="_blank" rel="noopener noreferrer">DOI: 10.1016/j.neuron.2025.07.018</a>（正式出版链接）
+            </li>
+            <li>
+              <a href="https://www.cell.com/neuron/abstract/S0896-6273(25)00525-2" target="_blank" rel="noopener noreferrer">Neuron 期刊页面（Cell Press）</a>
+            </li>
+            <li>
+              <a href="https://www.sciencedirect.com/science/article/abs/pii/S0896627325005252" target="_blank" rel="noopener noreferrer">ScienceDirect 原始页面</a>
+            </li>
+            <li>
+              <a href="https://pubmed.ncbi.nlm.nih.gov/40818451/" target="_blank" rel="noopener noreferrer">PubMed: PMID 40818451</a>
+            </li>
+            <li>
+              <a href="https://luolab.cibr.ac.cn/" target="_blank" rel="noopener noreferrer">Minmin Luo 实验室主页（CIBR 北京脑科学与类脑研究所）</a>
+            </li>
+          </ul>
+        </section>
+
+        <p class="footer-note">
+          本文件为中文精读说明文档，图像来自本论文文件夹内的 <code>figures/</code> 子目录（Fig1–Fig4）。正式 PDF 及图像资源保存于原中文路径下。
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const sections = links
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -68% 0px',
+      threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+    if (sections[0]) setActive(sections[0].id);
+  </script>
+</body>
+</html>

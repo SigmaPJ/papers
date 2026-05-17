@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Balaguer 2025 | 脊髓电刺激恢复瘫痪后自主运动控制的神经机制</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5b6776;
+      --line: #d9ded6;
+      --accent: #0f766e;
+      --accent-soft: #e0f2ef;
+      --warn: #9a5b13;
+      --code: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: #f0f3ee;
+    }
+
+    .toc h1 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .toc .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 10px;
+      margin: 3px 0;
+      border-radius: 7px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .toc a.active,
+    .toc a:hover {
+      color: #064e45;
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 42px 48px 80px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 52px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
+    }
+
+    header.paper-title {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+    }
+
+    h2, h3 {
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: 26px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-card, .note, .term, .figure-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .info-card {
+      padding: 14px 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #111827;
+    }
+
+    .note {
+      padding: 16px 18px;
+      margin: 18px 0;
+      background: #f6fbfa;
+      border-color: #b9ded8;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #e8c98f;
+      color: #5f3b08;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #075e55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 14px 16px;
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .figure-card {
+      margin: 22px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-card figcaption {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .figure-card figcaption strong {
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f1;
+      text-align: left;
+      color: #123b36;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    ul, ol { padding-left: 1.35em; }
+
+    .source-list li {
+      margin: 6px 0;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc {
+        position: sticky;
+        z-index: 5;
+        height: auto;
+        max-height: 45vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 14px 52px; }
+      article { padding: 26px 18px; }
+      header h2 { font-size: 28px; }
+      .info-grid, .terms { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="文章目录">
+      <h1>Balaguer 2025<br>脊髓刺激与自主运动恢复</h1>
+      <div class="meta">Neuron | 脊髓损伤 | 电刺激机制</div>
+      <a href="#paper">论文信息</a>
+      <a href="#takeaway">一句话定位</a>
+      <a href="#why">为什么值得读</a>
+      <a href="#terms">术语先说明</a>
+      <a href="#figures">图文导读</a>
+      <a href="#mechanisms">机制横向对照</a>
+      <a href="#connection">和你的研究怎么接上</a>
+      <a href="#limits">证据链和局限</a>
+      <a href="#reading">建议阅读顺序</a>
+      <a href="#sources">来源链接</a>
+    </nav>
+
+    <main>
+      <article>
+        <header class="paper-title">
+          <p class="eyebrow">论文精读说明文档</p>
+          <h2>Neural mechanisms underlying the recovery of voluntary control of motoneurons after paralysis with spinal cord stimulation</h2>
+          <p class="subtitle">硬膜外脊髓电刺激如何让瘫痪患者恢复自主运动控制——从生物物理机制到临床验证的完整闭环。</p>
+          <div class="tags">
+            <span class="tag">脊髓电刺激</span>
+            <span class="tag">运动神经元锁频</span>
+            <span class="tag">自主运动恢复</span>
+            <span class="tag">生物物理模型</span>
+            <span class="tag">电刺激参数优化</span>
+            <span class="tag">差分测量相关</span>
+          </div>
+        </header>
+
+        <!-- ─── 论文信息 ─── -->
+        <section id="paper">
+          <h2>论文信息</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <strong>标题</strong>
+              Neural mechanisms underlying the recovery of voluntary control of motoneurons after paralysis with spinal cord stimulation
+            </div>
+            <div class="info-card">
+              <strong>作者（通讯）</strong>
+              Josep-Maria Balaguer, Genis Prat-Ortega, Julia Ostrowski et al.；通讯：Marco Capogrosso
+            </div>
+            <div class="info-card">
+              <strong>单位</strong>
+              Rehab Neural Engineering Labs，University of Pittsburgh；Carnegie Mellon University
+            </div>
+            <div class="info-card">
+              <strong>期刊</strong>
+              Neuron 113, 3846–3862，2025 年 11 月 19 日
+            </div>
+            <div class="info-card">
+              <strong>DOI</strong>
+              <a href="https://doi.org/10.1016/j.neuron.2025.08.023" target="_blank" rel="noopener noreferrer">10.1016/j.neuron.2025.08.023</a>
+            </div>
+            <div class="info-card">
+              <strong>本地 PDF</strong>
+              <code>Neuron - 2025 - Balaguer - Neural mechanisms ... spinal cord stimulation.pdf</code>
+            </div>
+          </div>
+
+          <div class="note">
+            这是一篇原始研究论文，采用计算-实验闭环设计：先构建生物物理模型产生定量预测，再在麻醉猕猴和清醒瘫痪患者中逐一验证。它的核心贡献是：用严格的实验数据否定了 SCS 领域通行二十年的"持续兴奋性增强"假说，并提出了可定量的 entrainment（锁频）+ pulse-skipping（跳脉冲）替代框架。
+          </div>
+        </section>
+
+        <!-- ─── 一句话定位 ─── -->
+        <section id="takeaway">
+          <h2>一句话定位</h2>
+          <p>
+            这篇文章的核心论点可以用一个类比来把握：脊髓电刺激（SCS，spinal cord stimulation）不是"调亮基础照明"的开关，而是一台精确的<strong>节拍器</strong>——每个脉冲提供一次短暂的"过阈机会窗口"，残余脑信号（residual supraspinal input）决定运动神经元（motoneuron）是否抓住这个窗口发放；大脑通过控制"跳过多少个窗口"来调节发放频率，从而实现自主运动（voluntary movement）的恢复。损伤越重，脑信号越弱，能利用的窗口越少，自主运动的参数空间也就越窄。
+          </p>
+        </section>
+
+        <!-- ─── 为什么值得读 ─── -->
+        <section id="why">
+          <h2>为什么值得读</h2>
+          <p>
+            过去二十年里，SCS 已从慢性疼痛管理走向脊髓损伤运动恢复的临床前沿。一系列高影响力临床试验（Capogrosso 2016、Angeli 2018、Gill 2018 等）证明了 SCS 能让完全瘫痪患者恢复对肢体的自主控制。然而，<strong>为什么 SCS 促进的是"自主"运动而非单纯的被动激活</strong>，一直没有令人信服的机制解释，临床参数调整也因此长期依赖经验盲调。
+          </p>
+          <p>
+            这篇文章之所以值得精读，理由有三层：
+          </p>
+          <ul>
+            <li>
+              <strong>推翻并取代主流假说。</strong>原有假说认为 SCS 通过"持续去极化"使运动神经元膜电位持续接近阈值（即"兴奋性增强"）。本文指出 SCS 是脉冲式的，运动神经元膜时间常数约 2 ms，脉冲之间膜电位早已回到静息，"持续去极化"在物理上站不住脚。它提出的 entrainment 框架在猴子和人类中均得到实验验证。
+            </li>
+            <li>
+              <strong>给临床参数优化提供理论地图。</strong>文章将整个 SCS 频率×幅度参数空间分成三个区间：完全无效（subthreshold）、仅依赖脑信号才有效（voluntary movement regime）、SCS 自行驱动不受大脑控制（involuntary/suprathreshold regime）。这直接告诉临床医生最优参数在哪个窗口，以及为什么窗口大小与损伤程度相关。
+            </li>
+            <li>
+              <strong>机制可能推广到所有脉冲式神经刺激。</strong>Entrainment + pulse-skipping 框架同样适用于深部脑刺激（DBS，deep brain stimulation）、迷走神经刺激（VNS，vagus nerve stimulation）等技术，为整个领域提供统一的生物物理语言。
+            </li>
+          </ul>
+          <p>
+            对以电刺激神经调控机制为核心方向的研究者而言，这篇文章提供了一个从"细胞膜电位整合"到"系统级运动控制"的完整链路，每一层都有可操作的量化指标和预测。
+          </p>
+        </section>
+
+        <!-- ─── 术语先说明 ─── -->
+        <section id="terms">
+          <h2>术语先说明</h2>
+          <div class="terms">
+            <div class="term">
+              <strong>SCS / EES（脊髓硬膜外电刺激，spinal cord stimulation / epidural electrical stimulation）</strong>
+              通过植入硬膜外腔的电极在脊髓背侧施加电脉冲的技术。直接激活的靶点是背根 Ia 类感觉传入纤维（proprioceptive afferents），而非运动神经元本身。Ia 纤维再通过单突触通路将兴奋性突触后电位（EPSP）传至运动神经元。
+            </div>
+            <div class="term">
+              <strong>运动神经元（motoneuron）</strong>
+              位于脊髓腹角的神经元，发出轴突直接支配肌纤维。瘫痪患者的运动神经元本身通常存活，但失去了来自大脑的下行驱动。本文的核心问题就是：SCS 如何帮助残余脑信号重新驱动这些运动神经元。
+            </div>
+            <div class="term">
+              <strong>自主控制 vs 反射（voluntary control vs. reflex）</strong>
+              自主控制指脑信号主动决定"是否激活"以及"激活多强"；反射指绕过大脑由感觉-运动弧直接触发。SCS 可以触发脊髓反射（被动、不受意识控制），也可以放大脑的自主指令——两者在临床上差别巨大，前者产生痉挛，后者才是治疗目标。
+            </div>
+            <div class="term">
+              <strong>Entrainment（锁频）</strong>
+              运动神经元的动作电位发放时间被锁定到 SCS 脉冲的时间点上，只能在每个脉冲诱发的 EPSP 窗口内发放。本文的核心预测是：锁频后的脉冲间隔（ISI，inter-spike interval）分布应在 SCS 脉冲间隔的整数倍处出现离散峰。
+            </div>
+            <div class="term">
+              <strong>Pulse-skipping（跳脉冲）</strong>
+              在自主运动状态下，运动神经元并非响应每个 SCS 脉冲——大脑通过调控膜电位基线来控制"跳过"多少个脉冲，从而实现对发放频率的线性调制。跳脉冲越少，发放越频繁，肌肉产生的力也越大。
+            </div>
+            <div class="term">
+              <strong>EMG / 表面 EMG 分解（electromyography / surface EMG decomposition）</strong>
+              肌电图记录肌肉电活动。表面 EMG 分解技术可以从皮肤表面的多导联 EMG 中提取单个运动单元（motor unit）的发放序列，无需植入针极电极。本文用它在人类患者中直接验证单运动单元的发放模式。
+            </div>
+            <div class="term">
+              <strong>Voluntary movement regime（自主运动参数区间）</strong>
+              SCS 频率×幅度参数空间中的一个子区域：在此区间内，SCS 单独施加不产生任何运动，但当叠加脑信号后，运动神经元产生受大脑控制的发放。这是临床上最有价值的参数窗口，过窄则无效，过宽则进入 involuntary 区间。
+            </div>
+            <div class="term">
+              <strong>生物物理模型（biophysical model）</strong>
+              本文使用 NEURON 仿真器构建的 Hodgkin-Huxley 方程运动神经元群，包含 100 个运动神经元、60 条 Ia 传入纤维和可变数量的皮层脊髓下行纤维。损伤通过减少 Ca²⁺-activated K⁺ 通道电导和减少突触连接数来建模。模型的定量预测随后在动物和人类实验中逐一检验。
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── 图文导读 ─── -->
+        <section id="figures">
+          <h2>图文导读</h2>
+
+          <figure class="figure-card">
+            <img src="figures/Fig1.png" alt="Figure 1: Biophysical model assumptions">
+            <figcaption>
+              <strong>Fig. 1 生物物理模型的假设与架构。</strong>
+              这张图是全文的起点。模型假设 SCS 激活 Ia 传入纤维，产生短暂的单突触 EPSP；与此同时，残余皮层脊髓纤维（corticospinal fibers）也对同一批运动神经元施加兴奋性突触电位。两个输入在运动神经元膜上叠加。这个"双源叠加"的设定是 entrainment 机制能成立的前提：单靠 SCS 的 EPSP 不足以跨阈，单靠残余脑信号也可能不足，但两者叠加则可以。理解这张图等于理解为什么"参数选对了才有效"：必须让两个 EPSP 的时间窗口重叠。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig2.png" alt="Figure 2: SCS entrains motoneuron action potentials">
+            <figcaption>
+              <strong>Fig. 2 SCS 锁频运动神经元发放的模型结果。</strong>
+              这是本文最核心的计算结果图。低频（10 Hz）SCS 单独施加时产生亚阈值 EPSP，运动神经元不发放；加入残余脑信号后，每个 EPSP 都被推过阈值，发放完全锁定到 SCS 脉冲节拍（entrainment）。高频（40 Hz）时，脑信号仍然起作用，但并非每个脉冲都触发发放——这就是 pulse-skipping。ISI 分布图（面板 F–I）清晰显示离散峰出现在 SCS 脉冲间隔的整数倍处，这是 entrainment 的特征性指纹，后续实验正是用这个特征来验证机制。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig3.png" alt="Figure 3: SCS parameter regimes">
+            <figcaption>
+              <strong>Fig. 3 SCS 参数空间的三区间划分——临床调参的理论地图。</strong>
+              这是本文对临床最有直接价值的一张图。横轴是 SCS 幅度（纤维激活比例），纵轴是 SCS 频率，颜色代表运动神经元发放频率。左图（SCS alone）展示了 subthreshold 区和 suprathreshold 区的边界；右图（SCS + 脑信号）在两者之间出现了仅当加入脑信号才有发放的 voluntary movement regime（虚线内区域）。这告诉临床医生：参数调得太小没用，调得太大反而让 SCS 自行驱动运动（involuntary，患者无法控制）；最优参数在中间那条窄带里，而这条带的宽窄由损伤严重度决定。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig4.png" alt="Figure 4: Residual supraspinal inputs modulate motoneuron firing rate">
+            <figcaption>
+              <strong>Fig. 4 大脑通过 pulse-skipping 调控发放频率——entrainment 框架下的"频率旋钮"。</strong>
+              这张图回答了一个关键问题：既然发放时间被 SCS 节拍锁定了，大脑还能调控什么？答案是：大脑能调控"跳过多少个节拍"。当脑信号发放频率从 10 Hz 增加到 60 Hz 时，运动神经元膜电位基线升高，跳脉冲减少，发放频率线性增加（voluntary regime 曲线）。Involuntary regime 下的曲线几乎水平——说明一旦 SCS 已经自行驱动运动，脑信号的调节能力极大受限。面板 N 的力跟踪热力图是最直观的临床含义展示：只有在 voluntary regime 参数下，肌肉力输出才能跟随目标波形。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig5.png" alt="Figure 5: Experimental validation in monkeys">
+            <figcaption>
+              <strong>Fig. 5 麻醉猕猴实验：直接验证 EPSP 时间叠加和锁频预测。</strong>
+              在两只麻醉猕猴中，颈椎硬膜外 SCS 与内囊深部电刺激（ICS，模拟皮层脊髓输入）配对施加，并记录手部肌肉 EMG 和脊髓腹侧单元活动。关键结果有两点：(1) 在 ICS 脉冲前 5 ms 加入 SCS 脉冲时，EMG 幅度显著增大（两只猴 p<0.001），且增幅在更长延迟时衰减——与模型预测的 2 ms 膜时间常数一致，证明两路 EPSP 在膜上线性叠加。(2) 100 Hz SCS 下记录的脊髓腹侧单元 ISI 分布在 SCS 脉冲间隔整数倍处出现离散峰，直接验证 entrainment 预测。局限是猴子处于麻醉状态，ICS 不等于真正的自主皮层信号。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig6.png" alt="Figure 6: Experimental validation in humans with paralysis">
+            <figcaption>
+              <strong>Fig. 6 人类瘫痪患者验证：从完全脊髓损伤到卒中，entrainment 在临床现实中成立。</strong>
+              这是本文最具说服力的一层证据。在 1 名 ASIA A 完全运动感觉损伤患者（STIM01）中，无 SCS 时完全没有力输出，SCS 在 voluntary regime 参数下恢复了膝关节伸展力，且单运动单元的 ISI 分布在 40 Hz 和 60 Hz SCS 下分别在对应整数倍处出现峰——直接验证了 entrainment 和 pulse-skipping。在卒中患者（SCS03/SCS04）中，voluntary regime 和 involuntary regime 下的发放行为与模型预测一致。表面 EMG 分解方法使得在无需植入针极的情况下获取单运动单元发放序列成为可能，这一方法本身也有重要的方法学示范价值。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig7.png" alt="Figure 7: Lesion severity reduces voluntary movement regime">
+            <figcaption>
+              <strong>Fig. 7 损伤严重度对自主运动参数空间的非线性压缩——SCS 的内在物理边界。</strong>
+              这张图揭示了 SCS 为何对严重损伤患者疗效有限。随损伤加重（残余皮层脊髓纤维从 80% 减少到 5%），voluntary regime 在参数空间中的面积非线性收缩：85% 损伤程度时仍保有约 75% 的参数空间可用，而 95% 损伤程度时骤降至约 35%。机制上很清晰：脑信号太弱时，为了让运动神经元发放，SCS 幅度必须调高，但一旦调高就进入 involuntary 区间。这不是工程不够好的问题，而是 entrainment 框架下的内在约束——为临床试验的患者筛选和疗效预期提供了生物物理依据。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig8.png" alt="Figure 8: Supraspinal inhibitory drive enlarges the voluntary regime">
+            <figcaption>
+              <strong>Fig. 8 抑制性脑信号扩展自主运动参数空间——正常运动控制的对称性在 SCS 语境下的延伸。</strong>
+              正常运动中，大脑同时发出兴奋性和抑制性指令（如主动肌-拮抗肌协调）。这张图展示：在模型中引入抑制性皮层脊髓纤维后，即便 SCS 参数已进入 suprathreshold 区间，脑的抑制信号也能主动压低运动神经元膜电位、停止不想要的发放。这使 voluntary regime 显著扩大。人类验证（SCS07、SCS08）通过自主伸肘时拮抗肌反射被抑制而休息时不被抑制，间接支持了抑制性通路在 SCS 期间的作用。临床启示：最优参数可能不在严格的 subthreshold，而在 slightly suprathreshold，前提是患者能同时利用兴奋和抑制两个方向的运动指令。
+            </figcaption>
+          </figure>
+        </section>
+
+        <!-- ─── 机制横向对照 ─── -->
+        <section id="mechanisms">
+          <h2>机制横向对照</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>机制要素</th>
+                <th>传统假说（持续兴奋性增强）</th>
+                <th>本文提出的框架（Entrainment + Pulse-skipping）</th>
+                <th>实验可区分点</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SCS 对运动神经元的直接效果</td>
+                <td>持续抬升膜电位，使其长期接近阈值</td>
+                <td>每个脉冲产生短暂 EPSP（约 2 ms 时间窗口），脉冲间膜电位回到静息</td>
+                <td>膜时间常数约 2 ms，脉冲间隔远大于此，持续去极化物理上不成立</td>
+              </tr>
+              <tr>
+                <td>脑信号的作用方式</td>
+                <td>在"已抬升"的兴奋性基础上附加额外驱动</td>
+                <td>抬升膜电位基线，使阈下 SCS EPSP 恰好越过阈值——触发与否取决于两者叠加时机</td>
+                <td>配对脉冲实验（ICS 在 SCS 前 5 ms）：EMG 显著增大，且随延迟衰减</td>
+              </tr>
+              <tr>
+                <td>发放频率的调控机制</td>
+                <td>脑信号强度线性叠加到已有发放频率上</td>
+                <td>脑信号控制"跳过多少个 SCS 脉冲"（pulse-skipping），发放频率 = SCS 频率 / 跳脉冲系数</td>
+                <td>ISI 分布在 SCS 脉冲间隔整数倍处出现离散峰（而非连续分布）</td>
+              </tr>
+              <tr>
+                <td>参数选择依据</td>
+                <td>越大越好，因为兴奋性增强越多越有利</td>
+                <td>存在最优参数窗口（voluntary regime）；过大则进入 involuntary 区，脑信号失去调控能力</td>
+                <td>参数空间热力图实验；力跟踪任务误差在 involuntary regime 显著增大</td>
+              </tr>
+              <tr>
+                <td>损伤严重度的影响</td>
+                <td>损伤越重只是"兴奋性增强"需求越大，可通过提高 SCS 幅度补偿</td>
+                <td>损伤越重，voluntary regime 非线性收缩；提高幅度会直接进入 involuntary 区</td>
+                <td>Figure 7 模型预测 + 患者间比较（ASIA A vs. 卒中患者）</td>
+              </tr>
+              <tr>
+                <td>抑制性信号的角色</td>
+                <td>（假说不涉及）</td>
+                <td>抑制性皮层脊髓纤维可在 suprathreshold SCS 下主动压低发放，扩大 voluntary regime</td>
+                <td>拮抗肌反射在自主运动时被抑制，休息时不被抑制（SCS07/SCS08）</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ─── 和你的研究怎么接上 ─── -->
+        <section id="connection">
+          <h2>和你的研究怎么接上</h2>
+
+          <h3>1. 临床电刺激如何确定参数——voluntary regime 作为系统性搜索目标</h3>
+          <p>
+            差分测量论文的核心价值之一在于提高电刺激期间神经信号的记录质量，而记录质量直接服务于参数优化。本文最重要的临床贡献就是把"参数调优"这件本来靠经验反复试的事，落实到了一张由生物物理机制推导出来的地图上：voluntary regime 在频率×幅度空间里的位置、宽度、与损伤严重度的关系，都有定量预测。
+          </p>
+          <p>
+            对你来说这意味着：如果研究中需要选取 SCS 参数作为实验变量或对照组条件，可以借用这个框架来系统覆盖 subthreshold / voluntary / involuntary 三个区间，而非随机选参数。这也意味着，只要能准确测量到单运动单元发放模式（例如通过高质量 EMG 记录），就能实时判断当前参数处于哪个 regime——差分测量对伪迹的压制能力，直接影响这种在线判断的可行性。
+          </p>
+
+          <h3>2. 群体神经元响应与单细胞响应的差距——ISI 分析作为中间层工具</h3>
+          <p>
+            传统的 EMG 看的是整块肌肉的群体活动，无法区分 voluntary 和 involuntary 状态下发放机制的差异。本文的方法论贡献之一正是把表面 EMG 分解到单运动单元层面，用 ISI 分布这个指标区分"锁频主导"和"自主调制主导"两种发放模式。
+          </p>
+          <p>
+            这对 patch-clamp 背景来说很直觉：单细胞层面的信息（膜电位轨迹、发放时间）和群体层面的信息（力输出、EMG 包络）之间存在巨大差距，中间层（单运动单元发放序列）是把二者关联起来的桥梁。ISI 分布分析是这个桥梁中可无创获取的一环，值得在研究电刺激参数效果时纳入分析工具箱。
+          </p>
+
+          <h3>3. 脊髓刺激与差分测量在伪迹处理上的共性——时间窗口与共模抑制</h3>
+          <p>
+            本文的 entrainment 机制揭示了一个对电生理记录者来说重要的现象：SCS 期间运动神经元的发放时间被严格锁定到刺激脉冲时间点（约 ±2 ms 内）。这意味着在 SCS 同步记录神经信号时，<strong>刺激伪迹和真实神经响应在时间轴上高度重叠</strong>——不能简单地用"刺激后若干毫秒开始看"来回避伪迹。
+          </p>
+          <p>
+            差分测量的共模抑制（CMRR，common-mode rejection ratio）在这个场景下尤为关键：SCS 脉冲在两个差分通道上产生的共模伪迹如果得不到充分压制，就会淹没紧随其后的 EPSP 诱发响应。本文 Figure 5 的 paired-pulse 实验（SCS 与 ICS 间隔 5 ms）所能提取的信号，正是测量链路 CMRR 和时间分辨率的综合考验。从这个角度看，改善差分测量性能与理解 entrainment 机制是相互服务的——前者是工程工具，后者是使用这个工具的场景。
+          </p>
+        </section>
+
+        <!-- ─── 证据链和局限 ─── -->
+        <section id="limits">
+          <h2>证据链和局限</h2>
+          <ol>
+            <li>
+              <strong>猴子实验在麻醉下进行，ICS 不等于真正的自主皮层信号。</strong>深部电刺激内囊（ICS）能激活皮层脊髓纤维，但无法完全模拟清醒状态下的皮层自主活动（如动态编码的运动意图、反馈修正）。麻醉下的验证只能证明 EPSP 叠加和 entrainment 的物理可行性，无法证明"自主性"来源于脑信号。
+            </li>
+            <li>
+              <strong>模型仅考虑 Ia 单突触通路，忽略多突触通路。</strong>脊髓运动回路中还有 Ib 纤维、II 类纤维、中间神经元（interneurons）、中枢模式发生器（CPG）等多突触通路，这些通路可能在低频 SCS 下提供更持久的兴奋性输入，部分支持"持续兴奋性增强"机制。作者在 limitation 中承认了这一简化。
+            </li>
+            <li>
+              <strong>人类样本量极小。</strong>主要验证实验只涉及 1 名脊髓损伤患者和 2 名卒中患者，用于抑制实验的又是另外 2 名患者。个体差异可能很大，统计检验力有限。
+            </li>
+            <li>
+              <strong>未涉及长期可塑性。</strong>模型只关注急性（单次刺激）效应，无法解释 SCS 数周训练后的功能持续改善。长期效应可能涉及 Hebbian 突触可塑性和环路重组，与本文机制正交。
+            </li>
+            <li>
+              <strong>抑制性通路的人类验证较间接。</strong>Figure 8G 用"自主伸肘时拮抗肌反射被抑制"来支持抑制性皮层脊髓投射的作用，但这个设计不能排除脊髓内中间神经元介导的拮抗抑制（reciprocal inhibition），不能直接证明皮层脊髓抑制性纤维在起作用。
+            </li>
+            <li>
+              <strong>力输出模型做了简化。</strong>从运动神经元发放到力输出采用了 Fuglevand 模型，未纳入肌肉疲劳、共收缩、肌腱弹性等因素，实际临床场景中力跟踪误差可能比模型预测更大。
+            </li>
+          </ol>
+
+          <div class="note warning">
+            综合以上，本文最硬的证据是：猴子的 paired-pulse EMG 实验（EPSP 叠加） + 人类患者的单运动单元 ISI 分布（entrainment 指纹）。其他部分的论证逻辑清晰，但依赖模型假设。读者引用时应区分"已在人类中验证"和"模型预测尚待验证"两类结论。
+          </div>
+        </section>
+
+        <!-- ─── 建议阅读顺序 ─── -->
+        <section id="reading">
+          <h2>建议阅读顺序</h2>
+          <ol>
+            <li>先读 Introduction 最后两段：作者在此明确区分了旧假说（持续兴奋性增强）与本文的新框架，这是理解全文论证逻辑的入口。</li>
+            <li>看 Figure 3（参数空间三区间图）：即使不读正文，这张图已经传递了本文最重要的临床含义。先对这张图建立直觉，再回头读 Figure 1–2 的模型细节。</li>
+            <li>读 Figure 2（模型核心结果）：重点看面板 F–I 的 ISI 分布——这是 entrainment 的特征指纹，后续所有实验层都在验证这个特征。</li>
+            <li>读 Figure 5（猴子实验）：关注 paired-pulse 实验的时间窗口逻辑，这是唯一能直接测量 EPSP 叠加效应的部分。</li>
+            <li>读 Figure 6（人类实验）：重点看 STIM01 的单运动单元 ISI 分布，这是全文最直接的临床证据。</li>
+            <li>最后读 Figure 7–8（损伤严重度 + 抑制性信号）：这两层拓展了框架，适合在理解核心机制后作为延伸阅读。</li>
+            <li>通读 Discussion 的前三段：作者在此对每一层证据做了审慎的自我评估，比 Results 更适合快速判断结论的可靠边界。</li>
+          </ol>
+        </section>
+
+        <!-- ─── 来源链接 ─── -->
+        <section id="sources">
+          <h2>来源链接</h2>
+          <ul class="source-list">
+            <li><a href="https://doi.org/10.1016/j.neuron.2025.08.023" target="_blank" rel="noopener noreferrer">DOI 页面（10.1016/j.neuron.2025.08.023）</a></li>
+            <li><a href="https://www.cell.com/neuron/fulltext/S0896-6273(25)00658-0" target="_blank" rel="noopener noreferrer">Neuron 期刊全文页面（Cell Press）</a></li>
+            <li><a href="https://www.sciencedirect.com/science/article/pii/S0896627325006580" target="_blank" rel="noopener noreferrer">ScienceDirect 全文页面</a></li>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/40975061/" target="_blank" rel="noopener noreferrer">PubMed 页面（PMID 40975061）</a></li>
+            <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12964258/" target="_blank" rel="noopener noreferrer">PubMed Central 全文页面</a></li>
+            <li><a href="https://www.rnel.pitt.edu/people/marco-capogrosso-phd" target="_blank" rel="noopener noreferrer">通讯作者 Marco Capogrosso 主页（Pittsburgh RNEL）</a></li>
+            <li><a href="https://www.rnel.pitt.edu/" target="_blank" rel="noopener noreferrer">Rehab Neural Engineering Laboratory，University of Pittsburgh（实验室主页）</a></li>
+          </ul>
+        </section>
+
+        <p class="footer-note">
+          本文件为中文精读说明文档，图像来自本论文文件夹内的 <code>figures/</code> 子目录（Fig1.png–Fig8.png）。正式资源路径：<code>Neuron - 2025 - Balaguer - Neural mechanisms .../说明文档 - Balaguer 2025.html</code>。
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const sections = links
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -68% 0px',
+      threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+    if (sections[0]) setActive(sections[0].id);
+  </script>
+</body>
+</html>

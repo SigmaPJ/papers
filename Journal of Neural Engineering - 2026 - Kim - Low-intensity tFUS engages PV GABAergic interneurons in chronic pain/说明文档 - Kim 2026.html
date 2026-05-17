@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Low-intensity tFUS engages PV GABAergic interneurons in chronic pain | Kim 2026 论文说明</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5b6776;
+      --line: #d9ded6;
+      --accent: #0f766e;
+      --accent-soft: #e0f2ef;
+      --warn: #9a5b13;
+      --code: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: #f0f3ee;
+    }
+
+    .toc h1 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .toc .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 10px;
+      margin: 3px 0;
+      border-radius: 7px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .toc a.active,
+    .toc a:hover {
+      color: #064e45;
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 42px 48px 80px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 52px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
+    }
+
+    header.paper-title {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+    }
+
+    h2, h3 {
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: 26px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-card, .note, .term, .figure-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .info-card {
+      padding: 14px 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #111827;
+    }
+
+    .note {
+      padding: 16px 18px;
+      margin: 18px 0;
+      background: #f6fbfa;
+      border-color: #b9ded8;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #e8c98f;
+      color: #5f3b08;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #075e55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 14px 16px;
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .figure-card {
+      margin: 22px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-card figcaption {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .figure-card figcaption strong {
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f1;
+      text-align: left;
+      color: #123b36;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    ul, ol { padding-left: 1.35em; }
+
+    .source-list li {
+      margin: 6px 0;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc {
+        position: sticky;
+        z-index: 5;
+        height: auto;
+        max-height: 45vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 14px 52px; }
+      article { padding: 26px 18px; }
+      header h2 { font-size: 28px; }
+      .info-grid, .terms { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="文章目录">
+      <h1>Kim 2026<br>tFUS &amp; PV 中间神经元<br>慢性痛</h1>
+      <div class="meta">Journal of Neural Engineering | tFUS 非侵入调控</div>
+      <a href="#paper">论文信息</a>
+      <a href="#takeaway">一句话定位</a>
+      <a href="#why">为什么值得读</a>
+      <a href="#terms">术语先说明</a>
+      <a href="#figures">图文导读</a>
+      <a href="#mechanisms">机制横向对照</a>
+      <a href="#connection">和你的研究怎么接上</a>
+      <a href="#limits">证据链和局限</a>
+      <a href="#reading">建议阅读顺序</a>
+      <a href="#sources">来源链接</a>
+    </nav>
+
+    <main>
+      <article>
+        <header class="paper-title">
+          <p class="eyebrow">论文精读说明文档</p>
+          <h2>低强度经颅聚焦超声通过 PV 阳性 GABA 能中间神经元调控慢性痛</h2>
+          <p class="subtitle">从头皮 EEG 到免疫组化的多层级机制验证：40 Hz PRF 的 tFUS 可以在慢性痛小鼠模型中优先招募 PV 快放电抑制性中间神经元，恢复皮层兴奋/抑制平衡。</p>
+          <div class="tags">
+            <span class="tag">tFUS</span>
+            <span class="tag">PV 中间神经元</span>
+            <span class="tag">慢性痛</span>
+            <span class="tag">E/I 平衡</span>
+            <span class="tag">非侵入神经调控</span>
+            <span class="tag">EEG 非周期指数</span>
+          </div>
+        </header>
+
+        <!-- ===== 论文信息 ===== -->
+        <section id="paper">
+          <h2>论文信息</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <strong>标题</strong>
+              Low-intensity transcranial focused ultrasound engages parvalbumin-positive GABAergic interneurons in a humanized mouse model of chronic pain: From electrophysiology to cellular investigation
+            </div>
+            <div class="info-card">
+              <strong>作者</strong>
+              Min Gon Kim†, Chih-Yu Yeh†, Huan Gao, Keunhyung Lee, Kalpna Gupta, Bin He*（†共同第一作者，*通讯作者）
+            </div>
+            <div class="info-card">
+              <strong>单位</strong>
+              Carnegie Mellon University（生物医学工程 + Neuroscience Institute）；UC Irvine；U Minnesota
+            </div>
+            <div class="info-card">
+              <strong>期刊</strong>
+              Journal of Neural Engineering，2026-03-19 online
+            </div>
+            <div class="info-card">
+              <strong>DOI</strong>
+              <a href="https://doi.org/10.1088/1741-2552/ae54cd" target="_blank" rel="noopener noreferrer">10.1088/1741-2552/ae54cd</a>
+            </div>
+            <div class="info-card">
+              <strong>本地 PDF</strong>
+              <code>Journal of Neural Engineering - 2026 - Kim - Low-intensity tFUS engages PV GABAergic interneurons in chronic pain.pdf</code>
+            </div>
+          </div>
+
+          <div class="note">
+            本文在 2025-10-08 以 bioRxiv 预印本形式上线（DOI: <a href="https://doi.org/10.1101/2025.10.08.680737" target="_blank" rel="noopener noreferrer">10.1101/2025.10.08.680737</a>），2026 年 3 月正式发表于 Journal of Neural Engineering。本地 PDF 为预印本版本，内容与正式版基本一致。
+          </div>
+        </section>
+
+        <!-- ===== 一句话定位 ===== -->
+        <section id="takeaway">
+          <h2>一句话定位</h2>
+          <p>
+            这篇文章是目前少数将 tFUS（经颅聚焦超声）的神经调控机制从<strong>系统层（头皮 EEG）</strong>一路追溯到<strong>细胞分子层（免疫组化）</strong>并与<strong>光遗传学对照</strong>交叉验证的工作：它用多层证据支持"40 Hz 脉冲重复频率的低强度超声在慢性痛模型中优先激活 PV 阳性快放电抑制性中间神经元，从而恢复兴奋/抑制失衡"这一机制假说。
+          </p>
+        </section>
+
+        <!-- ===== 为什么值得读 ===== -->
+        <section id="why">
+          <h2>为什么值得读</h2>
+          <p>
+            慢性痛的药物治疗（阿片类药物等）有成瘾和副作用问题，非药物、非侵入式的调控手段是刚需。tFUS 相比经颅磁刺激（TMS）或经颅直流电刺激（tDCS）具有更好的空间分辨率（可聚焦到毫米级深部脑区）和更强的颅骨穿透能力，但其作用机制在这篇文章发表前主要停留在"行为改善了"，没有从电生理到细胞层面系统串联起来。
+          </p>
+          <p>
+            这篇文章的两个核心贡献值得关注：
+          </p>
+          <ul>
+            <li><strong>非侵入式神经调控的参数-效应映射</strong>：明确了 PRF（脉冲重复频率）40 Hz 偏向抑制（vs 3 kHz 偏向兴奋），这对临床参数优化有直接意义——如果你不知道参数选择的效应方向，"调控"可能适得其反。</li>
+            <li><strong>细胞类型特异性干预的验证路径</strong>：光遗传学和免疫组化如何配合使用，间接推断特定细胞类型（PV 中间神经元）的参与——这套方法论本身就是一个值得借鉴的设计框架。</li>
+          </ul>
+          <p>
+            对你而言，这篇文章与你的电刺激研究形成有趣的对称：你在精确测量细胞层面的膜电位响应，这篇文章恰好在系统层做出了观察但在细胞层留下了缺口。从原理上理解一种全新的物理刺激模态（声波 vs 电流），也有助于拓宽你对"神经调控机制研究"的整体认知框架。
+          </p>
+        </section>
+
+        <!-- ===== 术语先说明 ===== -->
+        <section id="terms">
+          <h2>术语先说明</h2>
+          <div class="note">
+            以下 8 个概念对理解本文至关重要，且部分术语与 patch-clamp 和电刺激研究的距离较远，请先通读再看图文导读。
+          </div>
+          <div class="terms">
+
+            <div class="term">
+              <strong>tFUS（经颅聚焦超声，transcranial focused ultrasound）</strong>
+              一种通过颅骨将超声波束聚焦到脑内特定区域的非侵入式神经调控技术。它的物理基础是机械波（声波），不是电流。超声在脑组织中传播时产生辐射力（acoustic radiation force），可以引起微小的组织位移，并激活或调制神经元上的机械敏感离子通道（如 Piezo1/2、TREK 等）。与你熟悉的胞外电刺激相比：电刺激直接在导电介质中建立电场，改变细胞外电位 V<sub>e</sub>，从而影响跨膜电位；tFUS 则通过机械力间接改变通道的开关状态，最终影响膜电位。从等效电路的视角看，电刺激是在电路的"电压源"端操作，tFUS 更像是在改变电路中的"电导"（通道开关）。tFUS 的关键优势是空间聚焦性：焦域可做到毫米量级，能无创精准靶向深部脑区，而 TMS 和 tDCS 的空间分辨率远差于此。关键参数包括：TBD（单次超声脉冲持续时间）、PRF（脉冲重复频率）、UD（单次超声总时长）和 ISoI（两次超声之间的间隔）。
+            </div>
+
+            <div class="term">
+              <strong>PV 阳性中间神经元（PV interneuron，parvalbumin-positive interneuron）</strong>
+              大脑皮层中一类表达小清蛋白（parvalbumin，PV）的 GABA 能抑制性中间神经元。它们是皮层抑制性网络的核心执行者，有两个最重要的特征：第一，它们是"快放电"（fast-spiking）细胞，能在高频率下持续放电（有时超过 100 Hz），这使得它们能够快速、有力地抑制周围的兴奋性锥体神经元；第二，它们主要在靶细胞的胞体和近端树突（轴突起始段）建立突触，也就是说它们的抑制"卡在"动作电位发出的最关键位置，抑制效率极高。慢性痛状态下，PV 中间神经元的活性或数量往往下降，导致皮层兴奋/抑制失衡（E/I 失衡），表现为兴奋过度、对伤害性刺激的感知放大。本文的核心假说正是：tFUS 能优先招募 PV 中间神经元，从而纠正这种失衡。
+            </div>
+
+            <div class="term">
+              <strong>慢性痛动物模型（HbSS-BERK 人源化小鼠）</strong>
+              本文使用的动物模型是 HbSS-BERK 小鼠——一种表达 99% 以上人类镰状血红蛋白的转基因小鼠。镰状细胞病（sickle cell disease，SCD）患者因红细胞变形导致微血管阻塞和反复组织缺血，会发展出以慢性痛和痛觉过敏为特征的疼痛综合征。这个模型的优势在于：它不是简单的炎症注射模型，而是基因层面的人源化，更接近临床实际。本文使用的是 13—17 月龄的老年小鼠，痛觉过敏随年龄加重，更能模拟慢性病程。作为对照，野生型（wild-type）小鼠（HbAA-BERK）表达正常人类血红蛋白，无慢性痛表型。
+            </div>
+
+            <div class="term">
+              <strong>GABA 能抑制（GABAergic inhibition）</strong>
+              GABA（gamma-aminobutyric acid，γ-氨基丁酸）是脑内最主要的抑制性神经递质。表达 GABA 的神经元通过向靶细胞释放 GABA，激活 GABA<sub>A</sub>（氯离子通道）或 GABA<sub>B</sub>（钾离子通道）受体，产生抑制性突触后电位（IPSP），使靶细胞膜电位超极化或稳定在静息水平，从而压低靶细胞的放电概率。GAD67（谷氨酸脱羧酶 67，glutamate decarboxylase 67）是 GABA 合成的关键限速酶。GAD67 表达量上升意味着细胞的 GABA 合成能力增强，抑制性输出增大。本文用 GAD67 的免疫组化信号作为"GABA 能抑制容量"的细胞分子指标。
+            </div>
+
+            <div class="term">
+              <strong>光遗传学 / 化学遗传学（optogenetics / chemogenetics）</strong>
+              两种细胞类型特异性神经干预技术。光遗传学（optogenetics）将光敏感蛋白（如 ChR2，channelrhodopsin-2，通道视紫红质 2）通过病毒转染表达在特定细胞类型中，然后用特定波长的光脉冲激活（蓝光激活 ChR2 使细胞去极化）或抑制靶细胞，实现毫秒级精度的因果操控。化学遗传学（chemogenetics）则用设计型受体（DREADD，designer receptors exclusively activated by designer drugs）替代光激活，用特定的化学药物（如 clozapine N-oxide）激活或沉默靶细胞，时间精度较低但更适合慢性或全脑实验。本文用光遗传学在大鼠 S1 皮层中特异性激活 PV 中间神经元（表达 ChR2），作为"PV 激活应产生什么样的 EEG 模式"的阳性对照，来间接推断 tFUS 是否经由 PV 通路发挥作用。
+            </div>
+
+            <div class="term">
+              <strong>c-Fos（早期即刻基因，immediate early gene）</strong>
+              c-Fos 是一种神经元活动的分子标记物：当神经元强烈放电后，细胞内钙信号会触发 c-Fos 基因的快速转录表达（约在刺激后 30—60 分钟达到峰值，持续约 2 小时）。因此，在组织切片上检测 c-Fos 阳性细胞数，相当于"拍摄了一张神经元活动的快照"——哪些细胞在特定时间窗口内强烈活动过，就会留下 c-Fos 的印记。这是一个间接的活动指标（不等于同步的电活动记录），但在离体固定组织分析中非常常用。本文的 IHC 中也间接涉及到此类标记物逻辑（PV/GAD67 上调可部分反映神经元的活动依赖性蛋白表达变化）。
+            </div>
+
+            <div class="term">
+              <strong>初级躯体感觉皮层 S1（primary somatosensory cortex，S1）</strong>
+              S1 是大脑皮层负责接收和处理来自身体表面触觉、压觉、痛觉、温度觉等感觉信息的核心区域，位于中央沟后方。其中 S1HL（hindlimb area，后肢区）处理后肢来源的感觉信号。慢性痛状态下，S1 会出现异常的自发活动增强和感觉放大，表现为痛觉过敏（hyperalgesia，对疼痛刺激的敏感度异常升高）和触诱发痛（allodynia，非伤害性刺激也引发疼痛）。本文的 tFUS 就聚焦在 S1HL，试图通过调控该区域的 E/I 平衡来干预慢性痛的皮层信号处理异常。
+            </div>
+
+            <div class="term">
+              <strong>前扣带皮层 ACC（anterior cingulate cortex）</strong>
+              ACC 是参与疼痛情绪成分（pain affect）处理的关键脑区，负责"痛苦感"而不仅仅是疼痛的感觉强度。它接受来自丘脑和 S1 等区域的痛觉信号，并与边缘系统（杏仁核、海马等）广泛相连，参与痛觉的情绪、认知和记忆调控。慢性痛患者的 ACC 往往表现出持续过度激活。在本文的背景中，ACC 与 S1 共同构成"痛觉加工脑回路"的核心节点。tFUS 靶向 S1 时，也可能通过皮层间连接间接影响 ACC 的活动状态。
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ===== 图文导读 ===== -->
+        <section id="figures">
+          <h2>图文导读</h2>
+
+          <figure class="figure-card">
+            <img src="figures/Fig1.png" alt="Figure 1: 单次 tFUS 的即时 EEG 效应和光遗传学对照">
+            <figcaption>
+              <strong>Fig. 1 — 单次 tFUS 引发局部脑回路调制（EEG 实时记录 + 光遗传学对照）。</strong>
+              这张图的核心逻辑是"两个效应模式的对比"。左侧设备图展示了 128 阵元随机阵列换能器与 30 通道柔性头皮 EEG 同步工作的系统架构——这是非侵入式调控与无创记录的组合。右侧频谱分析揭示了关键发现：3 kHz PRF 的 tFUS 在 S1HL 引发明显的兴奋性诱发响应（EEG 振幅增大），而 40 Hz PRF 的 tFUS 则显著压低了 SCD 小鼠的 theta 和 alpha 频段振荡功率。更关键的是光遗传学对照（Fig. 1F）：在大鼠 S1 中用 ChR2 特异性激活 PV 中间神经元后，EEG 呈现出与 40 Hz tFUS 高度相似的 theta/alpha/beta 频段功率降低模式。这种"效应模式的相似性"是本文推断 tFUS 经由 PV 通路发挥作用的第一条间接证据——不是直接因果，但提供了方向性支持。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig2.png" alt="Figure 2: 多次 tFUS 的累积效应与 EEG 非周期指数变化">
+            <figcaption>
+              <strong>Fig. 2 — 14 天重复 tFUS 使 SCD 小鼠的全局 E/I 失衡得到持久纠正（aperiodic exponent 分析）。</strong>
+              非周期指数（aperiodic exponent）是 EEG 功率谱 1/f 型背景斜率的量化值：斜率越陡（绝对值越大），抑制性活动越占优；斜率越平，兴奋性越强。Fig. 2B 先确认了病理基线：SCD 小鼠的非周期指数显著低于野生型，印证了"慢性痛 = 皮层 E/I 失衡 = 兴奋过度"的前提。关键对比在 Fig. 2C 和 2E：单次 20 分钟 tFUS 没有改变非周期指数（急性调制不足以重塑网络），而 14 天每天 1 小时的重复刺激后，非周期指数显著升高并接近野生型水平。这与电刺激领域的急性效应 vs 可塑性诱导逻辑高度类似：单次刺激改变即时膜电位，重复刺激才能诱导突触权重的持久改变（类似 LTP/LTD）。Fig. 2F 和 2I 的追加实验更有意思：在 14 天预处理后再加单次刺激，效果远比直接在初治动物上单次刺激强——说明重复刺激"预调制"了网络，使后续每次刺激的增益提高。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig3.png" alt="Figure 3: 多次 tFUS 后 GABAergic 容量的免疫组化证据">
+            <figcaption>
+              <strong>Fig. 3 — 14 天 tFUS 在细胞分子层留下了可量化的 GABA 能增强证据（IHC 分析）。</strong>
+              这是从"系统电信号"下沉到"细胞分子"的跨层验证。实验设计干净：同一只动物的刺激侧（ipsilateral）vs 对侧（contralateral）S1 做盲法配对比较，排除了动物个体差异的混杂。核心发现是 GAD67 阳性细胞数（Fig. 3B-C）和 PV 阳性细胞数（Fig. 3D-E）在刺激侧均显著高于对侧。GAD67 上调说明 GABA 合成能力增强（抑制性输出增大），PV 上调说明快放电抑制性中间神经元参与的增强。关键阴性结果：星形胶质细胞和小胶质细胞中的 GABA H-score（Fig. 3F-G）两侧无显著差异，Iba1 染色也未见胶质激活迹象——说明 tFUS 的效应是神经元特异性的，不是泛化的炎症或胶质应激反应。这是区分"神经元调控"和"组织损伤/炎症"的重要证据。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig4.png" alt="Figure 4: 多次 tFUS 的安全性组织学评估">
+            <figcaption>
+              <strong>Fig. 4 — 14 天重复 tFUS 的安全性评估：三项组织学指标全部阴性。</strong>
+              安全性是非侵入式神经调控技术走向临床转化的必要门槛，而不只是锦上添花。Fig. 4A 的 H&amp;E 染色显示脑组织形态完整，无炎症细胞浸润、坏死、出血或空泡化；Fig. 4B 的 TUNEL 染色（检测 DNA 断裂，即凋亡标志）无阳性细胞核；Fig. 4C 的 CD31 染色（血管内皮标记物）显示血管结构正常，无异常血管生成或出血迹象。选择在 SCD 小鼠中做这个测试尤为关键：镰状细胞病患者的微血管本身就因镰刀状红细胞的机械损伤而更为脆弱，如果 tFUS 在这个"最差情况"下仍然不损伤血管，对正常脑的安全性有更强的说服力。
+            </figcaption>
+          </figure>
+
+        </section>
+
+        <!-- ===== 机制横向对照 ===== -->
+        <section id="mechanisms">
+          <h2>机制横向对照</h2>
+          <p>本文构建的因果链条如下：</p>
+          <table>
+            <thead>
+              <tr>
+                <th>层级</th>
+                <th>观测指标</th>
+                <th>单次 tFUS 结果</th>
+                <th>多次 tFUS 结果</th>
+                <th>机制解读</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>系统层（EEG 频谱）</td>
+                <td>theta / alpha 频段功率</td>
+                <td>40 Hz PRF 显著降低；3 kHz PRF 兴奋性增大</td>
+                <td>—</td>
+                <td>PRF 决定调制方向；40 Hz 与 PV 光激活模式相似，提示 PV 参与</td>
+              </tr>
+              <tr>
+                <td>系统层（EEG 非周期指数）</td>
+                <td>aperiodic exponent（E/I 代理指标）</td>
+                <td>无显著变化</td>
+                <td>显著升高，接近野生型</td>
+                <td>单次不足以重塑网络；重复刺激诱导持久可塑性</td>
+              </tr>
+              <tr>
+                <td>光遗传对照</td>
+                <td>PV 特异性 ChR2 激活的 EEG 效应</td>
+                <td colspan="2">theta/alpha/beta 降低，与 40 Hz tFUS 模式高度相似</td>
+                <td>间接支持 tFUS 经由 PV 通路发挥抑制作用</td>
+              </tr>
+              <tr>
+                <td>细胞分子层（IHC）</td>
+                <td>GAD67 阳性细胞数</td>
+                <td colspan="2">刺激侧显著多于对侧</td>
+                <td>GABA 合成能力增强，抑制性输出上调</td>
+              </tr>
+              <tr>
+                <td>细胞分子层（IHC）</td>
+                <td>PV 阳性细胞数</td>
+                <td colspan="2">刺激侧显著多于对侧</td>
+                <td>快放电抑制性中间神经元表达上调</td>
+              </tr>
+              <tr>
+                <td>安全性（组织学）</td>
+                <td>H&amp;E / TUNEL / CD31</td>
+                <td colspan="2">全部阴性，无损伤</td>
+                <td>神经元特异性调控，无非特异性损伤</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="note">
+            从证据强度看：EEG 频谱 + 光遗传对照构成"相关性支持"，IHC 上调是"结果层面的分子证据"，但两者之间缺少一步因果实验（比如先沉默 PV、再做 tFUS、验证效应是否消失）。机制链是说得通的，但不是封闭的。
+          </div>
+        </section>
+
+        <!-- ===== 和你的研究怎么接上 ===== -->
+        <section id="connection">
+          <h2>和你的研究怎么接上</h2>
+
+          <h3>非侵入式神经调控 vs 电刺激：两种物理模态的对比</h3>
+          <p>
+            你做的胞外电刺激（extracellular electrical stimulation）和 tFUS 在物理基础上截然不同。电刺激直接在组织中建立电场，通过改变细胞外电位 V<sub>e</sub> 来影响跨膜电压 V<sub>m</sub> = V<sub>i</sub> - V<sub>e</sub>，你在 IEEE TIM 工作中精确测量的正是这个 V<sub>e</sub> 的分布和伪迹。tFUS 则通过机械力间接调制离子通道电导，不直接注入电流。两者共同的主题是：<strong>刺激参数如何映射到细胞级效应</strong>。本文发现 PRF 40 Hz vs 3 kHz 决定了效应方向（抑制 vs 兴奋），这与电刺激领域熟悉的频率-效应关系在概念上是同构的，只是物理基础不同。值得思考的是：如果 tFUS 引起了局部神经元群的同步放电，是否也会在胞外产生可测量的 V<sub>e</sub> 变化？这与你关心的"胞外信号如何叠加和分离"有概念上的联系。
+          </p>
+
+          <h3>细胞类型特异性如何验证：从光遗传学到缺失的因果实验</h3>
+          <p>
+            这篇文章用光遗传学做"效应模式对照"（如果 PV 被激活，EEG 应该长这样）而不是直接的因果干预（先敲除/沉默 PV，再看 tFUS 效应是否消失）。这是一个方法论上的关键约束。你在电生理实验中也面对类似的问题：你可以看到刺激后的膜电位变化，但如果想知道是哪条电导通路主导了这个响应，往往需要离子通道阻断实验。本文的"相关性推断"在 in vivo 条件下已经是相当合理的间接证据，但它距离"因果确认"还差一步——这个缺口本身就是后续研究的空间。
+          </p>
+
+          <h3>tFUS 与电场刺激的物理对比：从测量方法学的视角</h3>
+          <p>
+            本文在系统层用 EEG 的非周期指数（aperiodic exponent）作为 E/I 平衡的代理指标——这是在无创条件下已知最接近 E/I ratio 的量化方法，但本质上仍是间接的群体统计特征，与你在 patch-clamp 中直接测量单个细胞的 V<sub>m</sub> 时间动态有着本质区别。这种"测量方法决定能看到什么"的约束，在电压成像（如 Peterka 2011 那篇文章的主题）、EEG、patch-clamp 和电场测量中同样存在。你的差分测量方法论，恰好是这类 in vivo 研究在细胞层面最缺的工具。从技术可行性上讲，在超声刺激条件下同步做 patch-clamp 极具挑战（超声振动会对贴片封接产生机械干扰），但如果能解决，就能直接回答"tFUS 到底以什么时间动态改变单个神经元的膜电位"，而不只是依赖分钟级到天级的 EEG 和 IHC 间接指标。
+          </p>
+        </section>
+
+        <!-- ===== 证据链和局限 ===== -->
+        <section id="limits">
+          <h2>证据链和局限</h2>
+          <ol>
+            <li>
+              <strong>PV 招募的因果性还差一步。</strong>目前的逻辑链是：tFUS EEG 模式 ≈ PV 光激活 EEG 模式，加上 PV 蛋白表达上调。但没有做"阻断 PV 后 tFUS 效应是否消失"的实验（如用化学遗传学 DREADD 沉默 PV 中间神经元，再看 tFUS 是否仍能降低 theta/alpha 功率）。类比：如果在电刺激实验里只看到膜电位变化但没做通道阻断实验，你会觉得机制证据已经够充分了吗？
+            </li>
+            <li>
+              <strong>非周期指数（aperiodic exponent）是间接的 E/I 代理指标。</strong>它是功率谱 1/f 斜率的统计特征，不等于突触层面的 E/I ratio。它对兴奋/抑制失衡敏感，但也受其他因素影响（如神经元的内在兴奋性、网络同步度等）。作者自己也承认这是 proxy，但在 in vivo 无创条件下很难做得更精确。
+            </li>
+            <li>
+              <strong>IHC 是终点快照，缺少时间动态。</strong>只有 14 天刺激结束后一个时间点的分子数据，不知道 GAD67/PV 上调从第几天开始，也不知道停刺激后这些变化的持续时间。如果能加入不同时间点的 IHC（第 3、7、14 天以及停刺激后 7 天），因果链条会更完整。
+            </li>
+            <li>
+              <strong>本文未报告行为学数据。</strong>Bin He 课题组之前的工作已经单独发表了 tFUS 改善 SCD 小鼠痛行为的结果，但本文没有将行为学与电生理/分子数据配对分析，读者无法从这一篇文章直接看到"PV 上调 → 痛行为改善"的闭环。
+            </li>
+            <li>
+              <strong>从小鼠到人的参数缩放是未解问题。</strong>小鼠颅骨厚约 0.3 mm，人颅骨厚约 6—7 mm，超声衰减和焦域在人脑中会完全不同。40 Hz PRF 在人脑是否仍能优先招募 PV 中间神经元，需要大动物和计算建模的进一步验证。
+            </li>
+          </ol>
+          <div class="note warning">
+            读这篇文章时，要把"多层证据交叉支持"和"因果链条闭合"区分开来。前者在本文已经做得相当扎实，后者还差 PV 特异性因果实验这一步。这个缺口正是后续研究的切入点。
+          </div>
+        </section>
+
+        <!-- ===== 建议阅读顺序 ===== -->
+        <section id="reading">
+          <h2>建议阅读顺序</h2>
+          <ol>
+            <li>先看 Introduction 的最后两段——作者明确说明了"为什么之前的工作只停留在行为层面，这篇文章要做什么不同的事"，这是理解全文贡献定位的最快路径。</li>
+            <li>看 Fig. 1，重点理解"40 Hz vs 3 kHz 的频谱差异"和"光遗传对照的设计逻辑"——这决定了全文后续的机制推断方向。</li>
+            <li>看 Fig. 2，理解单次 vs 多次刺激在 aperiodic exponent 上的不同效应，建立"急性调制 vs 突触可塑性诱导"的直觉。</li>
+            <li>看 Fig. 3，对照 Fig. 2 的系统层结论，在细胞分子层核对：GAD67 和 PV 上调的空间模式是否与 EEG 的功能变化一致。注意 Fig. 3F-G 的阴性结果（胶质细胞 GABA 不变）同样重要。</li>
+            <li>看 Fig. 4，快速确认安全性数据，理解为什么要在 SCD 小鼠这个"最差情况"下做安全验证。</li>
+            <li>最后看 Discussion 的最后一节（Limitations），作者自己明确了哪些是证据不足的地方——与本文档"证据链和局限"部分对照阅读。</li>
+          </ol>
+        </section>
+
+        <!-- ===== 来源链接 ===== -->
+        <section id="sources">
+          <h2>来源链接</h2>
+          <ul class="source-list">
+            <li>
+              <a href="https://doi.org/10.1088/1741-2552/ae54cd" target="_blank" rel="noopener noreferrer">DOI 页面（Journal of Neural Engineering 正式版）</a>
+              — 10.1088/1741-2552/ae54cd，URL 来自论文自述，未经独立 web 搜索确认
+            </li>
+            <li>
+              <a href="https://iopscience.iop.org/article/10.1088/1741-2552/ae54cd" target="_blank" rel="noopener noreferrer">IOPscience 期刊页面</a>
+              — 根据 DOI 推断的标准 IOPscience URL，未经独立 web 搜索确认
+            </li>
+            <li>
+              <a href="https://pubmed.ncbi.nlm.nih.gov/41855581/" target="_blank" rel="noopener noreferrer">PubMed（PMID 41855581）</a>
+              — PMID 来自 discussion 文件，URL 未经独立 web 搜索确认
+            </li>
+            <li>
+              <a href="https://www.biorxiv.org/content/10.1101/2025.10.08.680737v1.full" target="_blank" rel="noopener noreferrer">bioRxiv 预印本（2025-10-08）</a>
+              — URL 经 web 搜索结果确认存在
+            </li>
+          </ul>
+          <div class="note warning">
+            上述链接中，DOI、IOPscience 和 PubMed 的 URL 来自论文笔记原文，受限于搜索引擎访问限制，未能通过本次 web 搜索直接独立确认；bioRxiv 链接已经 web 搜索结果验证。建议直接在 PubMed 或 IOPscience 搜索"Kim 2026 parvalbumin tFUS chronic pain"确认正式链接。
+          </div>
+        </section>
+
+        <p class="footer-note">
+          本说明文档基于 discussion - Kim 2026.md 底稿生成，图像来自本论文文件夹 <code>figures/</code> 子目录。论文本地 PDF 为 bioRxiv 预印本版本。
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const sections = links
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -68% 0px',
+      threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+    if (sections[0]) setActive(sections[0].id);
+  </script>
+</body>
+</html>

@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Membrane Depolarization &amp; HFS | Lee 2024 论文说明</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5b6776;
+      --line: #d9ded6;
+      --accent: #0f766e;
+      --accent-soft: #e0f2ef;
+      --warn: #9a5b13;
+      --code: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: #f0f3ee;
+    }
+
+    .toc h1 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .toc .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 10px;
+      margin: 3px 0;
+      border-radius: 7px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .toc a.active,
+    .toc a:hover {
+      color: #064e45;
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 42px 48px 80px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 52px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
+    }
+
+    header.paper-title {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+    }
+
+    h2, h3 {
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: 26px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-card, .note, .term, .figure-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .info-card {
+      padding: 14px 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #111827;
+    }
+
+    .note {
+      padding: 16px 18px;
+      margin: 18px 0;
+      background: #f6fbfa;
+      border-color: #b9ded8;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #e8c98f;
+      color: #5f3b08;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #075e55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 14px 16px;
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .figure-card {
+      margin: 22px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-card figcaption {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .figure-card figcaption strong {
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f1;
+      text-align: left;
+      color: #123b36;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    ul, ol { padding-left: 1.35em; }
+
+    .source-list li {
+      margin: 6px 0;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc {
+        position: sticky;
+        z-index: 5;
+        height: auto;
+        max-height: 45vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 14px 52px; }
+      article { padding: 26px 18px; }
+      header h2 { font-size: 28px; }
+      .info-grid, .terms { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="文章目录">
+      <h1>Lee 2024<br>HFS &amp; 去极化阻滞</h1>
+      <div class="meta">Communications Biology | 机制研究</div>
+      <a href="#paper">论文信息</a>
+      <a href="#takeaway">一句话定位</a>
+      <a href="#why">为什么值得读</a>
+      <a href="#terms">术语先说明</a>
+      <a href="#figures">图文导读</a>
+      <a href="#mechanisms">机制横向对照</a>
+      <a href="#connection">和你的研究怎么接上</a>
+      <a href="#limits">证据链和局限</a>
+      <a href="#reading">建议阅读顺序</a>
+      <a href="#sources">来源链接</a>
+    </nav>
+
+    <main>
+      <article>
+        <header class="paper-title">
+          <p class="eyebrow">论文精读说明文档</p>
+          <h2>Membrane Depolarization Mediates Both the Inhibition of Neural Activity and Cell-Type-Differences in Response to High-Frequency Stimulation</h2>
+          <p class="subtitle">高频电刺激（HFS）如何抑制神经元放电——膜电位直接测量给出一锤定音的答案。</p>
+          <div class="tags">
+            <span class="tag">HFS 高频刺激</span>
+            <span class="tag">去极化阻滞</span>
+            <span class="tag">全细胞膜片钳</span>
+            <span class="tag">刺激伪迹</span>
+            <span class="tag">视网膜神经节细胞</span>
+            <span class="tag">ON/OFF 细胞差异</span>
+          </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <section id="paper">
+          <h2>论文信息</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <strong>标题</strong>
+              Membrane Depolarization Mediates Both the Inhibition of Neural Activity and Cell-Type-Differences in Response to High-Frequency Stimulation
+            </div>
+            <div class="info-card">
+              <strong>作者</strong>
+              Jae-Ik Lee*, Paul Werginz, Tatiana Kameneva, Maesoon Im, Shelley I. Fried（* 通讯）
+            </div>
+            <div class="info-card">
+              <strong>单位</strong>
+              Massachusetts General Hospital / Harvard Medical School（Lee, Werginz, Fried）；TU Wien（Werginz）；Swinburne University of Technology（Kameneva）；KIST / 庆熙大学（Im）；Boston VA Healthcare System（Fried）
+            </div>
+            <div class="info-card">
+              <strong>期刊</strong>
+              <a href="https://www.nature.com/articles/s42003-024-06359-3" target="_blank" rel="noopener noreferrer">Communications Biology (Nature)</a>，2024，7:734
+            </div>
+            <div class="info-card">
+              <strong>DOI</strong>
+              <a href="https://doi.org/10.1038/s42003-024-06359-3" target="_blank" rel="noopener noreferrer">10.1038/s42003-024-06359-3</a>
+            </div>
+            <div class="info-card">
+              <strong>数据与代码</strong>
+              <a href="https://doi.org/10.17605/osf.io/hnpq4" target="_blank" rel="noopener noreferrer">OSF: 10.17605/osf.io/hnpq4</a>（CC BY 4.0 开放）
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="takeaway">
+          <h2>一句话定位</h2>
+          <p>
+            这篇文章直接测量了高频电刺激（HFS，high-frequency stimulation，&gt;1 kHz）期间神经元的膜电位偏移（&Delta;V<sub>m</sub>），证明 HFS 抑制放电的根本机制是过度去极化导致的 Na 通道失活——即去极化阻滞（depolarization block）——而不是超极化，并揭示 ON/OFF 两类视网膜神经节细胞对 HFS 反应差异背后的双因素竞争机制。
+          </p>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="why">
+          <h2>为什么值得读</h2>
+          <p>
+            高频电刺激在临床上有重要应用：kHz 频率脊髓刺激用于疼痛管理，视网膜假体选择性激活不同细胞类型，迷走神经阻断治疗肥胖。HFS 有一个独特能力：它能在异质神经元群体中差异化地抑制特定细胞类型，这为精细调控提供了空间。
+          </p>
+          <p>
+            但 HFS 的抑制机制长期没有直接证据。建模研究（Kameneva 2016 vs Guo 2019）给出了互相矛盾的结论——去极化阻滞还是超极化？无法裁判，因为 HFS 产生的<strong>刺激伪迹（stimulus artifact）</strong>极其严重：每秒上千个脉冲连续叠加，传统电生理几乎不可能在刺激期间测到真实膜电位。
+          </p>
+          <p>
+            Lee 等人的策略是：选择正弦波刺激（频谱集中在单一频率，便于拟合），再用正弦拟合减法从全细胞记录中剥离伪迹，首次直接获得刺激期间的 &Delta;V<sub>m</sub>。这既是结论，也是方法论的一个重要案例——<strong>伪迹处理方式的选择框定了你能问什么科学问题</strong>。
+          </p>
+          <div class="note">
+            对罗重威的研究而言，这篇论文是直接相关的"姊妹文献"：同样的核心挑战（胞外电刺激下测膜电位），不同的伪迹去除策略（正弦拟合减法 vs 差分测量），差异带来不同的局限性和适用范围。
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="terms">
+          <h2>术语先说明</h2>
+          <div class="terms">
+            <div class="term">
+              <strong>高频电刺激（HFS, high-frequency stimulation）</strong>
+              频率通常 &gt;1 kHz 的重复电脉冲刺激。区别于低频深部脑刺激（DBS ~130 Hz）。HFS 在某些条件下能可逆地抑制神经元放电，但机制争议持续多年。
+            </div>
+            <div class="term">
+              <strong>去极化阻滞（depolarization block）</strong>
+              神经元膜电位持续去极化（被推向正值），导致 Na 通道失活门（h gate）无法从失活态恢复，&alpha;<sub>Na</sub>（m<sup>3</sup>h 乘积）趋近于零，动作电位无法产生。是本文证明的 HFS 抑制机制。与"超极化阻断"是对立假说。
+            </div>
+            <div class="term">
+              <strong>刺激伪迹（stimulus artifact）</strong>
+              胞外电刺激在记录电极上感应到的电信号干扰。HFS 条件下伪迹连续不断，幅度可比真实膜电位大几个数量级，是测量 &Delta;V<sub>m</sub> 的最大障碍。本文用正弦拟合减法去除；罗重威的 TIM 论文用差分测量（V<sub>m</sub> = V<sub>i</sub> &minus; V<sub>e</sub>）去除。
+            </div>
+            <div class="term">
+              <strong>膜电位偏移（&Delta;V<sub>m</sub>，baseline membrane potential shift）</strong>
+              HFS 期间膜电位相对于静息电位的缓慢漂移量。正值 = 去极化，负值 = 超极化。本文的核心测量变量。通过 40 ms 中值滤波从去伪迹后的记录中提取。
+            </div>
+            <div class="term">
+              <strong>视网膜神经节细胞（RGC, retinal ganglion cell）</strong>
+              视网膜输出神经元。本文聚焦 ON &alpha; sustained 和 OFF &alpha; sustained 两种亚型。ON 细胞在光照增强时放电，OFF 细胞在光照减弱时放电，两者形态和内在电特性有差异，对 HFS 的响应也不同。
+            </div>
+            <div class="term">
+              <strong>去极化敏感性（depolarization sensitivity）</strong>
+              相同幅度刺激电流下产生的 &Delta;V<sub>m</sub> 大小（单位：mV/&mu;A）。ON 细胞敏感性（0.27 mV/&mu;A）约为 OFF 细胞（0.14 mV/&mu;A）的两倍，意味着 ON 细胞更容易被推进 depolarization block。
+            </div>
+            <div class="term">
+              <strong>全细胞膜片钳（whole-cell patch clamp）</strong>
+              把玻璃吸管电极与细胞膜形成高阻封接（G&Omega; seal）后破膜，使电极与细胞内液直接相通，从而可以测量或控制膜电位。本文用电流钳（current clamp）模式记录 V<sub>m</sub>，同时施加胞外正弦波刺激。
+            </div>
+            <div class="term">
+              <strong>Fohlmeister 模型（单隔室 RGC 计算模型）</strong>
+              描述视网膜神经节细胞离子通道动力学的单隔室 Hodgkin-Huxley 型模型，包含 Na、K、Ca 等通道。本文用它揭示 Na/K 通道时间常数差异如何导致低频超极化和高频去极化的频率依赖极性反转。
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="figures">
+          <h2>图文导读</h2>
+
+          <figure class="figure-card">
+            <img src="figures/Fig1_Fig2.png" alt="Figure 1 &amp; 2: 放电模式和伪迹去除方法">
+            <figcaption>
+              <strong>Fig. 1 &amp; Fig. 2 — 放电的频率依赖模式，以及伪迹去除的三步走。</strong>
+              Fig. 1 是全文的行为学入口：对 ON &alpha; sustained RGC 做完整的频率（100–2500 Hz）&times; 幅度（10–100 &mu;A）扫描，发现两种截然不同的响应模式。低频（&lt;500 Hz）产生<strong>单调型（monotonic）</strong>响应——放电数随幅度单调增加；高频（&gt;1000 Hz）产生<strong>非单调型（non-monotonic）</strong>响应——放电数先增后减，中等幅度最大。高强度 HFS 不是"刺激更强、放电更多"，而是反过来把放电压下去了，这就是 HFS 抑制效应的行为学表现。Fig. 2 是全文的技术核心：伪迹去除三步——(b) 对原始记录拟合与刺激同频的正弦函数，(c) 减去拟合的正弦后用 40 ms 窗口中值滤波提取基线 &Delta;V<sub>m</sub>，(d) 强 HFS 结束后可见短暂的超极化反弹（after-hyperpolarization），提示刺激期间累积了 K<sup>+</sup> 外流电荷。正弦波刺激的选择本身就是为伪迹去除服务的——这是有代价的方法妥协。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig3.png" alt="Figure 3: ΔVm 频率-幅度热图">
+            <figcaption>
+              <strong>Fig. 3 — &Delta;V<sub>m</sub> 热图：全参数空间下的极化方向。</strong>
+              这是全文最关键的一张图。去伪迹后的 &Delta;V<sub>m</sub> 铺成频率&times;幅度热图，清晰展示极化方向的全貌：<strong>高频 + 高幅度 = 暖色（去极化）</strong>，<strong>低频 + 高幅度 = 冷色（超极化）</strong>，中间频率区存在一条随幅度增大从去极化翻转为超极化的极性反转带。把这张热图和 Fig. 1 的放电热图叠加，几乎完美吻合——去极化区对应放电被抑制（非单调响应），超极化区对应放电不被抑制（单调响应）。这个对应关系是全文因果论证的第一步：膜电位偏移的方向预测了放电的命运。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig4.png" alt="Figure 4: ΔVm 是放电的统一预测因子">
+            <figcaption>
+              <strong>Fig. 4 — &Delta;V<sub>m</sub> 才是放电命运的真正决定变量。</strong>
+              Fig. 4 做了一个关键的坐标轴替换：把所有频率的放电数据汇总，横轴从"刺激电流幅度"换成"&Delta;V<sub>m</sub>"。结果是：不同频率的放电曲线在 &Delta;V<sub>m</sub> 坐标下<strong>完美重合</strong>，峰值放电统一出现在 &Delta;V<sub>m</sub> &approx; 10 mV 处，超过这个值后放电被压制；而以电流幅度为横轴时，不同频率的曲线分散得很开，找不到统一阈值。线性相关系数：&Delta;V<sub>m</sub> vs 放电数 r = 0.86，电流幅度 vs 放电数 r = 0.66。这一组图在逻辑上封闭了一个论证：是 &Delta;V<sub>m</sub> 本身（而非刺激参数）决定了 depolarization block。&Delta;V<sub>m</sub> 超过约 10 mV 后，Na 通道失活门（h gate）无法恢复，m<sup>3</sup>h 乘积趋近于零，放电机制瘫痪。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig5.png" alt="Figure 5: ON vs OFF RGC 的差异">
+            <figcaption>
+              <strong>Fig. 5 — ON vs OFF RGC：两个因素的竞争。</strong>
+              用 2000 Hz 正弦波比较 ON（n = 11）和 OFF（n = 8）&alpha; sustained RGC，发现两个关键差异共同决定了细胞类型的差异响应。第一，<strong>去极化敏感性不同</strong>：相同电流下，ON 细胞产生约两倍于 OFF 细胞的 &Delta;V<sub>m</sub>（0.27 vs 0.14 mV/&mu;A）。第二，<strong>depolarization block 阈值不同</strong>：ON 细胞进入 block 需要更高的 &Delta;V<sub>m</sub>（15.9 &plusmn; 3.9 mV vs 11.2 &plusmn; 3.2 mV）。两个因素方向相反但不平衡——ON 细胞虽然"更难被打倒"（阈值高），却"更容易被推到悬崖边"（敏感性高），净结果是 ON 细胞在更低的电流幅度下进入 block。这为视网膜假体利用 ON/OFF 差异响应设计选择性刺激方案提供了量化依据。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig6_Fig7_Fig8.png" alt="Figures 6, 7, 8: 计算模型与 Na/K 通道动力学">
+            <figcaption>
+              <strong>Fig. 6 / Fig. 7 / Fig. 8 — 计算模型：Na/K 时间常数差异解释频率依赖的极性反转。</strong>
+              单隔室 Fohlmeister RGC 模型（g<sub>Na</sub> = 50、g<sub>K</sub> = 25 mS/cm<sup>2</sup>）对频率依赖的 &Delta;V<sub>m</sub> 极性反转给出了机制解释。Fig. 6 确认模型可以定性再现实验结果（同样的频率&times;幅度热图结构）。Fig. 7 揭示低频和高频下离子通道的不同动力学：低频（~200 Hz）时每个刺激周期足够长，Na 通道先激活（快）&rarr; K 通道跟上（慢）&rarr; K 通道持续开放时间更长 &rarr; K<sup>+</sup> 外流总电荷 &gt; Na<sup>+</sup> 内流总电荷 &rarr; <strong>净超极化</strong>；高频（~2000 Hz）时周期太短，慢速 K 通道来不及充分激活 &rarr; Na<sup>+</sup> 内流占主导 &rarr; <strong>净去极化</strong>。Fig. 8 展示净离子电荷与 &Delta;V<sub>m</sub> 的完美线性关系（r<sup>2</sup> = 0.99），从定量上确认了这一机制。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig9_Fig10.png" alt="Figures 9, 10: Na 通道失活机制与细胞类型差异的模型基础">
+            <figcaption>
+              <strong>Fig. 9 / Fig. 10 — Na 通道失活是 depolarization block 的分子机制；内在膜特性决定细胞类型差异。</strong>
+              Fig. 9 从模型角度直接展示 depolarization block 的分子事件：持续去极化导致 Na 通道失活门 h 停留在失活态，m<sup>3</sup>h 乘积坍塌至接近零，动作电位所需的内向 Na<sup>+</sup> 电流无从产生。Fig. 10 通过参数扫描（改变胞体直径或 K 通道密度）展示这两个内在参数如何移动 depolarization block 的电流阈值，支持"内在膜特性（而非突触输入）决定细胞类型对 HFS 差异响应"的假说。这为 ON/OFF RGC 差异提供了一个可测试的生物物理解释。
+            </figcaption>
+          </figure>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="mechanisms">
+          <h2>机制横向对照</h2>
+          <p>ON 和 OFF &alpha; sustained RGC 对 HFS 的响应差异可分解为两个独立维度：</p>
+          <table>
+            <thead>
+              <tr>
+                <th>维度</th>
+                <th>ON &alpha; sustained RGC</th>
+                <th>OFF &alpha; sustained RGC</th>
+                <th>机制解释</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>去极化敏感性（mV/&mu;A）</td>
+                <td>0.27</td>
+                <td>0.14</td>
+                <td>相同电流下 ON 细胞产生约两倍的 &Delta;V<sub>m</sub>；可能与胞体大小、形态、膜阻抗差异相关</td>
+              </tr>
+              <tr>
+                <td>Block 阈值（&Delta;V<sub>m</sub>，mV）</td>
+                <td>15.9 &plusmn; 3.9</td>
+                <td>11.2 &plusmn; 3.2</td>
+                <td>ON 细胞需要更大的去极化才能触发 depolarization block；模型提示 K 通道密度差异可解释</td>
+              </tr>
+              <tr>
+                <td>Block 触发的电流阈值</td>
+                <td><strong>更低</strong>（更容易被 HFS 抑制）</td>
+                <td>更高（相对抵抗）</td>
+                <td>敏感性主导：高敏感性压倒高 block 阈值；净结果是 ON 细胞在更低幅度下进入 block</td>
+              </tr>
+              <tr>
+                <td>低频响应（&lt;500 Hz）</td>
+                <td colspan="2">两者均为单调型（monotonic）；低幅度时无明显 &Delta;V<sub>m</sub></td>
+                <td>低频下 K<sup>+</sup> 外流占优，不产生显著去极化；抑制机制不适用</td>
+              </tr>
+              <tr>
+                <td>高频响应（&gt;1000 Hz）</td>
+                <td>非单调型，峰值放电出现在更低幅度</td>
+                <td>非单调型，峰值放电出现在更高幅度</td>
+                <td>高频下 Na<sup>+</sup> 内流占优，去极化 &rarr; depolarization block；两类细胞均可被 HFS 抑制，但阈值不同</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="connection">
+          <h2>和你的研究怎么接上</h2>
+
+          <h3>1. HFS 伪迹与真实膜响应的区分——方法论上的直接对比</h3>
+          <p>
+            Lee 与你处理的是完全相同的核心难题：胞外电刺激在记录电极上叠加的伪迹远大于真实膜电位信号，如何分离？Lee 的策略是正弦拟合减法：拟合与刺激同频的正弦函数，从原始记录中减去，再用 40 ms 中值滤波提取缓慢的 &Delta;V<sub>m</sub>。这个策略的边界条件非常明确：只适用于正弦波刺激（频谱集中），只能看慢变化（40 ms 滤波窗口割掉了所有快于 ~25 Hz 的 V<sub>m</sub> 动态），并且会把与刺激同频的真实跨膜电流成分（容性电流 I<sub>C</sub> = C<sub>m</sub> · dV<sub>m</sub>/dt 驱动的部分）一起减掉。
+          </p>
+          <p>
+            你的差分测量方法（V<sub>m</sub> = V<sub>i</sub> &minus; V<sub>e</sub>，分别记录胞内和胞外电位再逐时间点差分）在每一个维度上都放宽了这些限制：适用于任意波形（临床相关的双相矩形脉冲、单相脉冲串），保留完整时间分辨率（&mu;s 级），正确区分 V<sub>e</sub> 和真实 V<sub>m</sub> 而不做函数形假设。在 TIM 论文的 Discussion 中，Lee 2024 是最应该引用的"同类方法对比文献"。
+          </p>
+
+          <h3>2. 去极化阻滞如何被电极记录扭曲</h3>
+          <p>
+            Lee 发现 depolarization block 的触发 &Delta;V<sub>m</sub> 阈值约为 10–16 mV。这个数值依赖于伪迹去除的精度——如果残余伪迹被误读为膜电位变化，阈值估计就会有系统偏差。Lee 的正弦拟合减法假设胞外电位 V<sub>e</sub> 是完美正弦波，但实际上 V<sub>e</sub> 经过组织传播后可能有畸变（相位漂移、幅度衰减的频率依赖性），残余伪迹不可忽略。你的方法通过直接测量 V<sub>e</sub>(t)（不假设其函数形式），理论上可以给出更准确的 &Delta;V<sub>m</sub> 估计，从而更精确地定位 block 阈值。
+          </p>
+
+          <h3>3. 差分测量在 HFS 下的挑战与 Lee 方法的互补关系</h3>
+          <p>
+            两种方法面对的 HFS 伪迹有本质区别。Lee 的正弦刺激是单频，伪迹集中在一个频率，减法非常干净。你的差分测量面向双相矩形脉冲：频谱包含基频及大量谐波，共模伪迹的频谱更宽，对差分电极的共模抑制比（CMRR）要求更高。Lee 的论文等于提供了一个"简单伪迹场景下的标杆结果"——如果用你的差分方法在正弦波 HFS 条件下重做 Lee 的实验，并与 Lee 的结果对比，就能定量评估两种方法的系统误差，这本身就是一个有价值的方法验证实验。
+          </p>
+
+          <h3>4. Na/K 时间常数机制与等效电路模型的互补</h3>
+          <p>
+            Lee 的计算模型揭示的频率依赖极性反转，本质上是主动离子通道的频率滤波特性：Na 通道是"快速"高通滤波元件，K 通道是"慢速"低通滤波元件，两者叠加产生的净离子电流方向随频率翻转。这与你的等效电路框架（R<sub>s</sub>, C<sub>m</sub>, R<sub>m</sub> 的被动 RC 滤波）形成两层互补——被动层决定 V<sub>m</sub> 对 V<sub>e</sub> 的跟随程度，主动层决定 V<sub>m</sub> 偏移的方向和幅度。两层模型拼在一起，才是 HFS 下膜电位响应的完整图像。
+          </p>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="limits">
+          <h2>证据链和局限</h2>
+          <p><strong>证据链的强处：</strong></p>
+          <ol>
+            <li><strong>首次直接测量刺激期间的 &Delta;V<sub>m</sub>。</strong> 之前关于 HFS 机制的争论完全基于模型。Lee 用全细胞膜片钳在刺激期间直接测 &Delta;V<sub>m</sub>，提供了一锤定音的生理学证据，方法链完整可追溯。</li>
+            <li><strong>完整的参数空间覆盖。</strong> 频率 100–2500 Hz &times; 幅度 10–100 &mu;A 系统扫描，结论不依赖于某几个特定条件点。</li>
+            <li><strong>&Delta;V<sub>m</sub> 作为统一框架。</strong> 不同频率的放电数据在 &Delta;V<sub>m</sub> 坐标下汇合（Fig. 4），r = 0.86 vs 0.66，优雅地统一了看似复杂的频率依赖响应。</li>
+            <li><strong>实验 + 建模双轨互相验证。</strong> Fohlmeister 模型的定量预测与生理数据定性一致，Na/K 时间常数差异假说可测试、可反驳。</li>
+            <li><strong>开放数据与代码。</strong> OSF 公开全部源数据和计算模型，可再现性高。</li>
+          </ol>
+
+          <p><strong>局限：</strong></p>
+          <ol>
+            <li><strong>正弦拟合减法的固有误差。</strong> 假设 V<sub>e</sub> 是完美正弦波，但实际 V<sub>e</sub> 可能有畸变；与刺激同频的真实跨膜电流成分被一起减掉；40 ms 中值滤波损失了快速 V<sub>m</sub> 动态。这些局限使 &Delta;V<sub>m</sub> 的绝对值估计存在系统偏差，block 阈值（10–16 mV）需要在更精确的测量下重新核实。</li>
+            <li><strong>只测试正弦波刺激。</strong> 临床 HFS 常用双相矩形脉冲（包含多次谐波），正弦波与矩形脉冲的频谱差异显著，响应可能不完全相同。作者选择正弦波的直接动机是伪迹去除方便，而非临床相关性。</li>
+            <li><strong>离体视网膜外推局限。</strong> RGC 的离子通道组成与皮层、脊髓或海马神经元不同；Na/K 时间常数差异介导的极性反转是否在其他神经元类型中定量相似，仍需直接验证。</li>
+            <li><strong>单隔室模型忽略空间电场分布。</strong> 用胞内电流注入模拟胞外刺激，忽略了真实电场在胞体—树突—轴突上的空间异质性。这正是 3D 点电流源模型（和差分测量中 V<sub>e</sub> 的显式测量）可以补充的地方。</li>
+            <li><strong>样本量有限。</strong> ON 11 个细胞，OFF 8 个细胞，统计显著但细胞间变异估计可能不充分。</li>
+          </ol>
+
+          <div class="note warning">
+            方法论警示：Lee 的正弦拟合减法"能用"并不等于"精确"。在正弦拟合减去伪迹的同时，与刺激同频的真实跨膜电流也被部分消去，这会低估 &Delta;V<sub>m</sub> 的高频成分。这一点 Lee 在 Methods 中有坦诚的说明，但在引用其 &Delta;V<sub>m</sub> 数值时需要牢记这一系统性偏差的方向。
+          </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="reading">
+          <h2>建议阅读顺序</h2>
+          <ol>
+            <li>先看 <strong>Fig. 3 的 &Delta;V<sub>m</sub> 热图</strong>和 <strong>Fig. 1 的放电热图</strong>并排对比，直接感受两张图的结构对应关系——这是全文核心结论的图像化表达。</li>
+            <li>再读 <strong>Introduction</strong>，了解 Kameneva 2016 和 Guo 2019 的建模争论背景，理解为什么直接测量 &Delta;V<sub>m</sub> 是一个有意义的贡献。</li>
+            <li>读 <strong>Fig. 2 和 Methods 中的伪迹去除部分</strong>，仔细阅读正弦拟合减法的描述，以及作者对其局限性的讨论（这是方法论对比的关键）。</li>
+            <li>读 <strong>Fig. 4</strong>，理解 &Delta;V<sub>m</sub> 作为统一预测变量的论证逻辑（坐标轴替换实验）。</li>
+            <li>读 <strong>Fig. 5</strong>，理解 ON/OFF 差异的双因素竞争机制（敏感性 vs block 阈值）。</li>
+            <li>最后看 <strong>Figs. 6–10</strong> 的计算模型部分，重点看 Na/K 时间常数差异图（Fig. 7）和参数扫描图（Fig. 10）。</li>
+          </ol>
+        </section>
+
+        <!-- ============================================================ -->
+        <section id="sources">
+          <h2>来源链接</h2>
+          <ul class="source-list">
+            <li><a href="https://doi.org/10.1038/s42003-024-06359-3" target="_blank" rel="noopener noreferrer">DOI: 10.1038/s42003-024-06359-3</a></li>
+            <li><a href="https://www.nature.com/articles/s42003-024-06359-3" target="_blank" rel="noopener noreferrer">期刊页面 — Communications Biology (Nature)</a></li>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/38890481/" target="_blank" rel="noopener noreferrer">PubMed — PMID 38890481</a></li>
+            <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11189419/" target="_blank" rel="noopener noreferrer">PubMed Central — PMC11189419（开放全文）</a></li>
+            <li><a href="https://doi.org/10.17605/osf.io/hnpq4" target="_blank" rel="noopener noreferrer">原始数据与代码 — OSF (CC BY 4.0)</a></li>
+          </ul>
+        </section>
+
+        <p class="footer-note">
+          本文件为中文精读说明文档，图像引自论文 PDF 提取的 <code>figures/</code> 子目录。正式资源保存于论文文件夹内，预览请通过 <code>/Volumes/G$/LZW_sharing/tmp/</code> 的英文路径 staging。
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const sections = links
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -68% 0px',
+      threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+    if (sections[0]) setActive(sections[0].id);
+  </script>
+</body>
+</html>

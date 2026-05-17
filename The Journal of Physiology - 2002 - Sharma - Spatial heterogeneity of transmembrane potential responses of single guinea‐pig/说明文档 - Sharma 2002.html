@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spatial heterogeneity of Vm responses | Sharma 2002 论文说明</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5b6776;
+      --line: #d9ded6;
+      --accent: #0f766e;
+      --accent-soft: #e0f2ef;
+      --warn: #9a5b13;
+      --code: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: #f0f3ee;
+    }
+
+    .toc h1 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .toc .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 10px;
+      margin: 3px 0;
+      border-radius: 7px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .toc a.active,
+    .toc a:hover {
+      color: #064e45;
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 42px 48px 80px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 52px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
+    }
+
+    header.paper-title {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+    }
+
+    h2, h3 {
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: 26px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-card, .note, .term, .figure-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .info-card {
+      padding: 14px 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #111827;
+    }
+
+    .note {
+      padding: 16px 18px;
+      margin: 18px 0;
+      background: #f6fbfa;
+      border-color: #b9ded8;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #e8c98f;
+      color: #5f3b08;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #075e55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 14px 16px;
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .figure-card {
+      margin: 22px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-card figcaption {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .figure-card figcaption strong {
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f1;
+      text-align: left;
+      color: #123b36;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    .math {
+      font-style: italic;
+      font-family: "Georgia", serif;
+    }
+
+    .math-block {
+      display: block;
+      text-align: center;
+      margin: 14px 0;
+      font-style: italic;
+      font-family: "Georgia", serif;
+      font-size: 1.05em;
+      color: #1a2e2c;
+    }
+
+    ul, ol { padding-left: 1.35em; }
+
+    .source-list li {
+      margin: 6px 0;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc {
+        position: sticky;
+        z-index: 5;
+        height: auto;
+        max-height: 45vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 14px 52px; }
+      article { padding: 26px 18px; }
+      header h2 { font-size: 28px; }
+      .info-grid, .terms { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="文章目录">
+      <h1>Sharma 2002<br>心肌细胞膜电位空间异质性</h1>
+      <div class="meta">J Physiol | 电场刺激 | 单细胞光学记录</div>
+      <a href="#paper">论文信息</a>
+      <a href="#takeaway">一句话定位</a>
+      <a href="#why">为什么值得读</a>
+      <a href="#terms">术语先说明</a>
+      <a href="#figures">图文导读</a>
+      <a href="#connection">和你的研究怎么接上</a>
+      <a href="#limits">证据链和局限</a>
+      <a href="#reading">建议阅读顺序</a>
+      <a href="#sources">来源链接</a>
+    </nav>
+
+    <main>
+      <article>
+        <header class="paper-title">
+          <p class="eyebrow">论文精读说明文档</p>
+          <h2>Spatial Heterogeneity of Transmembrane Potential Responses of Single Guinea-pig Cardiac Cells During Electric Field Stimulation</h2>
+          <p class="subtitle">外电场刺激单个心肌细胞时，膜电位不是"整体同步"的，而是沿细胞长轴出现去极化端与超极化端——本文把这个响应拆成空间梯度项和全细胞公共偏移项，并定量描述了高场强下系统进入非线性的过程。</p>
+          <div class="tags">
+            <span class="tag">外电场刺激</span>
+            <span class="tag">空间异质性</span>
+            <span class="tag">跨膜电位</span>
+            <span class="tag">di-8-ANEPPS</span>
+            <span class="tag">差分测量相关</span>
+            <span class="tag">除颤机理基础</span>
+          </div>
+        </header>
+
+        <section id="paper">
+          <h2>论文信息</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <strong>标题</strong>
+              Spatial heterogeneity of transmembrane potential responses of single guinea-pig cardiac cells during electric field stimulation
+            </div>
+            <div class="info-card">
+              <strong>作者</strong>
+              Vinod Sharma, Leslie Tung
+            </div>
+            <div class="info-card">
+              <strong>单位</strong>
+              Department of Biomedical Engineering, The Johns Hopkins University
+            </div>
+            <div class="info-card">
+              <strong>期刊 / 卷期</strong>
+              The Journal of Physiology, 2002, 542(2): 477&#8211;492
+            </div>
+            <div class="info-card">
+              <strong>DOI</strong>
+              <a href="https://doi.org/10.1113/jphysiol.2001.013197" target="_blank" rel="noopener noreferrer">10.1113/jphysiol.2001.013197</a>
+            </div>
+            <div class="info-card">
+              <strong>实验对象</strong>
+              成年豚鼠（guinea-pig）心室肌单细胞；n&nbsp;=&nbsp;57 个细胞，201 次 S1-S2 刺激
+            </div>
+          </div>
+
+          <div class="note">
+            这是一篇聚焦单细胞层面的原始实验论文，不是综述。它把单个心室肌细胞在外电场刺激下的膜电位空间分布测了出来，是理解除颤、抗心律失常刺激和电场-细胞相互作用的关键基础文献。
+          </div>
+        </section>
+
+        <section id="takeaway">
+          <h2>一句话定位</h2>
+          <p>
+            这篇论文证明：外电场（electric field）刺激单个心肌细胞时，膜电位响应（transmembrane potential response）可以被清楚地拆成一个沿细胞长轴线性变化的快速空间梯度项 <span class="math">V<sub>mr</sub></span>（被动极化模板）和一个各测点几乎同步偏移的慢公共项 <span class="math">V<sub>ms</sub></span>（全细胞状态偏移）——后者的方向由细胞所处的电生理状态决定，而不是由电场方向决定；当场强足够高时，系统进入带有内部电场和损伤性非线性的新区间。
+          </p>
+        </section>
+
+        <section id="why">
+          <h2>为什么值得读</h2>
+          <p>
+            在 patch-clamp 或空间钳制条件下，单细胞可以被近似为"空间均一"的系统——给定电流，整体去极化，测到的 <span class="math">V<sub>m</sub></span> 代表全细胞状态。但换成<strong>外电场刺激</strong>，这个直觉会直接失效：外场不从细胞内部某一点注入电流，而是在细胞两端产生方向相反的极化。细胞同一时刻不同位置的膜电位，可以一端朝去极化方向走、另一端朝超极化方向走。
+          </p>
+          <p>
+            这件事对理解临床除颤和抗心律失常刺激至关重要。组织层面常讨论的 virtual electrode（虚拟电极效应）、make excitation、break excitation，追到最底层都绑定在一个基本问题上：<strong>一个单独的心肌细胞，在均匀外电场里，膜电位的空间分布究竟是怎样的？</strong>
+          </p>
+          <p>
+            对差分电极测量来说，这篇论文的价值更为直接：它以实验数据的形式揭示了，在外电场刺激下，<strong>细胞两端的膜电位变化方向相反、幅度不等</strong>。这正是差分测量方案所要捕捉的物理结构——差模信号（两端相反极化）才是真正的生理响应，而共模分量（两端同步偏移的 <span class="math">V<sub>ms</sub></span>）是叠加在其上的状态偏移。本文给出了这两个分量在量级、时间特征和状态依赖性上的定量描述，为差分电极设计和信号解释提供了直接的理论根据。
+          </p>
+        </section>
+
+        <section id="terms">
+          <h2>术语先说明</h2>
+          <div class="terms">
+            <div class="term">
+              <strong>跨膜电位（transmembrane potential, V<sub>m</sub>）</strong>
+              细胞膜内外的电势差。在外电场刺激下，<span class="math">V<sub>m</sub></span> 不再是一个标量，而是一个同时依赖位置 <span class="math">x</span> 和时间 <span class="math">t</span> 的量，写作 <span class="math">V<sub>m</sub>(x, t)</span>。本文用电压敏感染料的荧光信号归一化得到它，不是微电极直接测量的绝对值。
+            </div>
+            <div class="term">
+              <strong>电场刺激（electric field stimulation, E-field）</strong>
+              在细胞外部施加一个空间均匀的电位梯度，用场强（V/cm）描述。与 patch-clamp 的"在膜上施加钳制电压"不同，外电场通过改变细胞外各点电势来间接极化细胞膜，因此必然在细胞两端产生方向相反的跨膜电位变化。本文场强范围约 3&#8211;62 V/cm。
+            </div>
+            <div class="term">
+              <strong>快速空间分量（V<sub>mr</sub>）与慢公共分量（V<sub>ms</sub>）</strong>
+              作者将 <span class="math">V<sub>m</sub>(x,t)</span> 拆成两项：<span class="math">V<sub>mr</sub>(x)</span> 是外电场一加上去立即出现的线性空间极化模板，随位置线性变化，随场方向翻转；<span class="math">V<sub>ms</sub>(t)</span> 是各测点几乎同步变化的公共偏移，反映细胞整体状态的演化，与细胞处于静息期还是平台期密切相关。
+            </div>
+            <div class="term">
+              <strong>空间异质性（spatial heterogeneity）</strong>
+              同一细胞在同一时刻，不同位置的 <span class="math">V<sub>m</sub></span> 不相同的现象。本文的核心发现就是对这种异质性的定量描述与分解。从等效电路角度看，细胞外电位随位置线性变化，而细胞内电位在低场强下近似等势，因此跨膜电位天然带有空间梯度。
+            </div>
+            <div class="term">
+              <strong>去极化端与超极化端（depolarized end / hyperpolarized end）</strong>
+              在纵向外电场下，细胞一端膜电位向去极化方向偏移（阳极侧），另一端向超极化方向偏移（阴极侧）。两端同时发生，方向相反，这是本文最核心的实验现象，也是差分测量方案天然能够分离的信号结构。
+            </div>
+            <div class="term">
+              <strong>电压敏感染料（voltage-sensitive dye, VSD）</strong>
+              能把膜电位变化转换为荧光信号变化的有机染料。本文使用 di-8-ANEPPS，沿细胞长轴做 4&#8211;12 个测点的同步光学记录，空间分辨率 17 或 25 μm。用 VSD 记录的优点是完全无接触、避免了电刺激下传统电极引入的伪迹；代价是只能测相对变化，需要以动作电位幅度（APA）归一化。
+            </div>
+            <div class="term">
+              <strong>心室肌细胞（ventricular myocyte）</strong>
+              心脏心室壁的肌肉细胞，细胞形态为细长柱状，长轴约 100 μm，适合在长轴方向上分辨空间极化梯度。本文选用成年豚鼠心室肌单细胞，因其动作电位形态（尤其是平台期）与人心肌相似，是心脏电生理的经典模型。
+            </div>
+            <div class="term">
+              <strong>内部电场（internal electric field, E<sub>i</sub>）</strong>
+              高场强刺激下，当各测点时间轨迹不再平行时，作者引入的等效量：细胞内部出现了时间依赖的空间电位梯度，其时间常数约 7.2&thinsp;ms。这是系统进入非线性（可能包含电穿孔 electroporation）的判据，也是"简单被动极化模型失效"的标志。
+            </div>
+          </div>
+        </section>
+
+        <section id="figures">
+          <h2>图文导读</h2>
+
+          <figure class="figure-card">
+            <img src="figures/Figure 1 - 实验平台与多位点光学记录系统.png" alt="Figure 1: 实验平台与多位点光学记录系统">
+            <figcaption>
+              <strong>Figure 1 实验平台：能不能看到空间差异，取决于这一步。</strong>
+              这张方法图是全文的技术前提。作者没有用整细胞平均荧光，而是沿细胞长轴布置多个（4&#8211;12 个）同步光电检测点，空间分辨率达到 17&#8211;25 μm。这套系统解决了两个关键问题：第一，在电场刺激期间避免了传统电极的伪迹；第二，能够同时测量时间过程和空间分布。没有这套多点同步记录，后面将响应拆成 <span class="math">V<sub>mr</sub></span> 和 <span class="math">V<sub>ms</sub></span> 的分析就无从实现。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Figure 2 - 典型 S1-S2 响应与 Vm 定义.png" alt="Figure 2: 典型 S1-S2 响应与 Vm 定义">
+            <figcaption>
+              <strong>Figure 2 主线第一次浮出水面：两端相反极化 + 全细胞公共偏移。</strong>
+              这张图是全文概念结构的第一次完整呈现，要从中读出三件事。其一：场方向反转时，空间极化图样完整镜像翻转，说明快速响应确实由外电场方向控制，这对应 <span class="math">V<sub>mr</sub></span>。其二：细胞中部测点不出现 make/break 类型的跳变，但有缓慢整体偏移，说明在两端极化之外还存在全细胞共享的分量，这对应 <span class="math">V<sub>ms</sub></span>。其三：S1（静息期刺激）期间的公共偏移方向朝去极化，S2（平台期刺激）期间的公共偏移方向朝超极化——同一细胞，两种状态，公共项方向完全相反。这就是本文最核心发现的实验雏形。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Figure 3 - 静息期 S1 诱发的去极化公共分量.png" alt="Figure 3: 静息期 S1 诱发的去极化公共分量">
+            <figcaption>
+              <strong>Figure 3 静息期：公共项把整条细胞推向去极化。</strong>
+              作者故意把 S1 做得更短、更弱（2 ms，4.1 V/cm），让动作电位上升相出现在脉冲结束之后，从而把场刺激阶段单独窗口化观察。结果清晰：场刚开始时，沿长轴出现线性分散的空间极化（<span class="math">V<sub>mr</sub></span> 已经到位）；随后，各测点轨迹几乎平行整体上移，不管各自起点在去极化端还是超极化端，都被推向同一个更去极化的方向。这就是静息期的 <span class="math">V<sub>ms</sub></span>——它的存在说明，在被动极化之外，静息期的膜离子电流把细胞的平均状态推向了更容易被激发的方向。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Figure 4 - 平台期 S2 诱发的超极化公共分量.png" alt="Figure 4: 平台期 S2 诱发的超极化公共分量">
+            <figcaption>
+              <strong>Figure 4 平台期：同样的外电场，公共项方向反转。</strong>
+              这张图与 Figure 3 形成精确的镜像对照。快速空间极化 <span class="math">V<sub>mr</sub></span> 仍然存在，去极化端和超极化端的位置也由电场方向决定，这一点没有改变。但公共偏移 <span class="math">V<sub>ms</sub></span> 的方向完全反了过来：平台期刺激时，所有测点整体向超极化方向平移。这是全文最重要的逻辑转折点，它确立了一个关键判断：<span class="math">V<sub>mr</sub></span> 更像外场对细胞施加的被动几何结果，<span class="math">V<sub>ms</sub></span> 则明显取决于细胞当前的电生理状态——由膜离子电流决定，而不是由电场方向决定。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Figure 5 - S2 场强增大时的四类平台期响应.png" alt="Figure 5: S2 场强增大时的四类平台期响应">
+            <figcaption>
+              <strong>Figure 5 场强加大时，平台期响应经历四种不同形态区间。</strong>
+              Figure 5A 先完成一个重要的排除：反复光照和重复刺激不会明显改变同一细胞的响应，因此后续看到的形态变化是真实的场强依赖现象，而非实验伪迹。Figure 5B 是核心结果。随着 S2 场强从弱到强，平台期响应依次呈现四种形态：I 型几乎不动，II 型缓慢超极化但脉冲内未达峰值，III 型快速超极化后形成平台，IV 型先快速超极化后出现去极化方向的回摆。重点不在于分类的名称，而在于它证明了一件事：平台期场响应不是"场越大波形按比例放大"，而是会跨过由不同机制主导的多个区间。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Figure 6 - 四类 S2 响应的总体分布与阈值.png" alt="Figure 6: 四类 S2 响应的总体分布与阈值">
+            <figcaption>
+              <strong>Figure 6 将个例变成总体规律，给出三个定量阈值。</strong>
+              作者以两端最大极化的平均值 <span class="math">V&#770;<sub>m</sub><sup>S2</sup></span>（S2 开始后 0.3 ms 时刻）作为场刺激强度的统一指标，跨越 57 个细胞、201 次刺激做统计。三个关键阈值：约 60 mV（I 型向 II 型过渡）、110 mV（II 向 III）、220 mV（III 向 IV），对应名义场强约 12、22、44 V/cm。非平行型的 IV 类响应主要集中在高极化区间——真正危险的非线性不是从低场强一开始就全面出现，而是在极化量足够高之后才越来越占主导。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Figure 7 - 高场强下的非平行响应与内部电场 Ei.png" alt="Figure 7: 高场强下的非平行响应与内部电场 Ei">
+            <figcaption>
+              <strong>Figure 7 全文最关键的机制图：各测点轨迹不再平行，内部电场出现。</strong>
+              同一细胞先用 38.3 V/cm 的 S2 刺激，各测点时间轨迹近似平行；再用 56.2 V/cm，轨迹开始收敛，空间斜率随时间下降。作者把这种斜率下降等效成细胞内部出现了时间依赖的内部电场 <span class="math">E<sub>i</sub>(t)</span>，其增长过程接近指数型，时间常数 7.2 ± 3.2 ms。物理含义很清晰：高场强下，细胞内部本身也产生了新的空间电位结构，系统不再只是"外场加在被动细胞上"那么简单。作者认为这是两端极化进入数百毫伏量级时，膜电导因电穿孔（electroporation）增加、纵向内向电流形成的结果。所有出现非平行响应的 17 个细胞都伴随着脉冲后平台电位下移、自发收缩和兴奋性异常。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Figure 8 - S2 结束后的净超极化与饱和趋势.png" alt="Figure 8: S2 结束后的净超极化与饱和趋势">
+            <figcaption>
+              <strong>Figure 8 脉冲结束后，净超极化在高场强下趋于饱和甚至回落。</strong>
+              这张图考察 S2 脉冲结束时细胞还留下多少净超极化。在 <span class="math">V&#770;<sub>m</sub><sup>S2</sup></span> 低于约 220 mV 的范围内，净超极化单调随刺激强度上升。超过这个阈值之后，趋势开始饱和，甚至略有回落——IV 型响应中后期的去极化回摆部分抵消了早期积累的超极化。这与 Figure 7 互相印证：Figure 7 显示高场强下出现内部电场和轨迹非平行性，Figure 8 显示高场强下净效应不再线性增强。两者合在一起支持同一个结论：系统在高场强下已经越过线性极化的边界，进入了新的非线性机制区。
+            </figcaption>
+          </figure>
+        </section>
+
+        <section id="connection">
+          <h2>和你的研究怎么接上</h2>
+
+          <h3>1. 本文直接证明了"两端极化方向相反"——这正是差分电极的信号来源</h3>
+          <p>
+            罗重威的 IEEE TIM 差分测量工作，其物理基础就是：在外电场刺激下，细胞（或组织）一端去极化、另一端超极化，两路电极之间形成差模信号，而不是共模信号。Sharma 2002 用电压敏感染料在单细胞上把这个结构直接测了出来——<span class="math">V<sub>mr</sub>(x)</span> 沿细胞长轴线性变化，两端符号相反，幅度随场强线性增加（在低到中等场强范围内）。这不是一个推断，而是有 17&#8211;25 μm 空间分辨率的实验数据支持的事实。差分电极测量的"差模信号"对应的正是这个 <span class="math">V<sub>mr</sub></span>。
+          </p>
+
+          <h3>2. V<sub>ms</sub> 是叠加在差模信号上的共模分量——解释了为什么不能简单"一端减一端"</h3>
+          <p>
+            如果单细胞的响应只有 <span class="math">V<sub>mr</sub></span>，那么差分测量就是纯差模，共模抑制比（CMRR）的设计没有任何压力。但本文明确指出，响应同时包含 <span class="math">V<sub>ms</sub>(t)</span>——一个各测点几乎同步偏移的公共分量。这个分量在静息期偏去极化、在平台期偏超极化，其绝对量级在中等场强下可以与 <span class="math">V<sub>mr</sub></span> 可比。对差分电极来说，<span class="math">V<sub>ms</sub></span> 就是一个共模信号：两个电极都"看到"它，只有 CMRR 足够高才能把它压掉而不混入差模输出。本文为 CMRR 设计指标提供了物理量级参考。
+          </p>
+
+          <h3>3. 空间极化与差分电极放置：测量点位置决定了能"看到多少"</h3>
+          <p>
+            <span class="math">V<sub>mr</sub>(x)</span> 沿细胞长轴线性变化，意味着两个记录点之间的距离越大、越靠近细胞两端，捕获到的差模信号幅度越大；若两个电极位于同一位置，差模信号为零。这为差分电极的放置优化提供了定量依据：电极间距应当足够大，且方向应当与电场方向（细胞长轴方向）对齐，才能最大化差模信号同时最小化共模叠加。
+          </p>
+
+          <h3>4. 单细胞结果向组织层面推广时的共模问题</h3>
+          <p>
+            在组织或多细胞实验中，不同细胞的 <span class="math">V<sub>ms</sub></span> 可能因局部离子环境和细胞耦联而有所差异，但其"全细胞同步偏移"的本质不变。对组织级别的差分电极测量而言，这意味着刺激伪迹的共模分量不只来自刺激电流在导电介质中的电容/电阻耦合，还包括被刺激细胞本身产生的 <span class="math">V<sub>ms</sub></span> 型公共响应。本文单细胞数据为分析这一贡献的量级提供了基础。
+          </p>
+
+          <h3>5. IEEE TIM 论文的理论根基：为什么差分测量在场刺激实验中有必要性</h3>
+          <p>
+            在场刺激实验中，传统单端（单电极参考地）的测量会同时捕获 <span class="math">V<sub>mr</sub></span> 和 <span class="math">V<sub>ms</sub></span>，以及刺激伪迹，无法将真正反映空间极化的差模分量从公共偏移中分离。Sharma 2002 通过对比不同位置测点的响应，本质上已经在做差分分析——只是用的是光学手段而非电极。电极差分测量是这套思路在电记录场景下的自然延伸：把光学多点测量的"空间结构分析"翻译成了电信号处理中的"差模提取"。这篇论文因此可以作为 IEEE TIM 论文的物理背景文献之一，用来论证差分测量在场刺激电生理实验中的必要性。
+          </p>
+        </section>
+
+        <section id="limits">
+          <h2>证据链和局限</h2>
+          <ol>
+            <li><strong>主要分析纵向刺激（细胞长轴与电场方向一致）。</strong> 这种几何关系最有利于突显两端极化，但并不代表所有几何取向。斜向或横向刺激的空间分布规律需要另行验证。</li>
+            <li><strong>V<sub>ms</sub> 的具体离子通道机制在本文中未被直接拆开。</strong> 文章确立了 <span class="math">V<sub>ms</sub></span> 的存在和方向依赖性，但哪些离子电流（I<sub>Na</sub>、I<sub>K1</sub>、I<sub>to</sub> 等）主导了静息期和平台期不同方向的公共偏移，是留给后续工作的开放问题。</li>
+            <li><strong>高场强下 electroporation 机制的推断性质。</strong> Figure 7 中关于内部电场 <span class="math">E<sub>i</sub></span> 和电穿孔的解释，属于"强证据支持的机制推断"，而非直接的膜孔成像或单通道导电测量。非平行响应也可能有其他原因（如细胞内离子扩散）。</li>
+            <li><strong>结果基于单细胞，向组织/体内的推广需谨慎。</strong> 组织层面还有细胞间耦联、各向异性、曲率和间隙连接等复杂因素，单细胞规律是必要的基础，但不足以直接代替组织级别的实验。</li>
+            <li><strong>测量量为归一化相对值，不是绝对毫伏。</strong> 荧光信号以动作电位幅度（APA）归一化，因此报告的是相对膜电位变化，不同细胞间的绝对量级比较受到一定限制。</li>
+          </ol>
+          <div class="note warning">
+            引用本文中的场强阈值（12、22、44 V/cm）和极化量阈值（60、110、220 mV）时，需注意这些数值依赖于豚鼠心室肌单细胞在特定几何和刺激方案下的结果，不可直接套用于其他物种、其他细胞类型或组织级别的实验。
+          </div>
+        </section>
+
+        <section id="reading">
+          <h2>建议阅读顺序</h2>
+          <ol>
+            <li>先读 Abstract 和 Introduction，抓住"为什么单细胞外电场实验是理解除颤的基础层"这个动机。</li>
+            <li>读 Methods 中的刺激方案（S1-S2 设计）和光学记录系统描述，理解为什么这个设计能把 <span class="math">V<sub>mr</sub></span> 和 <span class="math">V<sub>ms</sub></span> 分离出来。</li>
+            <li>按 Figure 2 → Figure 3 → Figure 4 的顺序看结果，先建立"两端相反极化 + 公共偏移方向依状态而变"的直觉。</li>
+            <li>看 Figure 5 和 Figure 6，理解平台期响应的四类形态和三个阈值。</li>
+            <li>最后读 Figure 7、Figure 8 和 Discussion，把内部电场 <span class="math">E<sub>i</sub></span> 的出现和 electroporation 推断作为全文的机制终点。</li>
+            <li>从差分测量角度二次阅读：把每个结果图中的"各测点响应差异"对应到差模分量，把"各测点同步偏移"对应到共模分量，整理出对差分电极设计有用的约束条件。</li>
+          </ol>
+        </section>
+
+        <section id="sources">
+          <h2>来源链接</h2>
+          <ul class="source-list">
+            <li><a href="https://doi.org/10.1113/jphysiol.2001.013197" target="_blank" rel="noopener noreferrer">DOI: 10.1113/jphysiol.2001.013197</a></li>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/12122146/" target="_blank" rel="noopener noreferrer">PubMed: PMID 12122146</a></li>
+            <li><a href="https://pure.johnshopkins.edu/en/publications/spatial-heterogeneity-of-transmembrane-potential-responses-of-sin-4/" target="_blank" rel="noopener noreferrer">Johns Hopkins PURE 论文条目</a></li>
+            <li><a href="https://www.bme.jhu.edu/people/faculty/leslie-tung/" target="_blank" rel="noopener noreferrer">Leslie Tung 官方主页（Johns Hopkins BME）</a></li>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/14678127/" target="_blank" rel="noopener noreferrer">Vinod Sharma 后续公开记录（PubMed 14678127）</a></li>
+          </ul>
+          <div class="note">
+            DOI 链接已通过 Web 搜索确认（PMID 12122146）。Johns Hopkins PURE 条目和 Tung 实验室主页链接来自解读 MD 文件记录，建议访问时核对是否仍有效。其余 PubMed 条目（14678127）是 Vinod Sharma 后续发表的相关文献，非本文本身。
+          </div>
+        </section>
+
+        <p class="footer-note">
+          本文件为中文精读说明文档，图像来自本论文文件夹内的 <code>figures/</code> 子目录（8 张实验图）。正式 PDF 与本文档保存在同一文件夹。
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const sections = links
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -68% 0px',
+      threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+    if (sections[0]) setActive(sections[0].id);
+  </script>
+</body>
+</html>

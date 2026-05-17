@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artifactual Hyperpolarization | Lesperance 2018 论文说明</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5b6776;
+      --line: #d9ded6;
+      --accent: #0f766e;
+      --accent-soft: #e0f2ef;
+      --warn: #9a5b13;
+      --code: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: #f0f3ee;
+    }
+
+    .toc h1 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .toc .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 10px;
+      margin: 3px 0;
+      border-radius: 7px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .toc a.active,
+    .toc a:hover {
+      color: #064e45;
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 42px 48px 80px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 52px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
+    }
+
+    header.paper-title {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+    }
+
+    h2, h3 {
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: 26px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-card, .note, .term, .figure-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .info-card {
+      padding: 14px 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #111827;
+    }
+
+    .note {
+      padding: 16px 18px;
+      margin: 18px 0;
+      background: #f6fbfa;
+      border-color: #b9ded8;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #e8c98f;
+      color: #5f3b08;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #075e55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 14px 16px;
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .figure-card {
+      margin: 22px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-card figcaption {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .figure-card figcaption strong {
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f1;
+      text-align: left;
+      color: #123b36;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    ul, ol { padding-left: 1.35em; }
+
+    .source-list li {
+      margin: 6px 0;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc {
+        position: sticky;
+        z-index: 5;
+        height: auto;
+        max-height: 45vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 14px 52px; }
+      article { padding: 26px 18px; }
+      header h2 { font-size: 28px; }
+      .info-grid, .terms { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="文章目录">
+      <h1>Lesperance 2018<br>伪迹超极化</h1>
+      <div class="meta">Brain Stimulation | patch-clamp 伪迹机制</div>
+      <a href="#paper">论文信息</a>
+      <a href="#takeaway">一句话定位</a>
+      <a href="#why">为什么值得读</a>
+      <a href="#terms">术语先说明</a>
+      <a href="#figures">图文导读</a>
+      <a href="#mechanisms">机制横向对照</a>
+      <a href="#connection">和你的研究怎么接上</a>
+      <a href="#limits">证据链和局限</a>
+      <a href="#reading">建议阅读顺序</a>
+      <a href="#sources">来源链接</a>
+    </nav>
+
+    <main>
+      <article>
+        <header class="paper-title">
+          <p class="eyebrow">论文精读说明文档</p>
+          <h2>Artifactual Hyperpolarization During Extracellular Electrical Stimulation</h2>
+          <p class="subtitle">胞外电刺激下的"超极化"是真实的细胞响应，还是 patch-clamp 放大器自己制造的伪迹？这篇论文给出了明确答案。</p>
+          <div class="tags">
+            <span class="tag">胞外电刺激伪迹</span>
+            <span class="tag">PCA current clamp</span>
+            <span class="tag">差分测量强相关</span>
+            <span class="tag">共模抑制</span>
+            <span class="tag">VSD 光学验证</span>
+            <span class="tag">IEEE TIM 参考</span>
+          </div>
+        </header>
+
+        <!-- ===== 论文信息 ===== -->
+        <section id="paper">
+          <h2>论文信息</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <strong>标题</strong>
+              Artifactual hyperpolarization during extracellular electrical stimulation: Proposed mechanism of high-rate neuromodulation disproved
+            </div>
+            <div class="info-card">
+              <strong>作者</strong>
+              L. Stephen Lesperance, Milad Lankarany, Tianhe C. Zhang, Rosana Esteller, Stephanie Ratte, Steven A. Prescott*
+            </div>
+            <div class="info-card">
+              <strong>单位</strong>
+              The Hospital for Sick Children, Toronto; University of Toronto (Physiology &amp; BME); Boston Scientific Neuromodulation, Valencia, CA
+            </div>
+            <div class="info-card">
+              <strong>期刊</strong>
+              Brain Stimulation 11(3), 582–591, 2018
+            </div>
+            <div class="info-card">
+              <strong>DOI</strong>
+              <a href="https://doi.org/10.1016/j.brs.2017.12.004" target="_blank" rel="noopener noreferrer">10.1016/j.brs.2017.12.004</a>
+            </div>
+            <div class="info-card">
+              <strong>本地 PDF</strong>
+              <code>Brain Stimulation - 2018 - Lesperance - Artifactual hyperpolarization during extracellular electrical stimulation.pdf</code>
+            </div>
+          </div>
+
+          <div class="note">
+            这是一篇机制否定型原始研究，不是综述。它用严格的多方法对照实验，推翻了一个已经在文献里流传并被用于解释临床高频脊髓电刺激（SCS）镇痛的机制假说，同时揭露了 patch-clamp 放大器在 current clamp 模式下面对胞外电场时的系统性伪迹问题。
+          </div>
+        </section>
+
+        <!-- ===== 一句话定位 ===== -->
+        <section id="takeaway">
+          <h2>一句话定位</h2>
+          <p>
+            千赫兹频率胞外电刺激（kEFS, kilohertz extracellular field stimulation）在 patch-clamp current clamp 记录中引起的神经元"超极化"，是放大器电路将浴液电压波动反馈为注入细胞的伪迹电流所致，而不是胞外电场直接作用于神经元的真实生理效应——这个区别，用不同放大器和光学方法就可以一锤定音。
+          </p>
+        </section>
+
+        <!-- ===== 为什么值得读 ===== -->
+        <section id="why">
+          <h2>为什么值得读</h2>
+          <p>
+            高频脊髓电刺激在临床已广泛用于慢性疼痛治疗，但机制不清。Lee et al. 曾报告 kEFS 使脊髓神经元超极化，并据此提出"直接膜抑制"是高频 SCS 的核心机制——如果成立，这将是电刺激神经调控领域的范式转变。Lesperance 这篇论文用五条独立证据线否定了这个结论，并把问题的根源精确定位在 patch-clamp 放大器（PCA, patch-clamp amplifier）current clamp 模式的电路伪迹上。
+          </p>
+          <p>
+            对正在做胞外电刺激 + patch-clamp 记录的你来说，这篇论文的价值超过一般的"方法论文"：它证明了在胞外电场存在的条件下，某些放大器构型不仅会测错膜电位，还会主动向细胞注入错误电流，<strong>物理改变被测量的对象本身</strong>。这正是你的差分测量工作要解决的核心问题族的一个更严重的变种。
+          </p>
+          <p>
+            具体联系见"和你的研究怎么接上"一节，此处先给出阅读动机：
+          </p>
+          <ul>
+            <li>你的 IEEE TIM 论文处理的是胞外电压（V<sub>e</sub>）作为共模信号叠加在记录端的问题；Lesperance 的发现是同一物理场景下更深一层的问题——V<sub>e</sub> 还会通过 PCA 反馈环路被转换成注入细胞的伪迹电流。</li>
+            <li>差分测量能消除 V<sub>e</sub> 的加性叠加，但不能撤销 PCA 已经向细胞注入的伪迹电流——这个边界条件非常值得在你的论文 discussion 中 acknowledge。</li>
+            <li>Lesperance 的方法论（VSD 光学验证 + 放大器对比 + shielding 实验）提供了一套判断"超极化是真实效应还是测量伪迹"的完整实验框架，可以直接类比到你自己的实验设计。</li>
+          </ul>
+        </section>
+
+        <!-- ===== 术语先说明 ===== -->
+        <section id="terms">
+          <h2>术语先说明</h2>
+          <div class="terms">
+            <div class="term">
+              <strong>胞外电刺激（EFS, extracellular field stimulation）</strong>
+              通过放置在细胞外浴液中的电极施加电场，而非像 patch-clamp 那样直接接触细胞。胞外刺激是脊髓电刺激、脑深部刺激（DBS）等临床技术的基本方式。本文聚焦千赫兹频率的 kEFS（1–10 kHz）。
+            </div>
+            <div class="term">
+              <strong>共模伪迹（common-mode artifact）</strong>
+              胞外电场同时抬高或降低 pipette 端和参考端的电位，如果测量系统不能将这个共模成分与差模的真实膜电位区分开，就会产生记录错误。差分测量（differential measurement）正是通过同时采集两个点的信号再作差，来消除共模分量。
+            </div>
+            <div class="term">
+              <strong>真实超极化 vs 伪迹超极化</strong>
+              真实超极化：细胞膜内侧电位确实变得更负，离子通道状态、动作电位阈值等均真正改变。伪迹超极化：记录系统在输出端显示负偏移，但细胞实际膜电位并未改变（或改变量极小）。区分两者的方法：换用光学读出（VSD 成像）或换用不同电路原理的放大器，若"超极化"消失，则是伪迹。
+            </div>
+            <div class="term">
+              <strong>patch-clamp 放大器（PCA, patch-clamp amplifier）</strong>
+              以 Axopatch 200B、MultiClamp 700B 为代表。Current clamp 模式下，PCA 内部有一个正反馈环路，将 pipette 电压的变化转换为注入电流。在无胞外电场时，这个机制是稳定的；但在 EFS 存在时，浴液电压波动会被错误地当作信号通过该环路放大，最终注入细胞，造成膜电位的真实（但非生理性）改变。
+            </div>
+            <div class="term">
+              <strong>电压跟随放大器（VFA, voltage-follower amplifier）</strong>
+              以 Axoclamp 2B、Axoclamp 900A 为代表。工作原理是真正的电压跟随器：输出忠实追踪 pipette 电压，不通过反馈环路注入电流。VFA 记录到的信号仍包含浴液电压的叠加（和 PCA 一样），但它不会将浴液电压波动转换为注入细胞的伪迹电流。因此 VFA + 差分测量是目前最干净的 patch-clamp EFS 组合。
+            </div>
+            <div class="term">
+              <strong>电压敏感染料（VSD, voltage-sensitive dye）成像</strong>
+              用能嵌入细胞膜并随跨膜电位变化而改变荧光强度的染料，对细胞进行光学记录。本文使用 FluoVolt，其荧光变化与膜电位高度线性相关（校准曲线 r² = 0.99）。VSD 成像作为完全独立于电极的读出手段，是验证 PCA 伪迹最关键的对照。
+            </div>
+            <div class="term">
+              <strong>Cell-attached / Whole-cell 构型</strong>
+              Cell-attached：pipette 封接在膜上但不破膜，只记录封接处的局部电流；不向胞内注入电流。Whole-cell：破膜后 pipette 与胞内连通，可以读取全细胞膜电位并注入电流。本文的伪迹发生在 whole-cell current clamp 下——只有在 pipette 与细胞建立电学连通后，PCA 的伪迹电流才能真正注入细胞并改变膜电位。
+            </div>
+            <div class="term">
+              <strong>Sylgard 屏蔽（pipette shielding）</strong>
+              在 patch pipette 的玻璃管外壁涂覆 Sylgard（聚二甲基硅氧烷绝缘材料），减小 pipette 暴露在浴液中的有效面积，从而降低 pipette 拾取浴液电场的"天线效应"。本文用屏蔽实验证明 pipette 天线效应是伪迹的部分来源，但不是全部——PCA 电路本身的反馈机制才是根本。
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 图文导读 ===== -->
+        <section id="figures">
+          <h2>图文导读</h2>
+
+          <figure class="figure-card">
+            <img src="figures/Fig1.png" alt="Figure 1: Patched neurons are hyperpolarized by kEFS">
+            <figcaption>
+              <strong>Fig. 1 — PCA 记录的现象：kEFS 使 patched 神经元超极化。</strong>
+              这张图建立了论文要否定的"现象"：培养海马神经元在 1–10 kHz、0.5–5 mA EFS 下，whole-cell current clamp 记录到稳健的膜电位下移（超极化），幅度随刺激强度增大。(A) 展示了浴液中双极 EFS 电极与 patch pipette 的空间关系；(B) 给出了 5 mA 刺激在浴液中产生的峰-峰电场分布，神经元在场强约为 3–10 V/m 的区域。(C-D) 是典型的 trace 和群体统计。到这一步，所有数据都"支持"超极化假说——但作者没有就此停下，而是开始追问这个超极化是不是真实的。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig2.png" alt="Figure 2: kEFS-induced hyperpolarization inhibits spiking">
+            <figcaption>
+              <strong>Fig. 2 — "超极化"伴随 rheobase 升高，细胞看起来更难激发。</strong>
+              Rheobase（阈电流，threshold current）是引发第一个动作电位所需的最小注入电流。kEFS 期间，rheobase 从约 60 pA 升至约 120 pA（翻倍，p &lt; 0.001），提示细胞兴奋性真的下降了。然而这个结果同样可以有另一种解释：PCA 在 EFS 期间向外注入了伪迹电流，让细胞在 PCA 的"眼睛里"看起来更难激发——而细胞本身的状态并没有变。后续实验将区分这两种解释。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig3.png" alt="Figure 3: VSD imaging confirms kEFS-induced hyperpolarization of patched neurons">
+            <figcaption>
+              <strong>Fig. 3 — VSD 与电生理在 patched 状态下高度一致。</strong>
+              作者引入 FluoVolt VSD 光学成像作为独立的读出通道。在已建立 whole-cell 封接的神经元上，VSD 荧光信号的变化与 patch-clamp 电生理记录高度吻合（r² = 0.90–0.99）。这一步建立了两种方法的互信基础：在后续对照中，如果 VSD 看到而电生理看不到（或反之），就代表某种系统性差异，而不是方法误差。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig4.png" alt="Figure 4: VSD imaging reveals no kEFS-induced hyperpolarization in unpatched neurons">
+            <figcaption>
+              <strong>Fig. 4 — 全文最关键的对照：未 patch 的神经元在 EFS 下 VSD 信号平坦。</strong>
+              同一个神经元，在 patch 之前和 patch 之后分别用 VSD 记录。结果极其清晰：(A) Patch 之前，无论何种 EFS 强度，VSD 荧光都没有任何偏移——胞外电场对细胞膜电位没有任何直接影响。(B-F) Patch 之后，超极化出现；去掉 pipette，超极化消失；换用 Sylgard 屏蔽的 pipette，超极化幅度显著减小。这个结果直接证明：超极化不是 EFS 的生理效应，而是 patch pipette + 放大器系统引入的。逻辑上等价于：如果你的测量探头是问题所在，那拔掉探头信号就会消失——这正是此处发生的事。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig5.png" alt="Figure 5: Neurons recorded with voltage-follower amplifier are NOT hyperpolarized by kEFS">
+            <figcaption>
+              <strong>Fig. 5 — 换用 VFA（电压跟随放大器）：超极化和 rheobase 变化完全消失。</strong>
+              在培养海马神经元上，把放大器从 Axopatch 200B（PCA）换成 Axoclamp 2B（VFA），完全相同的 kEFS 参数下：电压变化 ΔV = 0.1 ± 0.1 mV（与零无显著差异，p = 0.584），rheobase 在 EFS 前后完全不变（p = 1.0）。这把矛头精确指向了 PCA 的 current clamp 电路，而不是 EFS 本身、细胞类型或实验制备。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig6.png" alt="Figure 6: Neurons in slice are hyperpolarized by EFS only if recorded with a PCA">
+            <figcaption>
+              <strong>Fig. 6 — 急性切片（海马 + 脊髓）的 PCA vs VFA 对照，结论完全一致。</strong>
+              为了排除"这只是培养神经元的特殊性"，作者在急性海马切片锥体神经元和急性脊髓切片背角神经元（lamina I/II）上重复了实验。PCA 在所有细胞类型、所有频率/强度参数下都记录到超极化和 rheobase 升高；VFA 在所有条件下均无超极化、rheobase 不变。跨越三种制备类型的一致性，排除了细胞特异性解释，锁定伪迹来源为 PCA current clamp 模式。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig7.png" alt="Figure 7: Transient hyperpolarization after individual EFS pulses summate during kEFS">
+            <figcaption>
+              <strong>Fig. 7 — 机制拆解：单脉冲引起小的瞬态伪迹，kHz 重复叠加成持续超极化。</strong>
+              把时间分辨率拉高，可以看到每个 EFS 脉冲后 PCA 输出一次小的瞬态负偏移（unitary hyperpolarization，幅度约 3 mV）。双指数拟合给出两个衰减时间常数：快成分 τ ≈ 215 μs（在 1 kHz 的脉冲间隔 1 ms 内几乎完全衰减），慢成分 τ ≈ 9.19 ms（在 1 kHz 下远未衰减就被下一个脉冲追上）。卷积模型用单个 unitary 响应卷积 1 kHz 脉冲序列，预测出的累积超极化轨迹与实验数据高度吻合（r² = 0.85）。这说明 kHz 超极化完全可由单脉冲伪迹的线性时域叠加解释，不需要任何额外的生理机制。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig8.png" alt="Figure 8: EFS pulses induce an error current in PCAs that corrupts voltage measurement">
+            <figcaption>
+              <strong>Fig. 8 — 等效电路解释：EFS 通过 PCA 反馈环路注入伪迹电流，物理改变真实膜电位。</strong>
+              这是理解全文机制的核心图。(A) 画出了 PCA current clamp 的等效电路：正常情况下，PCA 读取 pipette 电压 V<sub>p</sub> = V<sub>b</sub> + V<sub>m</sub>，并通过内部反馈保持注入电流为常数；EFS 存在时，浴液电压 V<sub>b</sub> 波动被加进 V<sub>p</sub>，PCA 把这个波动误判为 V<sub>m</sub> 的变化，通过反馈环路将其转换为注入细胞的伪迹电流 I<sub>out</sub>，后者在细胞膜电容上积分成 mV 级的膜电位变化——这是一个不可逆的物理改变，而不是记录偏差。(B-C) 通过 up-down 与 down-up 方向 EFS 产生不对称超极化，实验验证了电路模型的定性预测（p = 0.008）。
+            </figcaption>
+          </figure>
+        </section>
+
+        <!-- ===== 机制横向对照 ===== -->
+        <section id="mechanisms">
+          <h2>机制横向对照</h2>
+          <p>下表总结了本文识别的伪迹来源、对应的实验证据和可行的消除方案：</p>
+          <table>
+            <thead>
+              <tr>
+                <th>伪迹来源</th>
+                <th>关键证据</th>
+                <th>对真实 V<sub>m</sub> 的影响</th>
+                <th>消除方案</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pipette 天线效应：pipette 在浴液中拾取 EFS 电场，将 V<sub>b</sub> 的波动叠加到 V<sub>p</sub></td>
+                <td>Sylgard 屏蔽 pipette 后超极化幅度显著减小（Fig. 4B-C）</td>
+                <td>加性叠加，V<sub>m</sub> 本身未被改变（可后处理消除）</td>
+                <td>Sylgard 屏蔽；差分记录（同时采集浴液参考点）</td>
+              </tr>
+              <tr>
+                <td>PCA current clamp 反馈环路：将 V<sub>b</sub> 波动转换为注入细胞的伪迹电流</td>
+                <td>换用 VFA 后超极化完全消失（Fig. 5-6）；同一 Axopatch voltage clamp 模式无伪迹</td>
+                <td>物理改变真实 V<sub>m</sub>（不可逆，后处理无法消除）</td>
+                <td>换用 VFA（Axoclamp 2B / 900A）；或在 PCA 上增加浴液反馈补偿</td>
+              </tr>
+              <tr>
+                <td>单脉冲瞬态伪迹的 kHz 频率叠加：慢成分（τ ≈ 9 ms）在高重复率下累积</td>
+                <td>单脉冲 unitary 伪迹 + 卷积模型预测 = 实验结果（Fig. 7，r² = 0.85）</td>
+                <td>通过累积伪迹电流最终改变 V<sub>m</sub></td>
+                <td>根本解决：换 VFA；无法在 PCA 下通过波形设计完全避免</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ===== 和你的研究怎么接上 ===== -->
+        <section id="connection">
+          <h2>和你的研究怎么接上</h2>
+
+          <div class="note">
+            这一节是本文档最核心的部分。Lesperance 这篇论文和你的 IEEE TIM 差分测量工作处理的是同一个物理场景（胞外电场 + patch-clamp 记录）下的不同层次问题，理解它们的关系对你论文的定位和 discussion 写法都有直接影响。
+          </div>
+
+          <h3>1. 你们处理的是同一族问题的不同切面</h3>
+          <p>
+            你的出发点：V<sub>m</sub> = V<sub>i</sub> - V<sub>e</sub>。胞外电刺激使 V<sub>e</sub> ≠ 0，单端记录得到的是 V<sub>i</sub> = V<sub>m</sub> + V<sub>e</sub>，包含共模污染。你的差分方案同时采集胞内端和胞外参考端，作差得到真实 V<sub>m</sub>。
+          </p>
+          <p>
+            Lesperance 的发现：PCA current clamp 下，pipette 看到的是 V<sub>p</sub> = V<sub>b</sub> + V<sub>m</sub>（V<sub>b</sub> 即浴液电压，相当于局部 V<sub>e</sub>）。EFS 改变 V<sub>b</sub> → V<sub>p</sub> 波动 → PCA 反馈环路将这个波动转换为注入电流 → 注入电流在细胞膜上积分 → 真实 V<sub>m</sub> 被物理改变。
+          </p>
+          <p>
+            共同根源：<strong>胞外电场不为零时，测量系统无法正确分离胞内和胞外信号</strong>——这是你们两篇论文共同出发的基本物理约束。不同之处在于，你的工作聚焦在信号层面（V<sub>e</sub> 作为加性噪声的去除），Lesperance 揭示的是仪器层面（V<sub>e</sub> 被仪器反馈环路转换成了真实的扰动电流）。
+          </p>
+
+          <h3>2. 等效电路语言：用你最熟悉的框架理解 PCA 伪迹</h3>
+          <p>
+            把 PCA current clamp 画成等效电路：PCA 的核心是一个 I-V 转换器（即 voltage clamp 的基础），current clamp 在此基础上加正反馈实现"恒流注入"。正常情况下：
+          </p>
+          <ul>
+            <li>无 EFS：V<sub>b</sub> ≈ 0，V<sub>p</sub> ≈ V<sub>m</sub>，PCA 正确追踪膜电位，反馈电流维持在设定值</li>
+            <li>有 EFS：V<sub>b</sub> 波动（mA 级刺激电流在浴液中产生的局部电压，通常几十至几百 mV），V<sub>p</sub> 随之波动；PCA 把 V<sub>p</sub> 的变化误解为 V<sub>m</sub> 变化，通过反馈环路将对应量的电流注入细胞</li>
+            <li>关键不对称：同样的 V<sub>b</sub> 波动，对浴液（mA 级）是九牛一毛，但对细胞（pA 级即可显著影响 V<sub>m</sub>）是巨大扰动</li>
+          </ul>
+          <p>
+            这个分析直接给出了你的差分方法的应用边界（见下一小节）。
+          </p>
+
+          <h3>3. 你的差分方法能解决什么、不能解决什么</h3>
+          <p>
+            这是读 Lesperance 之后最应该厘清的认识：
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>放大器</th>
+                <th>V<sub>e</sub> 对记录信号的影响</th>
+                <th>V<sub>e</sub> 对真实 V<sub>m</sub> 的影响</th>
+                <th>你的差分能否修正</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>VFA（Axoclamp 2B/900A）</td>
+                <td>V<sub>e</sub> 作为加性叠加出现在记录中（V<sub>out</sub> = V<sub>e</sub> + V<sub>m</sub>）</td>
+                <td>不改变 V<sub>m</sub>（VFA 不注入伪迹电流）</td>
+                <td><strong>可以完全修正</strong>：差分去掉 V<sub>e</sub>，得到真实 V<sub>m</sub></td>
+              </tr>
+              <tr>
+                <td>PCA（Axopatch 200B / MultiClamp 700B）current clamp</td>
+                <td>V<sub>e</sub> 叠加 + 额外的伪迹电流引起的 ΔV<sub>m</sub></td>
+                <td>V<sub>m</sub> 被伪迹电流物理改变（不可逆）</td>
+                <td><strong>只能部分修正</strong>：差分去掉 V<sub>e</sub> 的加性叠加，但无法撤销已被注入的伪迹电流对 V<sub>m</sub> 的改变</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            结论：<strong>VFA + 差分测量是目前最干净的组合</strong>，既避免了 PCA 伪迹，又去除了 V<sub>e</sub> 的加性叠加。如果实验中必须使用 PCA（例如需要做 voltage clamp 和 current clamp 切换），那至少应该在 current clamp + EFS 条件下核查是否出现 Lesperance 描述的现象，并在论文中明确说明。
+          </p>
+
+          <h3>4. 对你 IEEE TIM 论文 Discussion 写法的直接参考</h3>
+          <p>
+            Lesperance 的结果为你的差分方法提供了两层 motivation，在论文中可以这样叙述：
+          </p>
+          <div class="note">
+            胞外电刺激下 V<sub>e</sub> ≠ 0 对 patch-clamp 记录的影响有两个层次。第一层：V<sub>e</sub> 作为共模信号叠加在记录端，使单端测量值不等于真实 V<sub>m</sub>，本文的差分方案直接解决这一问题。第二层（更隐蔽）：Lesperance et al. (2018) 证明，在 PCA current clamp 构型下，V<sub>e</sub> 的波动会通过放大器反馈环路被转换为注入细胞的伪迹电流，从而物理改变真实 V<sub>m</sub>。这种 measurement back-action 不能通过事后信号处理消除，只能通过选择合适的放大器构型（VFA）来规避。本文方法与 VFA 配合，可同时解决两个层次的问题。
+          </div>
+
+          <h3>5. 实验设计的互相参照</h3>
+          <p>
+            Lesperance 给出了一套"如何区分真实效应和测量伪迹"的实验框架，这对你自己的数据验证有直接参考价值：
+          </p>
+          <ul>
+            <li><strong>光学独立验证</strong>：VSD 成像作为独立于电极的读出，如果电生理看到但 VSD 看不到，说明是电路伪迹，而不是细胞响应。你若有光学成像条件，可以用同样的逻辑检验你的差分方案是否还有残余伪迹。</li>
+            <li><strong>Pipette 去除对照</strong>：这是最简单的负对照——去掉 pipette 后，EFS 对细胞的"效应"应该消失；如果没消失，说明是真实的细胞响应；如果消失了，说明效应是测量系统引入的。</li>
+            <li><strong>放大器构型对比</strong>：在你自己的实验中，比较 VFA 和 PCA 模式下的 EFS 记录，如果两者的差分结果一致，说明差分方法确实消除了 PCA 伪迹（至少在信号层面）；如果不一致，需要进一步追查。</li>
+            <li><strong>卷积模型验证</strong>：Lesperance 用单脉冲响应的卷积预测 kHz 累积伪迹，并与实验数据对比（r² = 0.85）。如果你发现数据中有某种频率依赖的偏差，同样的卷积框架可以帮助判断它是否是单脉冲伪迹的累积。</li>
+          </ul>
+        </section>
+
+        <!-- ===== 证据链和局限 ===== -->
+        <section id="limits">
+          <h2>证据链和局限</h2>
+
+          <h3>证据链的强度</h3>
+          <ol>
+            <li><strong>五条独立证据线指向同一结论</strong>：patch-clamp 电生理、VSD 光学成像、两种放大器对比、Sylgard 屏蔽实验、卷积机制模型——每条单独都有说服力，五条交叉一致则排除了各自的混杂因素。</li>
+            <li><strong>阴性对照设计严谨</strong>：未 patch 的神经元（VSD）、去掉 pipette 后、换用 VFA、同一 PCA 的 voltage clamp 模式——这些阴性对照精确地定位了伪迹的来源，而不只是"换个方法也看到了"。</li>
+            <li><strong>跨制备类型验证</strong>：培养海马神经元、急性海马切片、急性脊髓切片，三种制备类型结果一致，排除了细胞类型和制备方法的特异性。</li>
+            <li><strong>定量机制闭环</strong>：unitary 响应 → 卷积预测 → 实验测量，给出了从机制到现象的定量通路，而不只是定性解释。</li>
+          </ol>
+
+          <h3>相对薄弱的地方</h3>
+          <ol>
+            <li><strong>只测试了两种放大器</strong>：Axopatch 200B（PCA）和 Axoclamp 2B（VFA），虽然换了一台 Axopatch 200B 验证了一致性，但没有测试 HEKA EPC-10、AM Systems 2400 等其他品牌的 PCA。作者的电路分析指出这是 PCA current clamp 模式的通病，但严格来说，其他厂商的实现可能有不同的带宽或反馈设计，对伪迹的幅度会有影响。</li>
+            <li><strong>没有完整的定量传递函数建模</strong>：论文给出了定性的电路解释和对不对称性的定性预测，但没有用 PCA 的已知参数（反馈增益 R<sub>f</sub>、带宽等）对伪迹的绝对幅度做定量仿真并与实验对比。这在原则上是可以做的，留下了一个理论上的空白。</li>
+            <li><strong>Sylgard 屏蔽只能部分消除伪迹</strong>：论文的 Fig. 4B-C 显示，屏蔽 pipette 后超极化显著减小但没有完全消除，说明 pipette 天线效应只是伪迹的一部分来源。PCA 电路内部还有通过何种路径传递 V<sub>b</sub> 信号的问题，论文没有深入追究，这对想要在 PCA 条件下做硬件级修正的人来说是个缺口。</li>
+            <li><strong>只讨论了 in vitro 场景</strong>：论文直接挑战的是 in vitro patch-clamp 实验的结论，但没有讨论 in vivo 情境（接地方式、动物组织的电阻率分布、浮动参考电位等都不同），也没有评估这个伪迹机制在 in vivo 记录中是否同样成立。</li>
+          </ol>
+
+          <div class="note warning">
+            注意：这篇论文的结论是对 Lee et al. [21] 所提出的高频 SCS 镇痛机制的否定，但它并不否定高频 SCS 的临床有效性——效果是真实的，只是机制还需要寻找其他解释。论文本身也明确说明了这一点。
+          </div>
+        </section>
+
+        <!-- ===== 建议阅读顺序 ===== -->
+        <section id="reading">
+          <h2>建议阅读顺序</h2>
+          <ol>
+            <li>先读 <strong>Figure 4 的图注和正文对应段落</strong>（unpatched 神经元 VSD 无响应）——这是全文最关键的一步，5 分钟可以建立核心直觉。</li>
+            <li>再读 <strong>Figure 8A 的电路图</strong>，理解 PCA current clamp 的反馈环路如何把 V<sub>b</sub> 波动转换为注入电流——结合本文档的等效电路解释，大约需要 10 分钟。</li>
+            <li>然后回头看 <strong>Figures 1-2</strong>，理解作者是如何"先建立现象，再系统否定"的叙事结构。</li>
+            <li>看 <strong>Figure 5-6</strong>（VFA 对比），感受这个设计的干净程度——换一个放大器，所有伪迹消失，没有任何中间状态。</li>
+            <li>最后读 <strong>Figure 7</strong>（卷积机制模型），理解"kHz 累积 = 单脉冲伪迹线性叠加"的定量逻辑。</li>
+            <li>回看 Discussion，作者在这里对比了他们的结论和 Lee et al. 的解释，以及对临床 SCS 的影响——这部分对你写 IEEE TIM 的 Discussion 有参考价值。</li>
+          </ol>
+        </section>
+
+        <!-- ===== 来源链接 ===== -->
+        <section id="sources">
+          <h2>来源链接</h2>
+          <ul class="source-list">
+            <li><a href="https://doi.org/10.1016/j.brs.2017.12.004" target="_blank" rel="noopener noreferrer">DOI: 10.1016/j.brs.2017.12.004</a></li>
+            <li><a href="https://www.sciencedirect.com/science/article/pii/S1935861X17310203" target="_blank" rel="noopener noreferrer">ScienceDirect 原始页面</a></li>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/29289565/" target="_blank" rel="noopener noreferrer">PubMed: PMID 29289565</a></li>
+          </ul>
+        </section>
+
+        <p class="footer-note">
+          本文件为中文精读说明文档，图像来自本论文文件夹内的 <code>figures/</code> 子目录（Fig1.png – Fig8.png）。正式资源路径保留中文，引用时以相对路径 <code>figures/FigN.png</code> 嵌入。
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const sections = links
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -68% 0px',
+      threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+    if (sections[0]) setActive(sections[0].id);
+  </script>
+</body>
+</html>

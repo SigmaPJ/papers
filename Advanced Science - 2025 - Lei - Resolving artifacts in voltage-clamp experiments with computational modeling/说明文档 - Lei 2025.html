@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resolving Artifacts in Voltage-Clamp | Lei 2025 论文说明</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5b6776;
+      --line: #d9ded6;
+      --accent: #0f766e;
+      --accent-soft: #e0f2ef;
+      --warn: #9a5b13;
+      --code: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: #f0f3ee;
+    }
+
+    .toc h1 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .toc .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 10px;
+      margin: 3px 0;
+      border-radius: 7px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .toc a.active,
+    .toc a:hover {
+      color: #064e45;
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 42px 48px 80px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 52px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
+    }
+
+    header.paper-title {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+    }
+
+    h2, h3 {
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: 26px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-card, .note, .term, .figure-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .info-card {
+      padding: 14px 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #111827;
+    }
+
+    .note {
+      padding: 16px 18px;
+      margin: 18px 0;
+      background: #f6fbfa;
+      border-color: #b9ded8;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #e8c98f;
+      color: #5f3b08;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #075e55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 14px 16px;
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .figure-card {
+      margin: 22px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-card figcaption {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .figure-card figcaption strong {
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f1;
+      text-align: left;
+      color: #123b36;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    ul, ol { padding-left: 1.35em; }
+
+    .source-list li {
+      margin: 6px 0;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc {
+        position: sticky;
+        z-index: 5;
+        height: auto;
+        max-height: 45vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 14px 52px; }
+      article { padding: 26px 18px; }
+      header h2 { font-size: 28px; }
+      .info-grid, .terms { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="文章目录">
+      <h1>Lei 2025<br>Voltage-Clamp 伪迹计算建模</h1>
+      <div class="meta">Advanced Science | 电生理方法学</div>
+      <a href="#paper">论文信息</a>
+      <a href="#takeaway">一句话定位</a>
+      <a href="#why">为什么值得读</a>
+      <a href="#terms">术语先说明</a>
+      <a href="#figures">图文导读</a>
+      <a href="#mechanisms">机制横向对照</a>
+      <a href="#connection">和你的研究怎么接上</a>
+      <a href="#limits">证据链和局限</a>
+      <a href="#reading">建议阅读顺序</a>
+      <a href="#sources">来源链接</a>
+    </nav>
+
+    <main>
+      <article>
+        <header class="paper-title">
+          <p class="eyebrow">论文精读说明文档</p>
+          <h2>Resolving Artifacts in Voltage-Clamp Experiments with Computational Modeling</h2>
+          <p class="subtitle">用计算模型还原 voltage clamp 真实发生了什么——串联电阻伪迹有多大、为什么增大样本量也消除不了系统性偏差。</p>
+          <div class="tags">
+            <span class="tag">Voltage Clamp</span>
+            <span class="tag">串联电阻伪迹</span>
+            <span class="tag">等效电路建模</span>
+            <span class="tag">快钠电流</span>
+            <span class="tag">差分测量相关</span>
+          </div>
+        </header>
+
+        <!-- ===== 论文信息 ===== -->
+        <section id="paper">
+          <h2>论文信息</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <strong>标题</strong>
+              Resolving Artifacts in Voltage-Clamp Experiments with Computational Modeling: An Application to Fast Sodium Current Recordings
+            </div>
+            <div class="info-card">
+              <strong>作者</strong>
+              Chon Lok Lei*, Alexander P. Clark, Michael Clerx, Siyu Wei, Meye Bloothooft, Teun P. De Boer, David J. Christini, Trine Krogh-Madsen, Gary R. Mirams
+            </div>
+            <div class="info-card">
+              <strong>单位</strong>
+              University of Macau（Lei）; University of Nottingham（Clark, Clerx, Mirams）; Utrecht University（Wei, Bloothooft, De Boer）; Weill Cornell Medical College（Christini, Krogh-Madsen）
+            </div>
+            <div class="info-card">
+              <strong>期刊</strong>
+              Advanced Science, Vol. 12, Issue 30, 2025, e00691（Epub 2025-06-06）
+            </div>
+            <div class="info-card">
+              <strong>DOI</strong>
+              <a href="https://doi.org/10.1002/advs.202500691" target="_blank" rel="noopener noreferrer">10.1002/advs.202500691</a>
+            </div>
+            <div class="info-card">
+              <strong>本地 PDF</strong>
+              <code>Advanced Science - 2025 - Lei - Resolving artifacts in voltage-clamp experiments with computational modeling.pdf</code>
+            </div>
+          </div>
+
+          <div class="note">
+            本文同时有 bioRxiv 预印本（<a href="https://doi.org/10.1101/2024.07.23.604780" target="_blank" rel="noopener noreferrer">10.1101/2024.07.23.604780</a>）和 PMC 全文（PMCID: PMC12376535，PMID: 40476539）。代码和数据完全开源，见 <a href="https://github.com/CardiacModelling/nav-artefact-model" target="_blank" rel="noopener noreferrer">GitHub: CardiacModelling/nav-artefact-model</a>。
+          </div>
+        </section>
+
+        <!-- ===== 一句话定位 ===== -->
+        <section id="takeaway">
+          <h2>一句话定位</h2>
+          <p>
+            这篇论文建立了包含串联电阻（series resistance, Rs）、膜电容（membrane capacitance, Cm）、管电容（pipette capacitance, Cp）和全套放大器补偿电路在内的完整 voltage clamp 等效电路常微分方程模型，用电学模型细胞实验验证准确性，然后以心脏快钠电流（fast sodium current, INa）为例，定量证明：即使做了 80% 的 Rs 补偿，记录到的 I-V 曲线仍会出现峰值低估 10–30%、峰值电压左移 10–25 mV 的系统性偏差，且这一偏差无法通过增大样本量消除。
+          </p>
+        </section>
+
+        <!-- ===== 为什么值得读 ===== -->
+        <section id="why">
+          <h2>为什么值得读</h2>
+          <p>
+            Voltage clamp 是离子通道电生理的核心工具，但它有一个根本矛盾：要钳制膜电位就必须通过 pipette 注入电流，而电流流过串联电阻 Rs 会产生压降，导致膜上真实电位偏离命令电压。对慢电流（如延迟整流钾电流），这个误差尚在可接受范围；但对于激活时间常数在 0.1–1 ms 量级的快钠电流，Rs 造成的电压误差与电流瞬态几乎同步发生，来不及被放大器的补偿电路消除，进而扭曲整条 I-V 曲线。更关键的是，论文证明：多细胞取平均这一"领域惯例"不仅不能消除偏差，还会制造系统性错误——其量级与致病突变的门控偏移相当，意味着从有伪迹数据得出的参数估计、药效判断乃至突变致病性结论，都可能被系统性污染。
+          </p>
+          <p>
+            对罗重威正在推进的 IEEE TIM 差分测量论文而言，这篇文章是重要的方法学参照。你的工作处理的是胞外电位（extracellular potential, Ve）叠加在记录信号上的"加性伪迹"；Lei 处理的是串联电阻导致命令电压控制失效的"控制端伪迹"。两者在同一个实验系统（patch clamp，不同工作模式）上出现，在胞外电刺激（extracellular field stimulation, EFS）条件下同时做 voltage clamp 时会叠加。两篇论文的方法论哲学完全一致：不假设伪迹不存在，而是建立等效电路模型并加以修正。
+          </p>
+        </section>
+
+        <!-- ===== 术语先说明 ===== -->
+        <section id="terms">
+          <h2>术语先说明</h2>
+          <div class="terms">
+            <div class="term">
+              <strong>串联电阻（series resistance, Rs）</strong>
+              也称接入电阻（access resistance），指 pipette 尖端到细胞内部之间的总欧姆电阻。电流流过 Rs 时产生压降，使膜上真实电位偏离命令电压。这是 voltage clamp 所有伪迹的根源。
+            </div>
+            <div class="term">
+              <strong>钳制丢失（loss of voltage clamp）</strong>
+              快速大电流（如 INa）流过 Rs 时，产生的压降使膜电位瞬间偏离命令电压达 10–30 mV，放大器补偿电路来不及响应。此时放大器"以为"膜电位已钳在目标值，实则没有。
+            </div>
+            <div class="term">
+              <strong>Rs 补偿（series resistance compensation）</strong>
+              放大器在命令电压上叠加一个与输出电流成正比的补偿项，以抵消 Rs 压降。补偿比例（α_R）通常设为 70–90%；超过约 95% 时补偿回路易产生振荡不稳定。
+            </div>
+            <div class="term">
+              <strong>超充电 / 预测补偿（supercharging / prediction compensation）</strong>
+              放大器在电压阶跃时额外注入瞬态大电流，加速膜电容充电，使膜电位更快趋近命令电压。参数 α_P 控制补偿强度。超充电对慢电流帮助明显，对快电流效果有限。
+            </div>
+            <div class="term">
+              <strong>I-V 曲线（current-voltage curve）</strong>
+              以命令电压为横轴、峰值电流为纵轴的关系曲线，是描述离子通道激活特性的核心表征。Rs 伪迹会使 I-V 曲线整体左移、峰值压低，斜率变平。
+            </div>
+            <div class="term">
+              <strong>电学模型细胞（electrical model cell）</strong>
+              由已知精确参数的 RC 网络搭建的物理装置，用于模拟细胞等效电路。因其参数已知，可以作为验证计算模型准确性的标准参照，类似于 bare electrode 标定实验。
+            </div>
+            <div class="term">
+              <strong>漏减（leak subtraction）</strong>
+              从记录电流中减去估计的漏电流（leak current），通常用小幅度超极化脉冲估算线性漏电导。漏减参数若估计有误，会在最终电流中引入额外偏差。
+            </div>
+            <div class="term">
+              <strong>系统性偏差 vs 随机误差（systematic bias vs random variance）</strong>
+              随机误差可通过增大样本量压缩置信区间；系统性偏差不行——样本越大，对错误结论的"统计信心"越高，但真实值仍落在置信区间之外。本文核心论点：Rs 伪迹引入的是系统性偏差。
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 图文导读 ===== -->
+        <section id="figures">
+          <h2>图文导读</h2>
+
+          <figure class="figure-card">
+            <img src="figures/Fig1.png" alt="Figure 1: Workflow schematic comparing standard approach to the new computational modeling approach">
+            <figcaption>
+              <strong>Fig. 1 标准流程 vs 本文方法的对比示意图。</strong>
+              左侧代表领域惯例：假设 Rs 补偿足够好、V<sub>m</sub> ≈ V<sub>cmd</sub>，直接用命令电压作为 I-V 曲线横轴，对多个细胞取平均。右侧是本文方案：承认补偿不完美，用包含 Rs、Cm、补偿电路的完整 ODE 模型模拟真实 V<sub>m</sub>(t) 轨迹，再与实验数据匹配，从而得到"去伪迹"的离子通道参数。这张图的论点是：不"承认"伪迹存在，就无法正确地测量任何东西。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig2.png" alt="Figure 2: Detailed equivalent electrical circuit of the voltage-clamp model">
+            <figcaption>
+              <strong>Fig. 2 完整 voltage clamp 等效电路图——理解全文的钥匙。</strong>
+              左侧为细胞等效电路（Rs → Cm ∥（Rm + 离子通道）），右侧为放大器的各补偿模块：Rs 补偿（蓝色，α_R）、超充电预测补偿（紫色，α_P）、慢电容 Cm 补偿（棕色）、快电容 Cp 补偿（橙色）以及液接电位偏移。整个系统由十个耦合常微分方程（Eqs. 1–10）描述，可对任意 Hodgkin-Huxley 型离子通道模型插拔。图中每个补偿模块对应一个参数误差来源，也对应一个可在计算模型中系统性分析的自由度。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig3.png" alt="Figure 3: Model cell validation experiment">
+            <figcaption>
+              <strong>Fig. 3 电学模型细胞验证实验——确认计算模型的预测准确性。</strong>
+              用参数完全已知的改进版 "Type II" 物理 RC 模型细胞连接 MultiClamp 700B 放大器，系统性扫描 Rs 补偿（α_R）和超充电（α_P）参数（0%、50%、80%、90%、95%）。实线为实验测量，虚线为模型预测：0–80% 补偿范围内二者几乎完美吻合；90–95% 时出现补偿回路振荡，模型也定性一致。这张图证明：计算模型足够精确，可以被信任于预测真实细胞实验中的伪迹行为——验证逻辑与 bare electrode 标定实验完全相同。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig4.png" alt="Figure 4: hiPSC-CM perforated patch experiment with large Rs">
+            <figcaption>
+              <strong>Fig. 4 人诱导多能干细胞来源心肌细胞（hiPSC-CM）穿孔膜片钳——大 Rs 条件下的钳制丢失。</strong>
+              Rs ≈ 19.5 MΩ（穿孔膜片钳的典型高接入电阻），Cm = 27.4 pF。右上角面板是全图的焦点：模型计算的真实 V<sub>m</sub>(t)（实线）与命令电压 V<sub>cmd</sub>（虚线）之间存在 10–25 mV 的偏离，而这一偏离在实验中根本无法直接观测——只有通过计算模型才能"看到"。这正是"钳制丢失"的直接定量证据：放大器以为它在控制膜电位，实际上膜上发生的是完全不同的电压轨迹。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig5.png" alt="Figure 5: HEK-NaV1.5 ruptured patch and computational correction">
+            <figcaption>
+              <strong>Fig. 5 HEK 细胞 NaV1.5 破膜膜片钳——较低 Rs 下的计算修正演示。</strong>
+              Rs ≈ 5.7 MΩ（破膜膜片钳的典型值），三种补偿水平（0%、50%、80%）。面板 iii–iv 展示了在 −30 mV 和 −40 mV 步阶下，80% 补偿时真实 V<sub>m</sub> 仍然显著偏离命令电压（黑色虚线 = 理想无伪迹电流）。这表明：即使在实验条件相对好的 HEK 细胞破膜制备中，Rs 伪迹仍造成 ~20% 的峰值电流低估和 ~5–10 mV 的 I-V 左移，无法忽略。计算修正可从有伪迹的原始数据中还原出接近真实的通道参数。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig6.png" alt="Figure 6: Consequences of averaging I-V curves across multiple cells">
+            <figcaption>
+              <strong>Fig. 6 多细胞 I-V 曲线平均化的系统性后果——全文最具冲击力的结果。</strong>
+              面板 A：蓝色曲线为模拟平均 I-V（n = 5、25、75，误差棒为 SEM），红色为无伪迹的真实 I-V。无论样本量如何增大，真实峰值始终落在 SEM 之外——统计显著性在提高，但方向是"对错误结论越来越有信心"。面板 B：模拟一个真实效应仅为 g<sub>max</sub> 降至 2/3 的"突变"，在有伪迹的记录中却额外呈现出 ~10 mV 的 I-V 偏移，会被误判为门控改变。这个偏移量级与文献中报道的多种致病突变的门控偏移相当，意味着部分既往文献结论可能需要重新审视。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig7.png" alt="Figure 7: Action potential and cable conduction consequences">
+            <figcaption>
+              <strong>Fig. 7 伪迹对动作电位和心肌传导速度的下游影响。</strong>
+              将从有伪迹和无伪迹 I-V 数据估计的 INa 参数分别代入心肌细胞动作电位模型和 1000 细胞 cable 传导模型。结果：有伪迹参数使动作电位最大上升速率（dV<sub>m</sub>/dt）<sub>max</sub> 低估约 1/3，cable 传导速度低估超过 50%。这说明测量伪迹的影响不止停留在 I-V 曲线层面，会通过参数化传播到所有下游模拟和预测，系统性地低估心律失常风险。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig8.png" alt="Figure 8: Delayed current and sensitivity to gating kinetics model">
+            <figcaption>
+              <strong>Fig. 8 阈值附近的延迟电流现象及其对门控动力学模型的敏感性。</strong>
+              在激活阈值（约 −40 mV）附近，实验记录到 INa 的 time-to-peak 出现明显延迟（红色箭头）。物理机制是正反馈：小 INa → Rs 压降使 V<sub>m</sub> 比 V<sub>cmd</sub> 更正 → 更大 INa → 更大 Rs 压降，直到突破阈值。Gray & Franz 门控模型（中列）能定性复现这一延迟，而 Iyer et al. 模型（右列）不能，差异来自两者在阈值附近 I-V 斜率不同。这张图揭示了计算修正方法的内在局限：修正效果对离子通道先验模型敏感，模型若不准确，修正本身也会引入新误差。
+            </figcaption>
+          </figure>
+        </section>
+
+        <!-- ===== 机制横向对照 ===== -->
+        <section id="mechanisms">
+          <h2>机制横向对照</h2>
+          <p>本文系统比较了不同补偿策略下伪迹的表现，以及计算修正与传统补偿方案的互补关系：</p>
+          <table>
+            <thead>
+              <tr>
+                <th>方案</th>
+                <th>原理</th>
+                <th>对 INa 的效果</th>
+                <th>主要局限</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>无补偿（α_R = 0）</td>
+                <td>直接记录，不做任何 Rs 修正</td>
+                <td>I-V 曲线严重左移、峰值低估 &gt;50%</td>
+                <td>伪迹最大，不可接受</td>
+              </tr>
+              <tr>
+                <td>Rs 补偿（α_R = 80%）</td>
+                <td>放大器在命令电压上叠加 α_R·Rs·I<sub>out</sub>，部分补偿 Rs 压降</td>
+                <td>I-V 左移和峰值低估明显改善，但残余偏差仍达 10–30%</td>
+                <td>超过 ~95% 时补偿回路振荡；无法完全消除系统性偏差</td>
+              </tr>
+              <tr>
+                <td>超充电补偿（α_P）</td>
+                <td>在电压阶跃时注入额外瞬态电流，加速 Cm 充电</td>
+                <td>改善膜电位建立速度；对快 INa 效果有限</td>
+                <td>大 Rs 下（如穿孔膜片钳）效果不足；可能使 I-V 曲线变形</td>
+              </tr>
+              <tr>
+                <td>计算模型后处理修正（本文）</td>
+                <td>建立完整 ODE 等效电路，拟合有伪迹的实验数据，反推真实通道参数</td>
+                <td>可从有伪迹数据中估计出接近无伪迹的 I-V 曲线和动力学参数</td>
+                <td>依赖先验门控动力学模型；模型误差会传播到修正结果（Fig. 8）</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ===== 和你的研究怎么接上 ===== -->
+        <section id="connection">
+          <h2>和你的研究怎么接上</h2>
+
+          <h3>1. 两种伪迹、一套等效电路——方法论完全对位</h3>
+          <p>
+            你的 IEEE TIM 论文处理的是"测量端伪迹"：胞外电位 V<sub>e</sub> ≠ 0，叠加在放大器读出的信号上，导致测到的 V<sub>m</sub> = V<sub>i</sub> − V<sub>e</sub> 而非真实跨膜电位。Lei 处理的是"控制端伪迹"：Rs ≠ 0，膜上真实 V<sub>m</sub> 偏离命令电压 V<sub>cmd</sub>。两者都是从等效电路出发、建立数学模型、定量修正伪迹；方法论哲学完全一致，可以在你的论文 Discussion 中并列呈现，构成"patch clamp 系统性伪迹的互补修正框架"。
+          </p>
+
+          <h3>2. 胞外电刺激条件下两种伪迹叠加</h3>
+          <p>
+            在你做胞外电刺激（EFS）同时记录 voltage clamp 电流的实验中，两种伪迹同时存在且可能相互耦合：V<sub>e</sub> 波动改变 bath 中参考电位，Rs 补偿电路会对这个波动做出响应，进而改变注入电流，再通过 Rs 产生额外压降。Lei 的 ODE 模型在原则上只需要在 V<sub>p</sub> 项中加入 V<sub>e</sub>(t) 即可扩展——这是一个值得关注的后续工作方向：先用你的差分法去除 V<sub>e</sub> 的加性叠加，再用 Lei 的模型修正残余 Rs 伪迹，两步串联构成最完整的修正链路。
+          </p>
+
+          <h3>3. Rs 和 Cm 参数估计的精度问题</h3>
+          <p>
+            你在 TIM 论文中通过 voltage clamp seal test 估计 Rs、Cm 等参数，并将其用于差分测量方案的标定和等效电路分析。传统指数拟合方法隐含假设 Rs 补偿已开启且完美，而 Lei 的 ODE 模型提供了一种不依赖该假设的更精确参数估计方法。开源代码（<a href="https://github.com/CardiacModelling/nav-artefact-model" target="_blank" rel="noopener noreferrer">GitHub</a>）可直接适配到你的神经元/肌肉细胞实验条件，用于验证或改进你现有的参数提取流程。
+          </p>
+
+          <h3>4. 论文引用策略和叙述框架</h3>
+          <p>
+            建议在你的 TIM 论文 Discussion 中引用 Lei 2025，框架如下：voltage clamp 记录中的伪迹有两个独立来源——串联电阻 Rs 导致膜电位偏离命令电压（Lei et al., Advanced Science, 2025），以及胞外电刺激下 V<sub>e</sub> ≠ 0 导致放大器参考电位偏移（本文工作）。两种伪迹在 EFS 条件下叠加，因此最完整的分析流程应同时考虑 Rs 补偿计算修正与 V<sub>e</sub> 差分去除。你的差分方法是目前唯一专门处理 EFS 条件下 V<sub>e</sub> 叠加问题的方案，在这个更大的"patch clamp 伪迹地图"中占据独特位置。
+          </p>
+        </section>
+
+        <!-- ===== 证据链和局限 ===== -->
+        <section id="limits">
+          <h2>证据链和局限</h2>
+          <ol>
+            <li><strong>验证链完整但只用了一种放大器。</strong> 电学模型细胞实验使用 MultiClamp 700B；不同品牌放大器（如 Axopatch 200B）的补偿算法实现细节有差异，量化精度可能因设备而异，模型的可移植性需要各自验证。</li>
+            <li><strong>计算修正效果对门控动力学模型敏感（Fig. 8）。</strong> 在激活阈值附近，不同 INa 门控模型（Gray &amp; Franz vs Iyer et al.）给出不同的延迟预测；若先验模型不准确，修正结果会继承该误差。</li>
+            <li><strong>未考虑空间钳制（space clamp）不完全问题。</strong> 论文隐含假设膜电位空间均匀，适用于球形细胞；有突起的神经元（树突、轴突）中，远端膜电位不等于 soma 电位，Rs 伪迹和 space clamp 误差会叠加，本文模型无法处理。</li>
+            <li><strong>未涉及胞外电刺激条件下的伪迹交互。</strong> 本文全程不施加胞外电刺激，V<sub>e</sub> 项在模型中为零。Rs 补偿电路对 V<sub>e</sub> 波动的响应——可能使伪迹更复杂——不在讨论范围内。</li>
+            <li><strong>高频放大器动态未完全建模。</strong> Bessel 滤波器、采样率限制、模数转换延迟等在微秒时间尺度上的影响尚未纳入模型，对亚毫秒动力学的精确重建可能存在残余误差。</li>
+          </ol>
+          <div class="note warning">
+            核心警示：本文证明的系统性偏差在"领域标准"（80% 补偿 + 多细胞平均）下仍然存在，且量级与已发表的若干致病突变报道相当。读到基于 voltage clamp 数据得出的"突变导致门控左移"结论时，须考虑 Rs 伪迹是否是混淆因素。
+          </div>
+        </section>
+
+        <!-- ===== 建议阅读顺序 ===== -->
+        <section id="reading">
+          <h2>建议阅读顺序</h2>
+          <ol>
+            <li>先看 <strong>Fig. 1</strong>（workflow 对比）和 <strong>Fig. 2</strong>（等效电路），建立全文的物理框架，再对照 Eqs. 1–10 理解各参数的物理含义。</li>
+            <li>读 <strong>Fig. 3</strong>（电学模型细胞验证），确认模型可信度；重点关注 0–80% 补偿段的吻合程度和 95% 时的振荡现象。</li>
+            <li>跳到 <strong>Fig. 6</strong>（多细胞平均的系统性后果），这是全文最核心的论点，看懂"偏差为何不随 n 增大而减小"再回头看 Fig. 4–5 会更有感知。</li>
+            <li>读 <strong>Fig. 4–5</strong>（真实细胞实验），对照 Fig. 6 理解伪迹在不同 Rs 和制备条件下的量级差异。</li>
+            <li>最后读 <strong>Fig. 7–8</strong>，分别理解下游功能影响和模型局限性，为判断计算修正的适用边界提供依据。</li>
+          </ol>
+        </section>
+
+        <!-- ===== 来源链接 ===== -->
+        <section id="sources">
+          <h2>来源链接</h2>
+          <ul class="source-list">
+            <li><a href="https://doi.org/10.1002/advs.202500691" target="_blank" rel="noopener noreferrer">DOI: 10.1002/advs.202500691</a></li>
+            <li><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202500691" target="_blank" rel="noopener noreferrer">Advanced Science 期刊页面（Wiley Online Library）</a></li>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/40476539/" target="_blank" rel="noopener noreferrer">PubMed: PMID 40476539</a></li>
+            <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12376535/" target="_blank" rel="noopener noreferrer">PMC 全文: PMCID PMC12376535</a></li>
+            <li><a href="https://doi.org/10.1101/2024.07.23.604780" target="_blank" rel="noopener noreferrer">bioRxiv 预印本: 10.1101/2024.07.23.604780</a></li>
+            <li><a href="https://github.com/CardiacModelling/nav-artefact-model" target="_blank" rel="noopener noreferrer">GitHub 代码仓库: CardiacModelling/nav-artefact-model</a></li>
+          </ul>
+        </section>
+
+        <p class="footer-note">
+          本文件为中文精读说明文档，图像来自本论文文件夹内的 <code>figures/</code> 子目录（Fig1.png – Fig8.png）。正式 PDF 保存在同级目录。
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const sections = links
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -68% 0px',
+      threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+    if (sections[0]) setActive(sections[0].id);
+  </script>
+</body>
+</html>
