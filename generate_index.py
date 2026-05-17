@@ -3,6 +3,7 @@
 
 Run from the Papers root:  python3 generate_index.py
 """
+import datetime
 import html
 import re
 import urllib.parse
@@ -35,6 +36,8 @@ def collect_paper(folder: Path):
     info["discussion_md"] = None
     info["wechat_md"] = None
     info["other_md"] = []
+    info["read_date"] = None
+    read_mtime = 0.0
     for f in sorted(folder.iterdir()):
         if not f.is_file():
             continue
@@ -47,10 +50,15 @@ def collect_paper(folder: Path):
         elif n.lower().endswith(".md"):
             if n.startswith("discussion") or "解读" in n:
                 info["discussion_md"] = (n, rel)
+                mt = f.stat().st_mtime
+                if mt > read_mtime:
+                    read_mtime = mt
             elif "公众号" in n or "微信" in n:
                 info["wechat_md"] = (n, rel)
             else:
                 info["other_md"].append((n, rel))
+    if read_mtime:
+        info["read_date"] = datetime.date.fromtimestamp(read_mtime).isoformat()
     return info
 
 
@@ -73,6 +81,8 @@ def render_paper(p) -> str:
         meta_bits.append(f'<em>{html.escape(p["journal"])}</em>')
     if meta_bits:
         parts.append(f'<div class="meta">{" · ".join(meta_bits)}</div>')
+    if p.get("read_date"):
+        parts.append(f'<div class="read-date">阅读 {p["read_date"]}</div>')
 
     parts.append('<div class="links">')
     for name, rel in p["html_files"]:
@@ -111,15 +121,10 @@ def main():
         elif entry.is_file() and entry.suffix.lower() == ".html" and entry.name != "index.html":
             standalone_html.append(entry.name)
 
-    # Sort papers by year desc then author
     def sort_key(p):
-        try:
-            yr = -int(p["year"])
-        except (TypeError, ValueError):
-            yr = 0
-        return (yr, p["author"], p["title"])
+        return (p.get("read_date") or "0000-00-00", p["author"], p["title"])
 
-    papers.sort(key=sort_key)
+    papers.sort(key=sort_key, reverse=True)
 
     html_doc = []
     html_doc.append("""<!DOCTYPE html>
@@ -140,7 +145,8 @@ def main():
   .paper { padding: 0.9em 1em; margin: 0.8em 0; background: var(--bg);
            border-left: 3px solid var(--accent); border-radius: 4px; }
   .title { font-weight: 600; font-size: 1.02em; margin-bottom: 0.25em; }
-  .meta { color: var(--gray); font-size: 0.88em; margin-bottom: 0.5em; }
+  .meta { color: var(--gray); font-size: 0.88em; margin-bottom: 0.3em; }
+  .read-date { color: #94a3b8; font-size: 0.78em; margin-bottom: 0.5em; font-variant-numeric: tabular-nums; }
   .links a { display: inline-block; margin: 0.15em 0.4em 0.15em 0;
              padding: 0.25em 0.7em; background: var(--accent); color: white;
              text-decoration: none; border-radius: 3px; font-size: 0.82em; font-weight: 500; }
