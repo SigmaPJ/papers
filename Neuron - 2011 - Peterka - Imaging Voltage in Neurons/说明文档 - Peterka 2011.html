@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Imaging Voltage in Neurons | Peterka 2011 论文说明</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5b6776;
+      --line: #d9ded6;
+      --accent: #0f766e;
+      --accent-soft: #e0f2ef;
+      --warn: #9a5b13;
+      --code: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: #f0f3ee;
+    }
+
+    .toc h1 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .toc .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 10px;
+      margin: 3px 0;
+      border-radius: 7px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .toc a.active,
+    .toc a:hover {
+      color: #064e45;
+      background: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1120px;
+      width: 100%;
+      padding: 42px 48px 80px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 42px 52px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
+    }
+
+    header.paper-title {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+    }
+
+    h2, h3 {
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: 26px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-card, .note, .term, .figure-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfb;
+    }
+
+    .info-card {
+      padding: 14px 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #111827;
+    }
+
+    .note {
+      padding: 16px 18px;
+      margin: 18px 0;
+      background: #f6fbfa;
+      border-color: #b9ded8;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #e8c98f;
+      color: #5f3b08;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #075e55;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 14px 16px;
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .figure-card {
+      margin: 22px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .figure-card figcaption {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .figure-card figcaption strong {
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f1;
+      text-align: left;
+      color: #123b36;
+    }
+
+    code {
+      background: var(--code);
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    ul, ol { padding-left: 1.35em; }
+
+    .source-list li {
+      margin: 6px 0;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc {
+        position: sticky;
+        z-index: 5;
+        height: auto;
+        max-height: 45vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 14px 52px; }
+      article { padding: 26px 18px; }
+      header h2 { font-size: 28px; }
+      .info-grid, .terms { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="文章目录">
+      <h1>Peterka 2011<br>Imaging Voltage in Neurons</h1>
+      <div class="meta">Neuron Primer | 电压成像综述</div>
+      <a href="#paper">论文信息</a>
+      <a href="#takeaway">一句话定位</a>
+      <a href="#why">为什么值得读</a>
+      <a href="#terms">术语先说明</a>
+      <a href="#figures">图文导读</a>
+      <a href="#mechanisms">机制横向对照</a>
+      <a href="#connection">和你的研究怎么接上</a>
+      <a href="#limits">证据链和局限</a>
+      <a href="#reading">建议阅读顺序</a>
+      <a href="#sources">来源链接</a>
+    </nav>
+
+    <main>
+      <article>
+        <header class="paper-title">
+          <p class="eyebrow">论文精读说明文档</p>
+          <h2>Imaging Voltage in Neurons</h2>
+          <p class="subtitle">这篇 Primer 讲的是：怎样用光学方法读出神经元膜电位，以及为什么这件事一直很难。</p>
+          <div class="tags">
+            <span class="tag">膜电位</span>
+            <span class="tag">电位敏感染料</span>
+            <span class="tag">SHG</span>
+            <span class="tag">GEVI</span>
+            <span class="tag">差分测量相关</span>
+          </div>
+        </header>
+
+        <section id="paper">
+          <h2>论文信息</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <strong>标题</strong>
+              Imaging Voltage in Neurons
+            </div>
+            <div class="info-card">
+              <strong>作者</strong>
+              Darcy S. Peterka, Hiroto Takahashi, Rafael Yuste
+            </div>
+            <div class="info-card">
+              <strong>单位</strong>
+              HHMI, Department of Biological Sciences, Columbia University
+            </div>
+            <div class="info-card">
+              <strong>期刊</strong>
+              Neuron 69(1), 9-21, 2011-01-13
+            </div>
+            <div class="info-card">
+              <strong>DOI</strong>
+              <a href="https://doi.org/10.1016/j.neuron.2010.12.010" target="_blank" rel="noopener noreferrer">10.1016/j.neuron.2010.12.010</a>
+            </div>
+            <div class="info-card">
+              <strong>本地 PDF</strong>
+              <code>Neuron - 2011 - Peterka - Imaging Voltage in Neurons.pdf</code>
+            </div>
+          </div>
+
+          <div class="note">
+            这不是一篇提出单个新实验的原始研究，而是 Neuron 的 Primer/综述型文章。它适合作为“电压成像为什么难、有哪些技术路线、不同路线牺牲了什么”的入门框架。
+          </div>
+        </section>
+
+        <section id="takeaway">
+          <h2>一句话定位</h2>
+          <p>
+            这篇文章可以理解成“光学版 patch-clamp 的技术地图”：目标是不用电极、直接从光信号重建神经元膜电位，但膜电位信号只存在于几纳米厚的膜附近，传感器定位、光子数、光毒性、背景膜、校准和副作用都会把问题变复杂。
+          </p>
+        </section>
+
+        <section id="why">
+          <h2>为什么值得读</h2>
+          <p>
+            钙成像能很好地看群体活动，但它更像是动作电位之后的化学后果，时间上更慢，也容易漏掉阈下突触事件。膜电位成像想直接看电信号本身：动作电位、阈下 EPSP/IPSP、树突和树突棘局部电压、神经元群体的同步活动，都有机会被同一类读出方式统一起来。
+          </p>
+          <p>
+            对你正在做的电刺激和差分测量来说，这篇文章的价值不在“马上照着做实验”，而在它把一个核心问题讲清楚了：只要你想测膜电位，测量系统本身就会影响膜、引入背景、带来校准问题。这和电极测量里的串联电阻、封接、共模伪迹、刺激伪迹是同一类工程问题。
+          </p>
+        </section>
+
+        <section id="terms">
+          <h2>术语先说明</h2>
+          <div class="terms">
+            <div class="term">
+              <strong>膜电位（membrane potential）</strong>
+              细胞膜内外电势差。patch-clamp 直接用电极读它；电压成像希望用光读它。
+            </div>
+            <div class="term">
+              <strong>电位敏感染料（VSD, voltage-sensitive dye）</strong>
+              能把膜电场变化转换成吸收、荧光、寿命或二次谐波信号变化的染料。它必须靠近或嵌入膜，定位稍偏就可能失去灵敏度。
+            </div>
+            <div class="term">
+              <strong>钙成像（calcium imaging）</strong>
+              用钙指示剂看细胞内 Ca<sup>2+</sup> 变化。它很适合看活动图谱，但不是膜电压本身，尤其不适合精确还原快速阈下电事件。
+            </div>
+            <div class="term">
+              <strong>Debye 层（Debye layer）</strong>
+              膜表面电场被离子和水分子屏蔽后快速衰减的纳米尺度区域。文章强调：传感器离膜差一个纳米都可能差很多。
+            </div>
+            <div class="term">
+              <strong>电致变色（electrochromism / Stark effect）</strong>
+              膜电场改变染料电子能级，让吸收或发射光谱发生变化。这类机制速度快，因为不需要分子真实移动。
+            </div>
+            <div class="term">
+              <strong>荧光共振能量转移（FRET）</strong>
+              两个发光分子之间的能量转移。距离或光谱重叠被电压改变时，荧光强度也会改变。
+            </div>
+            <div class="term">
+              <strong>二次谐波产生（SHG, second-harmonic generation）</strong>
+              非线性光学过程，把入射光转换成二倍频信号。因为只在非中心对称界面强，理论上很适合膜界面电压读出。
+            </div>
+            <div class="term">
+              <strong>基因编码电压指示器（GEVI）</strong>
+              通过表达蛋白传感器来标记特定细胞类型。优点是靶向清楚，难点是早期版本信号小、速度慢。
+            </div>
+          </div>
+        </section>
+
+        <section id="figures">
+          <h2>图文导读</h2>
+
+          <figure class="figure-card">
+            <img src="figures/Fig1.png" alt="Figure 1: Biophysics of the plasma membrane">
+            <figcaption>
+              <strong>Fig. 1 膜电压的空间尺度。</strong>
+              这张图是全文的物理基础：膜电位不是均匀分布在整个细胞里的量，而是集中在几纳米厚的膜和膜表面附近。对电压成像来说，传感器必须位于正确的膜环境；对电极测量来说，也可以类比为“探头真正看到的是哪一段电势差”。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig2.png" alt="Figure 2: Mechanisms of voltage sensitivity">
+            <figcaption>
+              <strong>Fig. 2 电压灵敏机制总览。</strong>
+              文章把电压成像分成多条机制路线：分子重新分布、取向变化、电致变色、FRET、碰撞淬灭、聚集、内源散射/折射率变化、SHG 和纳米颗粒。重点不是记名词，而是看每条路线把“电场变化”翻译成了哪种“光学变化”。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig3.png" alt="Figure 3: Voltage imaging in mammalian preparations">
+            <figcaption>
+              <strong>Fig. 3 哺乳动物样本中的一光子/双光子电压成像。</strong>
+              图里展示了群体皮层活动、树突棘反向传播动作电位、活体双光子记录等例子。结论很务实：能测，但常常需要平均、空间分辨率和单细胞特异性会受限制。
+            </figcaption>
+          </figure>
+
+          <figure class="figure-card">
+            <img src="figures/Fig4.png" alt="Figure 4: Novel modalities of voltage imaging">
+            <figcaption>
+              <strong>Fig. 4 新路线示例。</strong>
+              包括基因编码电压蛋白、DiO/DPA 混合传感、SHG 和量子点。它们分别在靶向性、灵敏度、膜界面特异性或光学效率上做文章，但也各自带来响应速度、膜扰动、光损伤、递送和校准问题。
+            </figcaption>
+          </figure>
+        </section>
+
+        <section id="mechanisms">
+          <h2>机制横向对照</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>路线</th>
+                <th>读出的是什么</th>
+                <th>优点</th>
+                <th>主要难点</th>
+                <th>和你的问题的关系</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>有机电位敏感染料</td>
+                <td>荧光强度、吸收、光谱或寿命变化</td>
+                <td>种类多，历史长，速度可很快</td>
+                <td>背景膜染色、光毒性、膜电容改变、定量校准难</td>
+                <td>像电极一样，传感器本身会扰动被测膜；不能只看信号大不大。</td>
+              </tr>
+              <tr>
+                <td>基因编码电压指示器</td>
+                <td>蛋白构象或 FRET 变化导致的荧光变化</td>
+                <td>细胞类型靶向好，适合神经环路问题</td>
+                <td>早期信号通常小，响应速度可能滤掉快动作电位</td>
+                <td>适合“选特定细胞测”的逻辑，但不能自动解决时间带宽问题。</td>
+              </tr>
+              <tr>
+                <td>混合传感器</td>
+                <td>有机分子和蛋白/染料对之间的能量转移</td>
+                <td>灵敏度设计空间大</td>
+                <td>DPA 等成分可能增加膜电容，外源加入也会引入药理副作用</td>
+                <td>和刺激实验类似：外加成分改善读数，也可能改变膜的真实响应。</td>
+              </tr>
+              <tr>
+                <td>SHG</td>
+                <td>膜界面的二倍频光信号</td>
+                <td>界面特异性强，理论响应快，背景少</td>
+                <td>信号弱、需要高峰值光强、仍可能有光损伤</td>
+                <td>很适合从“膜界面电场”角度理解电压，而不是把电压当成细胞内平均量。</td>
+              </tr>
+              <tr>
+                <td>内源光学信号</td>
+                <td>折射率、散射、双折射或血氧相关信号</td>
+                <td>不需要外源传感器</td>
+                <td>信号小、间接、常需平均，单细胞膜电压定量很难</td>
+                <td>提醒我们：无标签不等于无伪迹，读出的物理量可能离膜电位很远。</td>
+              </tr>
+              <tr>
+                <td>纳米颗粒/量子点</td>
+                <td>电场调制发光效率、光谱或寿命</td>
+                <td>亮度高，光学性质可设计</td>
+                <td>尺寸、递送、膜定位和生物相容性都难</td>
+                <td>如果要追求高信噪比，材料性能和细胞膜扰动要一起评估。</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="connection">
+          <h2>和你的研究怎么接上</h2>
+          <h3>1. 它强调“膜电场”而不是“细胞里某个平均电压”</h3>
+          <p>
+            对电刺激下的细胞响应来说，这点很关键。外加电场改变的是膜附近的局部电场和跨膜电压分布，测量方式看到的是某个探头位置、某个时间带宽、某个背景叠加后的结果。你做差分电极时关心“哪部分是共模伪迹，哪部分是真实膜响应”，这里对应的是“哪些光子来自真正敏感的膜区域，哪些只是背景膜或光损伤带来的变化”。
+          </p>
+
+          <h3>2. 它把伪迹机制讲得很工程化</h3>
+          <p>
+            染料可能增加膜电容、影响受体、产生光毒性；这和 patch-clamp 里电极接入会改变细胞状态、刺激电极会引入伪迹是同一套逻辑。好的实验不是只要信号能出来，还要证明传感器没有把系统改到另一个状态。
+          </p>
+
+          <h3>3. 它适合放进“差分测量”论文的背景知识库</h3>
+          <p>
+            文章反复出现背景扣除、定位、校准、信噪比、带宽这些关键词。差分测量的核心就是把共同进入两个通道的非目标成分压掉；电压成像则需要把非膜电压相关的光学背景压掉。两者都是“测量链路设计”问题。
+          </p>
+        </section>
+
+        <section id="limits">
+          <h2>证据链和局限</h2>
+          <ol>
+            <li><strong>它是 2011 年综述。</strong> 对 GEVI 等方向的技术状态判断比较早；如果要写今天的背景，需要再接近年的综述和新型传感器论文。</li>
+            <li><strong>它更重物理机制，不是实验操作指南。</strong> 它适合建立概念框架，不适合直接拿来决定染料浓度、曝光参数或统计方法。</li>
+            <li><strong>它承认很多信号需要平均。</strong> 这对你判断“能不能看单细胞、单动作电位、单次刺激响应”很重要：漂亮图不一定代表单次、定量、无扰动。</li>
+            <li><strong>它没有解决校准问题。</strong> 光信号到 mV 的转换经常依赖同步电记录或内部标准，这一点和你的电极测量优势正好互补。</li>
+          </ol>
+          <div class="note warning">
+            读这篇时建议把它当成“电压成像物理约束清单”。真正用于当前论文背景时，最好再补一两篇 2020 年后的 GEVI/Voltage Imaging 综述。
+          </div>
+        </section>
+
+        <section id="reading">
+          <h2>建议阅读顺序</h2>
+          <ol>
+            <li>先读 Introduction，抓住作者为什么说钙成像不能替代电压成像。</li>
+            <li>再读 Technical challenges，重点看膜厚度、Debye 层、光子数、内膜背景、传感器副作用和校准问题。</li>
+            <li>看 Fig. 2 和 Table 1，把不同技术路线按“电场怎么变成光信号”分类。</li>
+            <li>最后读 Future Outlook，用它来整理你自己实验里“什么是可测的、什么是被测量链路改变过的”。</li>
+          </ol>
+        </section>
+
+        <section id="sources">
+          <h2>来源链接</h2>
+          <ul class="source-list">
+            <li><a href="https://www.sciencedirect.com/science/article/pii/S0896627310010330" target="_blank" rel="noopener noreferrer">ScienceDirect 原始页面</a></li>
+            <li><a href="https://doi.org/10.1016/j.neuron.2010.12.010" target="_blank" rel="noopener noreferrer">DOI 页面</a></li>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/21220095/" target="_blank" rel="noopener noreferrer">PubMed: PMID 21220095</a></li>
+            <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3387979/" target="_blank" rel="noopener noreferrer">PMC 作者稿页面: PMCID PMC3387979</a></li>
+            <li><a href="https://blogs.cuit.columbia.edu/rmy5/files/2017/06/Peterka-Yuste.pdf" target="_blank" rel="noopener noreferrer">可访问 PDF 副本</a></li>
+            <li><a href="https://ntc.columbia.edu/darcy-peterka/" target="_blank" rel="noopener noreferrer">Darcy Peterka | Columbia NeuroTechnology Center</a></li>
+          </ul>
+        </section>
+
+        <p class="footer-note">
+          本文件为中文精读说明，图像来自 PMC 页面中的论文图，正式资源保存在本论文文件夹内的 <code>figures/</code> 子目录。
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const sections = links
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -68% 0px',
+      threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+    if (sections[0]) setActive(sections[0].id);
+  </script>
+</body>
+</html>

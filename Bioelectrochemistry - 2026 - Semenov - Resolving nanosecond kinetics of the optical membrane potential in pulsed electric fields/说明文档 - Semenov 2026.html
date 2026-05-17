@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semenov 2026 | 光学膜电位纳秒级动力学说明文档</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #637083;
+      --line: #d8dee8;
+      --accent: #156f83;
+      --accent-2: #8f4f18;
+      --accent-3: #44546a;
+      --soft: #e9f5f7;
+      --soft-2: #fff3e6;
+      --soft-3: #eef1f6;
+      --code: #f0f3f7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(21, 111, 131, 0.3);
+    }
+
+    a:hover {
+      border-bottom-color: var(--accent);
+    }
+
+    .page {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 28px 22px 64px;
+    }
+
+    header {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      margin-bottom: 18px;
+    }
+
+    .kicker {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      line-height: 1.32;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 22px 0 8px;
+      font-size: 18px;
+      line-height: 1.38;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul, ol {
+      margin-top: 8px;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    .subtitle {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .meta {
+      border: 1px solid var(--line);
+      background: #fbfcfd;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .meta strong {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--accent-3);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    nav a.active,
+    nav a[aria-current="true"] {
+      color: #ffffff;
+      background: var(--accent);
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+
+    .body-grid {
+      display: grid;
+      grid-template-columns: 238px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 16px;
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .sidebar-title {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .sidebar nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .sidebar nav a {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .content {
+      min-width: 0;
+    }
+
+    section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 18px;
+      scroll-margin-top: 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfcfd;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .term-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px 14px;
+      background: var(--soft-3);
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--soft);
+      padding: 14px 16px;
+      border-radius: 6px;
+      margin: 14px 0;
+    }
+
+    .warn {
+      border-left-color: var(--accent-2);
+      background: var(--soft-2);
+    }
+
+    .equation {
+      margin: 12px 0;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--code);
+      font-family: "SFMono-Regular", Consolas, monospace;
+      overflow-x: auto;
+    }
+
+    .diagram {
+      margin: 16px 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .diagram svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .diagram-note {
+      padding: 10px 14px;
+      border-top: 1px solid var(--line);
+      background: #fbfcfd;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    figure {
+      margin: 18px 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #ffffff;
+    }
+
+    figcaption {
+      padding: 12px 14px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      background: #fbfcfd;
+      font-size: 14px;
+    }
+
+    figcaption strong {
+      color: var(--ink);
+    }
+
+    figcaption p {
+      margin: 0 0 8px;
+    }
+
+    .subfig {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .subfig div {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 10px;
+      background: #ffffff;
+      color: var(--ink);
+    }
+
+    .subfig b {
+      color: var(--accent);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f7;
+    }
+
+    .refs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .ref {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #fbfcfd;
+    }
+
+    .ref strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 820px) {
+      .page {
+        padding: 16px 12px 42px;
+      }
+
+      .body-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        max-height: none;
+      }
+
+      header,
+      section {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .meta-grid,
+      .cards,
+      .term-grid,
+      .refs,
+      .subfig {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <p class="kicker">论文精读 HTML 说明文档</p>
+      <h1>Resolving nanosecond kinetics of the optical membrane potential in pulsed electric fields</h1>
+      <p class="subtitle">
+        Semenov 等，Bioelectrochemistry 168 (2026) 109143。核心问题是：用光学方法看细胞膜在微秒电脉冲下如何纳秒级充电，结果是否符合经典电容模型。
+      </p>
+
+      <div class="meta-grid">
+        <div class="meta">
+          <strong>论文出处</strong>
+          <a href="https://www.sciencedirect.com/science/article/pii/S1567539425002464" target="_blank" rel="noopener">ScienceDirect 文章页</a>
+          <span class="small"> / </span>
+          <a href="https://doi.org/10.1016/j.bioelechem.2025.109143" target="_blank" rel="noopener">DOI 直链</a>
+        </div>
+        <div class="meta">
+          <strong>本地文件</strong>
+          <span>PDF 与图像已归档在当前论文文件夹，图片来自本地 <code>figures/</code>。</span>
+        </div>
+        <div class="meta">
+          <strong>作者与单位</strong>
+          <span>Iurii Semenov, Giedre Silkuniene, Mantas Silkunas 等；Old Dominion University、AFOSR、Texas A&amp;M University。</span>
+        </div>
+        <div class="meta">
+          <strong>通讯作者</strong>
+          <span>Andrei G. Pakhomov；论文中给出的邮箱为 2andrei@pakhomov.net 和 apakhomo@odu.edu。</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="body-grid">
+      <aside class="sidebar" aria-label="左侧滚动目录">
+        <p class="sidebar-title">快速跳转</p>
+        <nav aria-label="目录">
+          <a href="#quick">一句话结论</a>
+          <a href="#terms">术语与试剂</a>
+          <a href="#question">论文问题</a>
+          <a href="#mechanism">膜电位与染料原理</a>
+          <a href="#figures">图文拆解</a>
+          <a href="#research">和你的研究关系</a>
+          <a href="#evidence">证据链评价</a>
+          <a href="#refs">引用链接</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+
+    <section id="quick">
+      <h2>一句话结论</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>这篇在解决什么</h3>
+          <p>它验证细胞膜在 1 μs 脉冲电场下的纳秒级充电和放电恢复，是否真的符合经典的“膜像电容一样充电”的理论。</p>
+        </div>
+        <div class="card">
+          <h3>最关键结果</h3>
+          <p>在非强电穿孔条件下，阴极侧和阳极侧没有系统性时间常数差异；充电和放电恢复的时间常数也基本一致。</p>
+        </div>
+        <div class="card">
+          <h3>对你的用处</h3>
+          <p>它给差分 patch-clamp 论文补了一个光学参照系：外电场下的膜响应可以回到等效电路解释，但测量链路必须先被校准清楚。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="terms">
+      <h2>先把术语、染料和软件说清楚</h2>
+      <div class="term-grid">
+        <div class="term">
+          <strong>PEF：脉冲电场</strong>
+          <p>不是一直开的直流电场，而是很短的电脉冲。本文主要用 1 μs 脉冲刺激细胞。</p>
+        </div>
+        <div class="term">
+          <strong>CHO-K1 细胞</strong>
+          <p>中国仓鼠卵巢细胞系，比较圆、易培养，本文把它当作接近球形的“活细胞电容模型”。出处可看 <a href="https://www.atcc.org/products/ccl-61" target="_blank" rel="noopener">ATCC CHO-K1 页面</a>。</p>
+        </div>
+        <div class="term">
+          <strong>VSD：电位敏感染料</strong>
+          <p>膜电位改变时，染料荧光也改变。本文用相机拍荧光变化，间接看局部膜电位。</p>
+        </div>
+        <div class="term">
+          <strong>FluoVolt</strong>
+          <p>Thermo Fisher 的电位敏感染料套装，灵敏度高。厂家资料写它通常有约 25%/100 mV 的响应，可看 <a href="https://www.thermofisher.com/order/catalog/product/F10488" target="_blank" rel="noopener">FluoVolt 产品页</a>。</p>
+        </div>
+        <div class="term">
+          <strong>Di-8-ANEPPS</strong>
+          <p>ANEPPS 系列快速电位敏感染料，灵敏度较低但动态范围宽。Thermo Fisher 手册介绍它约 10%/100 mV 响应，可看 <a href="https://www.thermofisher.com/us/en/home/references/molecular-probes-the-handbook/probes-for-membrane-potential/fast-response-probes.html" target="_blank" rel="noopener">Molecular Probes 手册</a>。</p>
+        </div>
+        <div class="term">
+          <strong>Annine-6</strong>
+          <p>前人用过的另一种电位敏感染料。某些文献用它看到阳极/阴极不对称，本文怀疑那些异常可能来自染料标定或电穿孔影响。</p>
+        </div>
+        <div class="term">
+          <strong>Strobe imaging：脉冲激光频闪成像</strong>
+          <p>类似频闪照相。不是相机连续高速拍，而是在电脉冲后的指定时间点打一个 6 ns 激光闪光，重复多次拼出纳秒级过程。</p>
+        </div>
+        <div class="term">
+          <strong>Sim4Life</strong>
+          <p>电磁和生物物理仿真软件。本文用它估算电极附近电场分布；官方功能介绍见 <a href="https://sim4life.swiss/specifications" target="_blank" rel="noopener">Sim4Life specifications</a>。</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>读这篇时最重要的等效电路直觉：</strong>细胞膜先看成电容，胞内外液体提供电阻通路。外电场一来，膜两侧开始积累电荷；细胞越大，等效电容越大，充电越慢。</p>
+        <div class="equation">MP(t) = 1.5 · E · r · cosθ · (1 - e<sup>-t/τ</sup>)</div>
+        <p class="small">这里 MP 是诱导膜电位，E 是外加电场强度，r 是细胞半径，θ 是膜位置相对电场方向的角度，τ 是时间常数。</p>
+      </div>
+    </section>
+
+    <section id="question">
+      <h2>这篇文章真正想问什么</h2>
+      <p>
+        以往有些研究报道了很奇怪的现象：细胞朝阳极和朝阴极两侧的充电不对称，或者膜充电和放电恢复的时间常数不一样。这些结果如果是真的，就说明经典的细胞膜电容模型漏掉了关键机制；如果不是真的，就可能是染料、标定、电穿孔或成像流程带来的假象。
+      </p>
+      <p>
+        本文的策略是：用两种机制不同的电位敏感染料，在近似球形的 CHO-K1 细胞上做低场强 1 μs 脉冲电场实验，避开强电穿孔，再检查光学膜电位是否符合理论。
+      </p>
+      <div class="callout warn">
+        <p><strong>不要把这篇和另一篇 Semenov 2026 混起来。</strong>这篇主要是低场强下验证“正常膜充电动力学”；你库里已有的 <a href="https://www.sciencedirect.com/science/article/abs/pii/S1567539426000691" target="_blank" rel="noopener">Sub-microsecond optical measurements of cell membrane charging and lesioning by pulsed electric fields</a> 更偏高场强电穿孔和膜损伤。</p>
+      </div>
+    </section>
+
+    <section id="mechanism">
+      <h2>背景：这里测到的“跨膜电位”到底是什么</h2>
+
+      <h3>1. 它是不是“膜内相对于膜外”？</h3>
+      <p>
+        是的，跨膜电位最基本的定义就是膜内侧相对于膜外侧的电势差，常写成
+        <strong>V<sub>m</sub> = V<sub>inside</sub> - V<sub>outside</sub></strong>。在普通电生理里，bath 里的参考电极可以被设成 0，这样 patch pipette 读到的就是相对参考地的电压。
+      </p>
+      <p>
+        但这篇文章测的是 <strong>诱导膜电位</strong>（induced membrane potential）。也就是说，外加电场让细胞膜两侧局部电荷重新分布，于是同一个细胞的不同膜位置会出现不同的跨膜电位变化。这个量不是“整颗细胞相对某个地线的绝对电压”，而是某一小片膜内外两侧的局部电压差变化。
+      </p>
+      <div class="callout">
+        <p><strong>参考地怎么理解：</strong>荧光染料本身不需要接一个“地”。它嵌在膜里，感受到的是膜内外之间约 5 nm 厚度上的局部电场。实验里的电极/脉冲发生器当然有电路参考，但染料读出的不是电路地，而是跨膜电压造成的分子局部环境变化。</p>
+      </div>
+
+      <div class="diagram" aria-label="跨膜电位局部定义示意图">
+        <svg viewBox="0 0 940 360" role="img">
+          <rect x="0" y="0" width="940" height="360" fill="#ffffff"></rect>
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <path d="M0,0 L8,3 L0,6 Z" fill="#156f83"></path>
+            </marker>
+          </defs>
+          <text x="36" y="44" font-size="23" fill="#1f2933" font-weight="700">跨膜电位不是“找一个地线”，而是膜内外局部电压差</text>
+          <rect x="90" y="130" width="760" height="36" rx="18" fill="#f1d9a5"></rect>
+          <rect x="90" y="194" width="760" height="36" rx="18" fill="#f1d9a5"></rect>
+          <rect x="90" y="166" width="760" height="28" fill="#eef8fb"></rect>
+          <text x="104" y="120" font-size="18" fill="#637083">细胞外侧 extracellular side</text>
+          <text x="104" y="262" font-size="18" fill="#637083">细胞内侧 intracellular side / cytosol</text>
+          <line x1="470" y1="248" x2="470" y2="116" stroke="#156f83" stroke-width="4" marker-end="url(#arrow)"></line>
+          <text x="492" y="182" font-size="20" fill="#156f83" font-weight="700">V<tspan baseline-shift="sub" font-size="14">m</tspan> = V<tspan baseline-shift="sub" font-size="14">inside</tspan> - V<tspan baseline-shift="sub" font-size="14">outside</tspan></text>
+          <circle cx="260" cy="180" r="14" fill="#8f4f18"></circle>
+          <line x1="260" y1="142" x2="260" y2="218" stroke="#8f4f18" stroke-width="5"></line>
+          <text x="286" y="184" font-size="17" fill="#8f4f18">染料分子嵌在膜里，感受膜内外电场</text>
+          <line x1="700" y1="180" x2="805" y2="180" stroke="#44546a" stroke-width="4" marker-end="url(#arrow)"></line>
+          <text x="620" y="154" font-size="17" fill="#44546a">外加电场让不同膜位置</text>
+          <text x="620" y="278" font-size="17" fill="#44546a">出现不同方向的局部极化</text>
+        </svg>
+        <div class="diagram-note">自绘示意图：染料读的是跨膜局部电压差，不是接在某个参考地上的电压表。</div>
+      </div>
+
+      <h3>2. 外电场下为什么一边去极化、一边超极化</h3>
+      <p>
+        外加电场会推动细胞内外离子和电荷重新分布。对一个近似球形细胞，朝阴极的一侧膜会去极化，朝阳极的一侧膜会超极化。Schwan 方程中的
+        <strong>cosθ</strong> 就是在描述这种“同一个细胞周围不同角度，膜电位变化不同”的空间分布。
+      </p>
+      <p>
+        <a href="https://www.jove.com/t/1659/measuring-the-induced-membrane-voltage-with-di-8-anepps" target="_blank" rel="noopener">JoVE 的 di-8-ANEPPS 方法文章</a>
+        对这个定义讲得很直白：外电场在细胞膜附近诱导局部电荷重新分布，产生 induced transmembrane voltage；如果细胞原本有静息膜电位，这个诱导量会叠加到原来的静息膜电位上。
+      </p>
+
+      <h3>3. Di-8-ANEPPS 为什么能感受电压</h3>
+      <p>
+        Di-8-ANEPPS 是一种快速电位敏感染料。它在水里荧光很弱，嵌入脂质双层后会变得强荧光。膜电位改变时，膜内的电场会改变这个染料分子的电子分布和能级，这叫
+        <strong>电致变色机制</strong>（electrochromic mechanism，也可以理解成 Stark effect 一类的电场导致光谱偏移）。
+      </p>
+      <p>
+        换成直觉说法：这个分子像一根插在膜里的小天线。跨膜电场变了，它吸收/发射光的光谱位置会轻微移动。显微镜用固定的激发光和滤光片去看时，这个光谱移动就表现为某个波段荧光变亮或变暗。
+      </p>
+      <p>
+        这个机制有几个后果：它响应快，适合看膜电位变化；但单通道强度变化通常不大，容易受到染色不均、光漂白、染料内吞影响。因此很多场景会用双波长比值法。Kao 等在
+        <a href="https://doi.org/10.1016/S0006-3495(01)75773-6" target="_blank" rel="noopener">Biophysical Journal 2001</a>
+        中用 patch electrode 设定跨膜电位，验证了 di-8-ANEPPS 的发射光谱变化可随跨膜电位线性变化。
+      </p>
+
+      <h3>4. FluoVolt 为什么和 Di-8-ANEPPS 不一样</h3>
+      <p>
+        FluoVolt 属于 VoltageFluor/VF 类思想的商业染料，核心不是简单的电致变色，而是
+        <strong>光诱导电子转移</strong>（photoinduced electron transfer, PeT）。它大致由三部分组成：荧光团、分子导线、电子供体。跨膜电压会改变电子转移是否容易发生，而电子转移会影响荧光团是否被“淬灭”。
+      </p>
+      <p>
+        所以 FluoVolt 的直觉是：电压改变了分子内部“电子跑不跑过去”的概率；电子一旦跑过去，就会影响荧光亮度。Miller、Tsien 等在
+        <a href="https://doi.org/10.1073/pnas.1120694109" target="_blank" rel="noopener">PNAS 2012</a>
+        系统提出了这种 molecular wire + PeT 的电压传感思路。
+      </p>
+
+      <div class="diagram" aria-label="两类电位敏感染料机制示意图">
+        <svg viewBox="0 0 940 430" role="img">
+          <rect x="0" y="0" width="940" height="430" fill="#ffffff"></rect>
+          <text x="36" y="44" font-size="23" fill="#1f2933" font-weight="700">两类染料的读数原理：光谱移动 vs 电子转移淬灭</text>
+          <rect x="60" y="78" width="390" height="300" rx="8" fill="#eef8fb" stroke="#d8dee8"></rect>
+          <rect x="490" y="78" width="390" height="300" rx="8" fill="#fff6eb" stroke="#d8dee8"></rect>
+          <text x="86" y="116" font-size="20" fill="#156f83" font-weight="700">Di-8-ANEPPS：电致变色</text>
+          <text x="516" y="116" font-size="20" fill="#8f4f18" font-weight="700">FluoVolt/VF：电子转移</text>
+          <rect x="125" y="170" width="250" height="28" rx="14" fill="#f1d9a5"></rect>
+          <rect x="125" y="238" width="250" height="28" rx="14" fill="#f1d9a5"></rect>
+          <line x1="250" y1="160" x2="250" y2="276" stroke="#156f83" stroke-width="5"></line>
+          <circle cx="250" cy="218" r="18" fill="#156f83"></circle>
+          <text x="108" y="316" font-size="16" fill="#1f2933">跨膜电场改变分子能级</text>
+          <text x="108" y="342" font-size="16" fill="#1f2933">→ 吸收/发射光谱轻微移动</text>
+          <rect x="555" y="170" width="250" height="28" rx="14" fill="#f1d9a5"></rect>
+          <rect x="555" y="238" width="250" height="28" rx="14" fill="#f1d9a5"></rect>
+          <circle cx="598" cy="218" r="16" fill="#2f9e44"></circle>
+          <line x1="615" y1="218" x2="728" y2="218" stroke="#8f4f18" stroke-width="5"></line>
+          <circle cx="750" cy="218" r="16" fill="#8f4f18"></circle>
+          <text x="580" y="164" font-size="14" fill="#637083">荧光团</text>
+          <text x="672" y="208" font-size="14" fill="#637083">分子导线</text>
+          <text x="724" y="164" font-size="14" fill="#637083">电子供体</text>
+          <path d="M735 218 C700 170, 655 170, 615 205" stroke="#44546a" stroke-width="3" fill="none" stroke-dasharray="8 6"></path>
+          <text x="528" y="316" font-size="16" fill="#1f2933">跨膜电压改变电子转移概率</text>
+          <text x="528" y="342" font-size="16" fill="#1f2933">→ 荧光团被淬灭或变亮</text>
+        </svg>
+        <div class="diagram-note">自绘示意图：左边是 ANEPPS 类染料的光谱偏移；右边是 FluoVolt/VF 类染料的电子转移调制。</div>
+      </div>
+
+      <h3>5. 图里的红色和蓝色是不是染料真的变色了</h3>
+      <p>
+        不完全是。Fig. 2 里的红色/蓝色主要是作者做出来的伪彩色显示：荧光比基线增强的像素标成红色，荧光比基线降低的像素标成蓝色。这样便于看出去极化和超极化的位置。
+      </p>
+      <p>
+        染料真正发生的是荧光强度变化或光谱偏移；图上的红/蓝更多是数据可视化，不应理解成细胞膜肉眼真的从红变蓝。
+      </p>
+
+      <h3>6. 本文为什么没有直接把所有荧光换算成 mV</h3>
+      <p>
+        因为绝对电压标定很难。要把荧光变化精确换成 mV，通常需要 patch-clamp voltage clamp 或离子载体/离子浓度校准；而在强外电场、纳秒脉冲、较大膜电位变化下，染料可能非线性或饱和。本文作者选择主要比较对称性、时间常数、场强线性和细胞半径依赖，这样能避开很多绝对标定误差。
+      </p>
+
+      <h3>7. 这种光学染料到底能测什么，不能测什么</h3>
+      <p>
+        你的理解基本是对的：本文用的 FluoVolt 和 Di-8-ANEPPS 这类电位敏感染料，主要是嵌在<strong>细胞膜脂质双层</strong>里，读出的是这片膜两侧的<strong>局部跨膜电压变化</strong>。它不是在细胞质里到处漂着测“细胞内部电压分布”，也不是在细胞外液里测“胞外电位分布”。
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>想知道的量</th>
+            <th>这种膜电位染料能不能直接测</th>
+            <th>原因</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>某一小片细胞膜的跨膜电位变化</td>
+            <td>可以，这是它最擅长的</td>
+            <td>染料分子嵌在膜里，感受膜内外几纳米厚度上的局部电场。</td>
+          </tr>
+          <tr>
+            <td>静息膜电位的绝对值，例如 -70 mV</td>
+            <td>不一定，需要额外标定</td>
+            <td>荧光强度受染色量、光漂白、光路和染料状态影响；没有校准时更适合看变化量。</td>
+          </tr>
+          <tr>
+            <td>细胞质内部不同位置的电压分布</td>
+            <td>不能直接测</td>
+            <td>这些染料主要在膜上，不是在细胞质体积内充当三维电压探针。</td>
+          </tr>
+          <tr>
+            <td>细胞外液中的电位分布</td>
+            <td>不能直接测</td>
+            <td>细胞外电位需要用场建模、胞外电极、微电极阵列或其他电场传感方法推断。</td>
+          </tr>
+          <tr>
+            <td>外电场下细胞表面哪边去极化、哪边超极化</td>
+            <td>可以很好地看</td>
+            <td>因为外电场诱导的跨膜电位沿细胞周长变化，膜染料能给出空间图案。</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <p><strong>最简洁的判断：</strong>这种染料像贴在细胞膜上的一排“纳米电压传感器”，每个传感器看的是自己所在那一小片膜的内外电压差。它不是细胞质内部的电压地图，也不是细胞外液的电压地图。</p>
+      </div>
+      <p>
+        因此，本文说“测到了膜电位动力学”，更准确地说是：测到了细胞膜表面不同位置的<strong>局部跨膜电位变化</strong>。如果想知道细胞内电位是否处处相同、胞外电位如何分布，则要结合电场仿真、胞内/胞外电极测量，或者用你熟悉的差分测量思路去分解
+        <strong>V<sub>m</sub> = V<sub>i</sub> - V<sub>e</sub></strong>。
+      </p>
+
+      <h3>8. Fig. 1 是怎么测的，和膜电位时间分辨率不是一回事</h3>
+      <p>
+        Fig. 1 里测的不是细胞膜电位，而是<strong>刺激系统输出的电压和电流波形</strong>。作者用 Tektronix TDS3052C 示波器，通过脉冲发生器的 voltage monitor 和 current monitor 输出端口记录波形。这个示波器是 500 MHz 带宽、最高 5 GS/s 采样率量级的数字示波器，所以看 10-20 ns 级的电刺激上升沿是合理的；但这只是验证“电刺激本身足够快”。
+      </p>
+      <p>
+        后面真正测光学膜电位时，不是用示波器直接测细胞膜，而是用<strong>6 ns 激光闪光</strong>照亮细胞。相机快门提前打开，但真正决定时间窗口的是那一下 6 ns 的激光；激光在电脉冲后的不同延迟时间点闪一下，就相当于给膜电位拍一张“纳秒级快照”。
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>对象</th>
+            <th>怎么测</th>
+            <th>时间分辨率/时间步进</th>
+            <th>它回答什么问题</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>刺激电压、电流波形</td>
+            <td>Tektronix TDS3052C 示波器记录发生器监测输出</td>
+            <td>示波器最高 5 GS/s，采样间隔约 0.2 ns；实际受带宽、探头、monitor 输出限制</td>
+            <td>电脉冲是不是足够快、足够矩形，电路时间常数是不是远小于细胞膜时间常数</td>
+          </tr>
+          <tr>
+            <td>光学膜电位快照</td>
+            <td>6 ns、440 nm 脉冲激光照亮染料，CCD 相机记录荧光图像</td>
+            <td>单张快照的曝光门控约 6 ns</td>
+            <td>某一个精确时间点，膜上不同位置荧光是增强还是降低</td>
+          </tr>
+          <tr>
+            <td>膜电位充电/放电时间曲线</td>
+            <td>重复很多次同样的电脉冲，每次把激光延迟改一点，再拼成时间序列</td>
+            <td>本文主要用 50 ns 时间步进；最早从脉冲开始后 50 ns 处记录</td>
+            <td>拟合 300-500 ns 量级的膜充电时间常数 τ</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout warn">
+        <p><strong>关键区别：</strong>Fig. 1 的 ns 级波形来自示波器测电刺激回路；膜电位的 ns 级时间信息来自 6 ns 激光频闪。它不是单次连续拍电影，而是重复刺激 + 改变激光延迟 + 拼出时间过程。</p>
+      </div>
+    </section>
+
+    <section id="figures">
+      <h2>图文拆解</h2>
+
+      <h3>Fig. 1：先证明刺激电路足够快</h3>
+      <p>
+        作者先看电压和电流波形。电压上升时间小于 10 ns，电流上升时间常数约 14-17 ns；而后面测到的细胞膜时间常数是 300-500 ns 量级。这样就能说明，后面看到的慢过程主要来自细胞膜充电，不是电极线缆拖慢。
+      </p>
+      <figure>
+        <img src="figures/Fig1.png" alt="Fig1 pulsed electric field setup and waveform characterization">
+        <figcaption>
+          <p><strong>Fig. 1 刺激系统本身的校准。</strong>这张图不是在讲细胞结果，而是在证明：电脉冲、电极、电路和电场建模都足够可靠，后面测到的几百纳秒膜充电过程不是仪器慢响应造成的。</p>
+          <div class="subfig">
+            <div><b>A</b>：示波器记录 1 μs 脉冲在三个电压下的完整波形。重点看脉冲平台是否平、宽度是否真的是 1 μs。</div>
+            <div><b>B</b>：把 A 的上升沿放大看。电压在 10 ns 内升起来，说明电压脉冲本身比细胞膜充电快很多。</div>
+            <div><b>C</b>：对应 A 的电流波形。电流不是瞬间到平台，而是有一个很短的上升过程。</div>
+            <div><b>D</b>：把 C 的电流上升沿放大，并用单指数函数拟合。得到约 14-17 ns 的电路时间常数。</div>
+            <div><b>E</b>：脉冲平台电流随电压线性增加。虚线拟合对应约 120 Ω 电阻，说明刺激回路在这些电压下基本线性。</div>
+            <div><b>F</b>：电场仿真的几何示意图。两根钨棒电极插在培养皿里，细胞位于两电极之间的玻璃底附近。</div>
+            <div><b>G</b>：Sim4Life 算出的电场分布图。颜色越亮代表局部电场越强，用来把施加电压换算成细胞位置的 V/cm。</div>
+          </div>
+          <p><strong>这张图的结论：</strong>电路时间常数约 15 ns，而细胞膜时间常数是 300-500 ns，所以后文的慢过程主要是细胞膜 RC 充电，不是刺激系统拖慢。</p>
+        </figcaption>
+      </figure>
+
+      <h3>Fig. 2：把细胞膜的“正负两侧”直接拍出来</h3>
+      <p>
+        CHO-K1 细胞装载 FluoVolt 后，朝阴极的一侧荧光增强，代表去极化；朝阳极的一侧荧光降低，代表超极化。沿细胞周长展开后，信号基本符合余弦分布，也就是经典 Schwan 方程预期的空间形状。
+      </p>
+      <figure>
+        <img src="figures/Fig2.png" alt="Fig2 strobe imaging of membrane charging">
+        <figcaption>
+          <p><strong>Fig. 2 用 FluoVolt 把膜充电的空间分布拍出来。</strong>红色是染料荧光增强，代表去极化；蓝色是荧光降低，代表超极化。</p>
+          <div class="subfig">
+            <div><b>A</b>：三枚装载 FluoVolt 的 CHO-K1 细胞原始荧光图。白色比例尺为 25 μm，用来说明细胞大小和成像视野。</div>
+            <div><b>B</b>：同一组细胞在脉冲前、脉冲中、脉冲后的连续时间点图像。电场存在时，朝阴极侧逐渐变红，朝阳极侧逐渐变蓝；脉冲结束后颜色逐渐消退，说明膜电位在恢复。</div>
+            <div><b>C</b>：沿最大细胞周长做线扫描，把不同角度位置的光学膜电位画成曲线。横轴是相对电场方向的角度，纵轴是 FluoVolt 荧光变化百分比。</div>
+            <div><b>粉色拟合线</b>：用余弦函数拟合实验点。如果膜极化符合 Schwan 方程，就应该接近这种余弦形状。</div>
+          </div>
+          <p><strong>这张图的结论：</strong>外电场在细胞膜上形成一个清楚的“正负两侧”分布，并且空间形状接近理论预期的余弦分布。</p>
+        </figcaption>
+      </figure>
+
+      <h3>Fig. 3：两种染料的差别，FluoVolt 灵敏，Di-8-ANEPPS 范围宽</h3>
+      <p>
+        FluoVolt 信号更强，适合看低噪声的小变化，但在较高场强下更早偏离线性。Di-8-ANEPPS 信号小一些，但到 350 V/cm 仍保持线性。这个结论和厂家资料中的基本特性一致：FluoVolt 高灵敏，ANEPPS 类染料响应幅度较小但更适合定量范围比较宽的场景。
+      </p>
+      <figure>
+        <img src="figures/Fig3.png" alt="Fig3 field strength dependence and dye comparison">
+        <figcaption>
+          <p><strong>Fig. 3 比较场强和两种染料的关系。</strong>这里是在问：电场越强，荧光变化是否按比例变大？FluoVolt 和 Di-8-ANEPPS 是否给出同样的结论？</p>
+          <div class="subfig">
+            <div><b>A 上排</b>：FluoVolt 细胞在 43-357 V/cm 下的周向膜电位分布。每个小面板对应一个场强；曲线振幅随场强增大而增大。</div>
+            <div><b>A 下排</b>：Di-8-ANEPPS 细胞在相同场强范围内的周向分布。形状同样接近余弦，但纵轴范围比 FluoVolt 小，说明信号灵敏度低一些。</div>
+            <div><b>A 中的实线</b>：余弦拟合线。它用来判断不同角度位置的极化是否符合经典球形细胞模型。</div>
+            <div><b>B</b>：把阳极侧和阴极侧的峰值拿出来，画成“场强-荧光变化”关系。红/蓝区分两侧膜，实心/空心区分两种染料。</div>
+            <div><b>FluoVolt</b>：低场强下斜率更陡，也就是更灵敏；但高于约 200 V/cm 后开始偏离线性，提示染料可能接近响应上限。</div>
+            <div><b>Di-8-ANEPPS</b>：斜率较小，但到 350 V/cm 仍比较线性，适合更大膜电位范围的定量。</div>
+          </div>
+          <p><strong>这张图的结论：</strong>两种染料都能看膜充电，但 FluoVolt 适合低噪声小信号，Di-8-ANEPPS 更适合较宽动态范围。</p>
+        </figcaption>
+      </figure>
+
+      <h3>Fig. 4：细胞越大，膜充电越慢</h3>
+      <p>
+        作者以 50 ns 的时间步进测膜充电和放电恢复。小细胞充电快、幅度小；大细胞充电慢、幅度大。这符合等效电路直觉：细胞半径越大，膜电容越大，时间常数也越大。
+      </p>
+      <figure>
+        <img src="figures/Fig4.png" alt="Fig4 membrane charging and relaxation kinetics">
+        <figcaption>
+          <p><strong>Fig. 4 直接看膜充电和放电恢复的时间过程。</strong>横轴是纳秒时间，纵轴是染料荧光变化百分比；两条竖虚线之间是 1 μs 电脉冲存在的时间。</p>
+          <div class="subfig">
+            <div><b>A</b>：FluoVolt 染色细胞，在同样 90 V/cm 场强下，按细胞半径分成三组：约 6.9 μm、8.2 μm、11.7 μm。</div>
+            <div><b>A 上排</b>：阴极侧膜区域，荧光上升，对应去极化。细胞越大，最终幅度越大，充电也更慢。</div>
+            <div><b>A 下排</b>：阳极侧膜区域，荧光下降，对应超极化。趋势和阴极侧一致，只是方向相反。</div>
+            <div><b>A 中标出的 τ</b>：每条拟合曲线旁边的 τ 是时间常数。半径越大，τ 越大，说明大细胞膜电容更大、充电更慢。</div>
+            <div><b>B</b>：Di-8-ANEPPS 染色细胞，细胞半径相近，比较 150 和 230 V/cm 两个场强。</div>
+            <div><b>B 的意义</b>：场强变大主要让幅度变大，但时间常数没有系统性改变，说明 τ 主要由细胞大小和介质电学参数决定，不是由场强随意改变。</div>
+          </div>
+          <p><strong>这张图的结论：</strong>膜充电像 RC 电路一样，细胞越大越慢；在染料线性范围内，增加场强主要改变幅度，不改变充电快慢。</p>
+        </figcaption>
+      </figure>
+
+      <h3>Fig. 5：没有看到系统性阳极/阴极异常</h3>
+      <p>
+        24 个细胞、96 个时间常数点的结果显示：阴极侧与阳极侧时间常数基本一样，充电和放电恢复时间常数也基本一样。把 τ 对细胞半径拟合后，最匹配的膜电容约为 1.6 μF/cm²。
+      </p>
+      <figure>
+        <img src="figures/Fig5.png" alt="Fig5 comparison of time constants and theoretical values">
+        <figcaption>
+          <p><strong>Fig. 5 汇总所有时间常数，检查是否真的有“异常”。</strong>这张图是全文最核心的证据。</p>
+          <div class="subfig">
+            <div><b>A</b>：比较同一细胞两侧膜的时间常数。纵轴是“阴极侧 τ / 阳极侧 τ”，分别看充电和放电恢复；如果两侧完全一样，点应该围绕 1。</div>
+            <div><b>A 的结果</b>：大多数点在 1 附近，拟合线也没有明显偏离 1，说明没有系统性的阳极/阴极充电速度差异。</div>
+            <div><b>B</b>：比较同一侧膜的“充电 τ / 放电恢复 τ”。如果膜只是普通电容充放电，两者应该接近。</div>
+            <div><b>B 的结果</b>：比值也围绕 1，说明充电和放电恢复基本是同一个时间尺度。</div>
+            <div><b>C</b>：把所有 96 个 τ 值对细胞半径作图。点越往右代表细胞越大，τ 越大。</div>
+            <div><b>C 中的线</b>：虚线/色带是实验拟合和置信区间；点线是用典型膜电容 1 μF/cm² 算出的理论线，偏低；把膜电容调到 1.6 μF/cm² 后，理论线与实验更吻合。</div>
+          </div>
+          <p><strong>这张图的结论：</strong>本文没有看到前人报告的系统性阳极/阴极异常，也没有看到充电和放电恢复不一致；实测 τ 可以用经典电容模型解释。</p>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section id="research">
+      <h2>和你的差分测量研究有什么关系</h2>
+      <p>
+        你的 TIM 差分测量论文关心的是：外加刺激存在时，patch clamp 记录里混进了胞外电位，必须用差分思想得到真实膜电位：
+      </p>
+      <div class="equation">V<sub>m</sub>(t) = V<sub>i</sub>(t) - V<sub>e</sub>(t)</div>
+      <p>
+        Semenov 这篇走的是另一条路：不用电极直接测膜电位，而是用电位敏感染料看局部膜电位变化。它不能替代你的差分 patch clamp，但能作为独立的光学参照。
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>问题</th>
+            <th>更适合的方法</th>
+            <th>原因</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>胞外刺激伪迹里提取真实膜电位</td>
+            <td>差分 patch clamp</td>
+            <td>能给出时间波形和绝对电压关系。</td>
+          </tr>
+          <tr>
+            <td>外电场在细胞膜周向造成什么空间分布</td>
+            <td>电位敏感染料 + 光学成像</td>
+            <td>能看到同一个细胞两侧一正一负的局部变化。</td>
+          </tr>
+          <tr>
+            <td>纳秒级膜充电时间常数</td>
+            <td>脉冲激光频闪成像</td>
+            <td>普通相机和 patch clamp 很难直接覆盖这个时间尺度。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <p><strong>写你论文时可以怎么用：</strong>Lesperance 2018 证明 patch clamp 在胞外刺激下可能产生伪迹；Semenov 2026 证明光学膜电位在理想球形细胞中可以回到 Schwan 方程和等效电路。这两类文献可以共同支撑“刺激电场下必须校准测量链路”这个论点。</p>
+      </div>
+    </section>
+
+    <section id="evidence">
+      <h2>证据链评价</h2>
+      <h3>强在哪里</h3>
+      <ul>
+        <li>问题很聚焦：专门验证阳极/阴极不对称、充电/放电恢复不一致、理论时间常数不匹配这些历史异常。</li>
+        <li>用了两种电位敏感染料交叉验证，不把结论压在单一染料上。</li>
+        <li>刺激电路本身足够快，排除了电路上升沿拖慢造成假时间常数的主要可能。</li>
+        <li>最后能回到膜电容和胞内外电导率这些物理参数，不只是“看起来像”。</li>
+      </ul>
+
+      <h3>不够硬的地方</h3>
+      <ul>
+        <li>只在近似球形 CHO-K1 细胞中验证，不能直接代表真实神经元树突和轴突。</li>
+        <li>1 μs 脉冲结果外推到 60-600 ns 更短脉冲，仍然有推论成分。</li>
+        <li>没有做绝对电压标定，因此本文更强的是动力学和对称性判断，不是每个点的精确 mV 数值。</li>
+        <li>FluoVolt 在 200 V/cm 以上非线性，作者倾向解释为染料饱和，但不能完全排除染料改变膜易损性的可能。</li>
+      </ul>
+    </section>
+
+    <section id="refs">
+      <h2>引用链接与资料入口</h2>
+      <div class="refs">
+        <div class="ref">
+          <strong>本文 ScienceDirect</strong>
+          <a href="https://www.sciencedirect.com/science/article/pii/S1567539425002464" target="_blank" rel="noopener">Resolving nanosecond kinetics...</a>
+          <p class="small">论文的期刊页面，适合跳转查看摘要、图表、引用和出版信息。</p>
+        </div>
+        <div class="ref">
+          <strong>本文 DOI</strong>
+          <a href="https://doi.org/10.1016/j.bioelechem.2025.109143" target="_blank" rel="noopener">10.1016/j.bioelechem.2025.109143</a>
+          <p class="small">DOI 是最稳定的论文入口。</p>
+        </div>
+        <div class="ref">
+          <strong>FluoVolt 产品资料</strong>
+          <a href="https://www.thermofisher.com/order/catalog/product/F10488" target="_blank" rel="noopener">Thermo Fisher FluoVolt Membrane Potential Kit</a>
+          <p class="small">用于解释 FluoVolt 是什么、灵敏度为何高。</p>
+        </div>
+        <div class="ref">
+          <strong>Di-8-ANEPPS 手册资料</strong>
+          <a href="https://www.thermofisher.com/us/en/home/references/molecular-probes-the-handbook/probes-for-membrane-potential/fast-response-probes.html" target="_blank" rel="noopener">Thermo Fisher Molecular Probes Handbook</a>
+          <p class="small">用于解释 ANEPPS 类染料的响应幅度和保留特性。</p>
+        </div>
+        <div class="ref">
+          <strong>Di-8-ANEPPS 诱导膜电位协议</strong>
+          <a href="https://www.jove.com/t/1659/measuring-the-induced-membrane-voltage-with-di-8-anepps" target="_blank" rel="noopener">JoVE: Measuring the Induced Membrane Voltage with Di-8-ANEPPS</a>
+          <p class="small">用于解释诱导膜电位、外电场导致的局部电荷重分布，以及 di-8-ANEPPS 如何非侵入式观察 ΔΦ。</p>
+        </div>
+        <div class="ref">
+          <strong>Di-8-ANEPPS 光谱移动机制</strong>
+          <a href="https://doi.org/10.1016/S0006-3495(01)75773-6" target="_blank" rel="noopener">Kao et al., Biophysical Journal 2001</a>
+          <p class="small">用 patch electrode 设定跨膜电位，验证 di-8-ANEPPS 发射光谱响应与跨膜电位变化相关。</p>
+        </div>
+        <div class="ref">
+          <strong>VoltageFluor / FluoVolt 相关机制</strong>
+          <a href="https://doi.org/10.1073/pnas.1120694109" target="_blank" rel="noopener">Miller et al., PNAS 2012</a>
+          <p class="small">解释 photoinduced electron transfer、molecular wire 和电压调制荧光淬灭的思路。</p>
+        </div>
+        <div class="ref">
+          <strong>电位敏感染料综述</strong>
+          <a href="https://publications.iupac.org/pac/68/7/1405/index.html" target="_blank" rel="noopener">Loew, Pure and Applied Chemistry 1996</a>
+          <p class="small">经典综述入口，用于理解 potentiometric dyes 的基本类别和用途。</p>
+        </div>
+        <div class="ref">
+          <strong>CHO-K1 细胞系</strong>
+          <a href="https://www.atcc.org/products/ccl-61" target="_blank" rel="noopener">ATCC CHO-K1 / CCL-61</a>
+          <p class="small">用于解释细胞来源和为什么它常作为模型细胞。</p>
+        </div>
+        <div class="ref">
+          <strong>Sim4Life 仿真软件</strong>
+          <a href="https://sim4life.swiss/specifications" target="_blank" rel="noopener">Sim4Life specifications</a>
+          <p class="small">用于解释本文电场建模软件的功能背景。</p>
+        </div>
+        <div class="ref">
+          <strong>Tektronix TDS3052C 示波器规格</strong>
+          <a href="https://download.tek.com/datasheet/TDS3000C-Digital-Phosphor-Oscilloscope-Datasheet-41W1248226.pdf" target="_blank" rel="noopener">Tektronix TDS3000C datasheet</a>
+          <p class="small">用于理解 Fig. 1 中示波器为什么能看 10-20 ns 量级电刺激波形；该系列 TDS3052C 标称 500 MHz、5 GS/s。</p>
+        </div>
+        <div class="ref">
+          <strong>相关：Kiester 2021</strong>
+          <a href="https://digitalcommons.odu.edu/bioelectrics_pubs/314/" target="_blank" rel="noopener">Strobe photography mapping...</a>
+          <p class="small">纳秒级 strobe imaging 方法的重要背景文献。</p>
+        </div>
+        <div class="ref">
+          <strong>相关：Beier 2019</strong>
+          <a href="https://pubmed.ncbi.nlm.nih.gov/30579565/" target="_blank" rel="noopener">Visualization of dynamic sub-microsecond changes...</a>
+          <p class="small">FluoVolt + 快速光学测量膜电位的早期代表研究。</p>
+        </div>
+        <div class="ref">
+          <strong>相关：Lesperance 2018</strong>
+          <a href="https://doi.org/10.1016/j.brs.2017.12.004" target="_blank" rel="noopener">Artifactual hyperpolarization during extracellular electrical stimulation</a>
+          <p class="small">和你的差分测量论文关系更近，用于讨论胞外刺激下 patch clamp 伪迹。</p>
+        </div>
+        <div class="ref">
+          <strong>相关：Semenov 2026 高场强/损伤篇</strong>
+          <a href="https://www.sciencedirect.com/science/article/abs/pii/S1567539426000691" target="_blank" rel="noopener">Sub-microsecond optical measurements...</a>
+          <p class="small">同组后续/相关论文，更关注高场强电穿孔和膜损伤。</p>
+        </div>
+      </div>
+    </section>
+      </main>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const links = Array.from(document.querySelectorAll('.sidebar nav a[href^="#"]'));
+      const sectionMap = new Map();
+
+      links.forEach((link) => {
+        const id = decodeURIComponent(link.getAttribute('href').slice(1));
+        const section = document.getElementById(id);
+        if (section) sectionMap.set(section, link);
+      });
+
+      if (!sectionMap.size) return;
+
+      const sections = Array.from(sectionMap.keys());
+
+      const setActive = (section) => {
+        const activeLink = sectionMap.get(section);
+        if (!activeLink) return;
+
+        links.forEach((link) => {
+          link.classList.remove('active');
+          link.removeAttribute('aria-current');
+        });
+
+        activeLink.classList.add('active');
+        activeLink.setAttribute('aria-current', 'true');
+        activeLink.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      };
+
+      const pickCurrent = () => {
+        const markerY = window.scrollY + window.innerHeight * 0.24;
+        let current = sections[0];
+
+        for (const section of sections) {
+          if (section.offsetTop <= markerY) current = section;
+        }
+
+        setActive(current);
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visible) setActive(visible.target);
+      }, {
+        root: null,
+        rootMargin: '-18% 0px -62% 0px',
+        threshold: [0.05, 0.2, 0.5, 0.8]
+      });
+
+      sections.forEach((section) => observer.observe(section));
+      window.addEventListener('load', pickCurrent, { once: true });
+      window.addEventListener('resize', pickCurrent);
+      window.addEventListener('scroll', () => window.requestAnimationFrame(pickCurrent), { passive: true });
+      links.forEach((link) => link.addEventListener('click', () => {
+        window.setTimeout(pickCurrent, 140);
+      }));
+    })();
+  </script>
+</body>
+</html>

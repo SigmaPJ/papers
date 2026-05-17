@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semenov 2026 光学膜电位论文说明</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #5d6773;
+      --line: #d8dee6;
+      --soft: #f5f7fa;
+      --paper: #ffffff;
+      --accent: #176b87;
+      --accent-2: #9a3412;
+      --blue: #2563eb;
+      --red: #dc2626;
+      --green: #15803d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding-left: 238px;
+      color: var(--ink);
+      background: #eef2f6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.72;
+    }
+    a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(23, 107, 135, .25); }
+    a:hover { border-bottom-color: var(--accent); }
+    .page {
+      width: min(1180px, 100%);
+      max-width: 1180px;
+      margin: 0 auto;
+      background: var(--paper);
+      min-height: 100vh;
+      box-shadow: 0 0 30px rgba(31, 41, 51, .08);
+    }
+    header {
+      padding: 36px 44px 28px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+    .eyebrow {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+      margin: 0 0 10px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 31px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      margin: 14px 0 0;
+      max-width: 920px;
+    }
+    nav {
+      position: fixed;
+      left: 18px;
+      top: 18px;
+      bottom: 18px;
+      width: 202px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: 10px;
+      overflow-y: auto;
+      box-shadow: 0 10px 24px rgba(31, 41, 51, .08);
+      z-index: 10;
+      scrollbar-color: #b8c2cc #eef2f6;
+    }
+    nav::before {
+      content: "目录";
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      margin: 2px 2px 4px;
+    }
+    nav a {
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: var(--ink);
+      background: #fff;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    nav a:hover { background: #f0f7fa; }
+    nav a.active {
+      color: #0f4f63;
+      background: #e6f4f8;
+      border-color: #85bfce;
+      font-weight: 700;
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+    main { padding: 28px 44px 52px; }
+    section { margin: 0 0 34px; }
+    h2 {
+      font-size: 24px;
+      line-height: 1.3;
+      margin: 0 0 14px;
+      padding-top: 6px;
+    }
+    h3 {
+      font-size: 18px;
+      line-height: 1.35;
+      margin: 24px 0 8px;
+    }
+    p { margin: 0 0 12px; }
+    ul, ol { margin: 8px 0 14px 22px; padding: 0; }
+    li { margin: 5px 0; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px 18px;
+      background: var(--soft);
+      margin: 14px 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .grid.two { grid-template-columns: repeat(2, 1fr); }
+    .mini {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 14px;
+    }
+    .mini b { display: block; margin-bottom: 5px; }
+    .note {
+      border-left: 4px solid var(--accent);
+      background: #eff8fb;
+      padding: 12px 14px;
+      margin: 14px 0;
+    }
+    .warn {
+      border-left: 4px solid var(--accent-2);
+      background: #fff7ed;
+      padding: 12px 14px;
+      margin: 14px 0;
+    }
+    .formula {
+      font-family: "Times New Roman", Georgia, serif;
+      font-size: 20px;
+      text-align: center;
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+    figure {
+      margin: 18px 0 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #fff;
+    }
+    figcaption {
+      padding: 10px 14px 12px;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid var(--line);
+      background: #fbfcfe;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 15px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 9px 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th { background: #f5f7fa; }
+    .timeline {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .time {
+      padding: 12px;
+      font-weight: 700;
+      background: #f8fafc;
+      border-right: 1px solid var(--line);
+    }
+    .step-content { padding: 12px 14px; }
+    .red { color: var(--red); font-weight: 700; }
+    .blue { color: var(--blue); font-weight: 700; }
+    .green { color: var(--green); font-weight: 700; }
+    .small { color: var(--muted); font-size: 14px; }
+    .refs li { margin-bottom: 8px; }
+    @media (max-width: 900px) {
+      body { padding-left: 0; }
+      nav {
+        position: sticky;
+        top: 0;
+        bottom: auto;
+        left: auto;
+        width: auto;
+        max-height: 42vh;
+        margin: 0;
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      header, main { padding-left: 18px; padding-right: 18px; }
+      .grid, .grid.two { grid-template-columns: 1fr; }
+      .step { grid-template-columns: 1fr; }
+      .time { border-right: 0; border-bottom: 1px solid var(--line); }
+      h1 { font-size: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <p class="eyebrow">论文图文说明 · Bioelectrochemistry 2026</p>
+      <h1>Semenov 2026：脉冲电场下，细胞膜电位在纳秒尺度怎么变化？</h1>
+      <p class="subtitle">
+        本页是给你看的中文说明版。英文术语只保留在括号里，重点解释这篇文章和差分测量、膜电容充电、光学电位敏感染料的关系。
+      </p>
+    </header>
+
+    <nav class="toc">
+      <a href="#paper">论文信息</a>
+      <a href="#terms">术语说明</a>
+      <a href="#instant">刺激瞬间</a>
+      <a href="#figures">图怎么读</a>
+      <a href="#relation">和你的研究</a>
+      <a href="#links">参考链接</a>
+    </nav>
+
+    <main>
+      <section id="paper">
+        <h2>1. 论文信息</h2>
+        <div class="card">
+          <p><b>标题：</b>Resolving nanosecond kinetics of the optical membrane potential in pulsed electric fields</p>
+          <p><b>作者：</b>Iurii Semenov 等，通讯作者 Andrei G. Pakhomov</p>
+          <p><b>期刊：</b>Bioelectrochemistry 168 (2026) 109143</p>
+          <p><b>DOI：</b><a href="https://doi.org/10.1016/j.bioelechem.2025.109143">10.1016/j.bioelechem.2025.109143</a></p>
+          <p><b>本地 PDF：</b><a href="Bioelectrochemistry - 2026 - Semenov - Resolving nanosecond kinetics of the optical membrane potential in pulsed electric fields.pdf">打开本地 PDF</a></p>
+        </div>
+
+        <p>
+          这篇文章的核心不是“普通膜电位记录”，而是用电位敏感染料和脉冲激光频闪成像，看 1 微秒电脉冲打开以后，细胞膜像电容一样在几百纳秒内充电、再放电恢复的过程。
+        </p>
+      </section>
+
+      <section id="terms">
+        <h2>2. 先把英文术语说明白</h2>
+        <div class="grid">
+          <div class="mini">
+            <b>PEF：脉冲电场</b>
+            很短的电脉冲，不是一直开的恒定电场。本文主要是 1 μs 脉冲。
+          </div>
+          <div class="mini">
+            <b>CHO-K1 细胞</b>
+            中国仓鼠卵巢细胞。它比较圆、兴奋性通道少，适合验证“球形细胞膜电容充电”模型。
+          </div>
+          <div class="mini">
+            <b>VSD：电位敏感染料</b>
+            膜电位变化时荧光也变化，用相机看荧光，间接看局部膜电位。
+          </div>
+          <div class="mini">
+            <b>FluoVolt</b>
+            一种电位敏感染料。灵敏度高，但强电场下容易接近饱和。
+          </div>
+          <div class="mini">
+            <b>Di-8-ANEPPS</b>
+            另一种电位敏感染料。灵敏度低一些，但线性范围更宽。
+          </div>
+          <div class="mini">
+            <b>频闪成像</b>
+            不是高速连拍，而是在指定时刻打一个 6 ns 激光闪光，重复多次拼出时间过程。
+          </div>
+        </div>
+      </section>
+
+      <section id="instant">
+        <h2>3. 刺激瞬间：细胞里面、膜上、膜外分别怎么变？</h2>
+
+        <div class="note">
+          结论先说：外液先出现电位梯度，细胞内部短暂暴露在外电场中；随后细胞膜像电容一样充电，朝阴极的一侧去极化，朝阳极的一侧超极化；膜充满后，细胞内部被屏蔽，主要电压差集中在细胞膜上。
+        </div>
+
+        <div class="timeline">
+          <div class="step">
+            <div class="time">0 ns 左右</div>
+            <div class="step-content">
+              <b>电脉冲刚打开。</b>
+              细胞外培养液中立刻形成电位梯度。也就是说，细胞外面不是处处同电位，而是一边高、一边低。
+            </div>
+          </div>
+          <div class="step">
+            <div class="time">刚开始几十 ns</div>
+            <div class="step-content">
+              <b>细胞内部还没完全被膜屏蔽。</b>
+              文章说，在电场刚打开的一瞬间，整个细胞体积都暴露在外电场里。此时细胞质内部也短暂感受到电场。
+            </div>
+          </div>
+          <div class="step">
+            <div class="time">约 50-500 ns</div>
+            <div class="step-content">
+              <b>细胞膜开始电容充电。</b>
+              <span class="red">朝阴极一侧去极化</span>，<span class="blue">朝阳极一侧超极化</span>，赤道附近变化最小。这个空间分布接近余弦形状。
+            </div>
+          </div>
+          <div class="step">
+            <div class="time">接近 1 μs</div>
+            <div class="step-content">
+              <b>膜电位接近稳定。</b>
+              细胞内部逐渐变成近似等电位，内部电场接近 0；主要电压差集中在很薄的细胞膜上。
+            </div>
+          </div>
+          <div class="step">
+            <div class="time">刺激结束后</div>
+            <div class="step-content">
+              <b>膜放电恢复。</b>
+              电脉冲结束以后，膜电位按指数过程回到刺激前状态。本文测到充电和放电恢复的时间常数基本相同。
+            </div>
+          </div>
+        </div>
+
+        <h3>用公式看，就是这个意思</h3>
+        <div class="formula">ΔV<sub>m</sub>(t) = 1.5 · E · r · cosθ · (1 - e<sup>-t/τ</sup>)</div>
+        <p>
+          这里 ΔV<sub>m</sub> 是外电场诱导出来的膜电位变化，E 是外电场强度，r 是细胞半径，θ 是膜上某个位置相对电场方向的角度，τ 是膜充电时间常数。
+        </p>
+        <p>
+          这个公式说了三件事：细胞越大，诱导膜电位越大；越靠近两极，变化越大；变化不是瞬间完成，而是按 τ 这个时间常数逐步充上去。
+        </p>
+      </section>
+
+      <section id="figures">
+        <h2>4. 这篇文章里的图怎么体现？</h2>
+
+        <figure>
+          <img src="figures/Fig2.png" alt="Figure 2: membrane charging visualization">
+          <figcaption>
+            <b>Fig. 2：</b>最直观。红色是去极化，蓝色是超极化。刺激过程中，细胞膜两侧出现一红一蓝，说明膜上不是整体一起升高或降低，而是两侧符号相反。
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="figures/Fig3.png" alt="Figure 3: field strength and cosine distribution">
+          <figcaption>
+            <b>Fig. 3：</b>沿细胞一圈测荧光变化，结果符合余弦分布。两极最大，赤道最小。这正是 Schwan 方程的空间特征。
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="figures/Fig4.png" alt="Figure 4: membrane charging and relaxation kinetics">
+          <figcaption>
+            <b>Fig. 4：</b>时间过程。膜电位不是刺激一开就立刻到位，而是在几百纳秒内指数式上升；刺激结束后又指数式恢复。
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="figures/Fig5.png" alt="Figure 5: time constants">
+          <figcaption>
+            <b>Fig. 5：</b>阴极侧和阳极侧的时间常数基本一样，充电和放电恢复也基本一样。作者据此认为，这里主要是经典电容充放电，不需要引入奇怪的不对称机制。
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="figures/Fig1.png" alt="Figure 1: pulsed electric field setup">
+          <figcaption>
+            <b>Fig. 1：</b>先确认刺激系统本身足够快。电路上升约 15 ns，而膜充电是 300-500 ns 量级，所以后面的慢过程主要来自细胞膜，不是线缆或电极太慢。
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="relation">
+        <h2>5. 和你的差分测量有什么关系？</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>问题</th>
+              <th>这篇文章怎么处理</th>
+              <th>对你有什么启发</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>外电场下膜电位怎么变？</td>
+              <td>用电位敏感染料看局部膜电位，能看到两侧一正一负的空间分布。</td>
+              <td>普通 patch clamp 很难直接看到这种周向分布，差分测量和光学验证是互补的。</td>
+            </tr>
+            <tr>
+              <td>测量链路会不会骗你？</td>
+              <td>先验证刺激电路、染料线性、空间余弦分布、时间常数。</td>
+              <td>和你做电容补偿/胞外伪迹扣除一样，先确认测量链路可靠，再解释生物效应。</td>
+            </tr>
+            <tr>
+              <td>细胞膜是否会被电穿孔？</td>
+              <td>本文主要在低场强、非强电穿孔条件下验证膜充电理论。</td>
+              <td>你的脑片常规刺激更需要担心记录伪迹和局部 V<sub>e</sub>，通常不是先担心电穿孔。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warn">
+          注意：这篇文章直接测的是“膜上的光学信号”，不是直接测细胞里面每一点和细胞外每一点的电位。细胞内外电位怎么分布，是作者根据经典电磁/等效电路模型解释出来的。
+        </div>
+      </section>
+
+      <section id="links">
+        <h2>6. 参考链接</h2>
+        <ul class="refs">
+          <li><a href="https://doi.org/10.1016/j.bioelechem.2025.109143">本文 DOI：Resolving nanosecond kinetics of the optical membrane potential in pulsed electric fields</a></li>
+          <li><a href="https://www.sciencedirect.com/science/article/pii/S1567539425002464">本文 ScienceDirect 页面</a></li>
+          <li><a href="https://www.sciencedirect.com/science/article/pii/S0006349518344515">Beier 2019：Visualization of dynamic sub-microsecond changes in membrane potential</a></li>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/19431866/">Grosse & Schwan 1992：细胞膜在交变电场中的诱导膜电位</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC1367054/">Kotnik & Miklavcic 2006：外电场诱导细胞内部膜电位的理论分析</a></li>
+          <li><a href="discussion - Semenov 2026.md">本地 Markdown 精读笔记</a></li>
+        </ul>
+      </section>
+    </main>
+  </div>
+  <script>
+    const tocLinks = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const tocSections = tocLinks
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    function setActiveToc(id) {
+      tocLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActiveToc(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -66% 0px',
+      threshold: [0, 0.1, 0.25, 0.5, 0.75]
+    });
+
+    tocSections.forEach((section) => observer.observe(section));
+    if (tocSections[0]) setActiveToc(tocSections[0].id);
+  </script>
+</body>
+</html>

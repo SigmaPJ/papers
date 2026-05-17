@@ -1,0 +1,2488 @@
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+Low-intensity transcranial focused ultrasound engages parvalbumin-positive
+
+2
+
+GABAergic interneurons in a humanized mouse model of chronic pain: from
+
+3
+
+electrophysiology to cellular investigation
+
+4
+5
+
+Min Gon Kim1,†, Chih-Yu Yeh1,†, Huan Gao1, Keunhyung Lee1, Kalpna Gupta2,3, and Bin He1,4*
+
+6
+1
+
+7
+
+Department of Biomedical Engineering, Carnegie Mellon University, Pittsburgh, PA 15213,
+USA
+
+8
+2
+
+9
+10
+
+3
+
+Department of Medicine, University of California at Irvine, Irvine, CA 92697, USA
+
+Division of Hematology, Oncology and Transplantation, University of Minnesota, Minneapolis,
+MN 55455, USA
+
+11
+12
+
+4
+
+Neuroscience Institute, Carnegie Mellon University, Pittsburgh, PA 15213, USA
+
+13
+14
+
+†These authors contributed equally to this work.
+
+15
+16
+
+*Corresponding Author: Bin He, Ph.D., bhe1@andrew.cmu.edu
+
+17
+
+Department of Biomedical Engineering
+
+18
+
+Carnegie Mellon University
+
+19
+
+5000 Forbes Avenue, Pittsburgh, PA 15213, USA
+
+20
+21
+22
+23
+1
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+
+ABSTRACT
+
+4
+
+and deep brain penetration, showing great promise as a non-invasive stimulation technology for
+
+5
+
+modulating brain activity and behavior. Recent studies show that specific tFUS parameters
+
+6
+
+targeted to pain-processing brain circuits can significantly alter pain-related behaviors in rodent
+
+7
+
+models and humans. However, a comprehensive understanding of how tFUS influences brain
+
+8
+
+networks and cellular mechanisms is essential to optimize efficacy and facilitate safe translation
+
+9
+
+to clinical pain therapies.
+
+10
+
+Objective: We aimed to evaluate the modulation of inhibitory neural circuits induced by tFUS of
+
+11
+
+40 Hz pulse repetition frequency (PRF) in a humanized mouse model of chronic pain, integrating
+
+12
+
+local and network-level electrophysiological investigations, molecular analyses, and histological
+
+13
+
+assessment to confirm safety.
+
+14
+
+Methods and Results: We used a 128-element random array transducer for stimulation, along
+
+15
+
+with a non-invasive and flexible 30-channel electroencephalography (EEG) to assess local evoked
+
+16
+
+responses, topographical brain activity, and global brain dynamics including excitation and
+
+17
+
+inhibition (E/I) balance. To further assess tFUS neuromodulation effects at the cellular level, we
+
+18
+
+performed immunohistochemistry (IHC) analysis and found that tFUS significantly increased the
+
+19
+
+activity of inhibitory neurons as indicated by elevated expression of Glutamate Decarboxylase 67
+
+20
+
+(GAD67) and Parvalbumin (PV). Finally, safety was evaluated in the same brain samples used for
+
+21
+
+mechanistic analysis, with blinded histological assessment revealing no signs of tissue damage.
+
+22
+
+Conclusions: These findings provide new evidence that tFUS non-invasively engages PV
+
+23
+
+GABAergic inhibitory circuits in a chronic pain mouse model, supporting its development as a
+
+24
+
+robust neuromodulation strategy.
+
+Background: Low-intensity transcranial focused ultrasound (tFUS) offers high spatial specificity
+
+2
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+Topics: Chronic pain; Transcranial focused ultrasound; Non-invasive brain neuromodulation;
+
+2
+
+GABAergic neural circuit modulation
+
+3
+4
+
+Highlights
+
+5
+
+▪
+
+Multi-modal assessment of low-intensity tFUS in a humanized chronic pain model.
+
+6
+
+▪
+
+40 Hz tFUS enhances inhibition, mirroring optogenetic PV⁺ neuron activation.
+
+7
+
+▪
+
+Repeated tFUS restored chronic pain-disrupted E/I balance.
+
+8
+
+▪
+
+Multi-session tFUS upregulates GAD67 and PV⁺ interneuron expressions.
+
+3
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+1. Introduction
+
+2
+
+Treating chronic pain by means of non-pharmacological approaches is urgently needed due
+
+3
+
+to the severe side effects of drugs including abuse, overdose, and addiction, all of which contribute
+
+4
+
+to a significant health pandemic [1–3]. To reduce reliance on pharmacological treatments,
+
+5
+
+neuromodulation strategies targeting pain-processing circuits have been developed [4–9]. Deep
+
+6
+
+brain stimulation (DBS) is effective for movement disorders and has shown promise in managing
+
+7
+
+chronic pain [4,5], but it requires invasive surgical implantation [4,6,8]. Non-invasive
+
+8
+
+neuromodulatory alternatives such as transcranial direct current stimulation (tDCS) and
+
+9
+
+transcranial magnetic stimulation (TMS) demonstrated diverse treatment efficacies [10–13];
+
+10
+
+however, they typically influence broad areas and have limited ability to reach deeper brain
+
+11
+
+structures [6,7].
+
+12
+
+Transcranial focused ultrasound (tFUS) is a promising neuromodulation technology with
+
+13
+
+high spatial specificity and penetration depth compared to other non-surgical brain stimulation
+
+14
+
+methods [14–17], enabling non-invasive modulation of targeted brain regions [14–19] along with
+
+15
+
+behavior control [20,21] and treatment of neuropsychological disorders [22–26]. Low-intensity
+
+16
+
+tFUS has recently shown potential for pain treatment in both pre-clinical and human studies. In
+
+17
+
+humans, tFUS targeting the anterior cingulate cortex modulated local activity [27] and alleviated
+
+18
+
+both chronic pain symptoms and responses to acute heat stimuli [28]. Additional evidence
+
+19
+
+demonstrated antinociceptive effects from anterior thalamus stimulation [29] and mood
+
+20
+
+improvements with posterior frontal cortex tFUS in pain patients [30]. In animal models,
+
+21
+
+stimulation of the periaqueductal gray (PAG) has been shown to attenuate formalin-induced
+
+22
+
+nociceptive activity in the dorsal horn of the spinal cord [31], while stimulation of the primary
+
+23
+
+somatosensory cortex (S1), insula, or both regions simultaneously significantly suppressed pain-
+
+4
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+related behaviors in a humanized sickle cell disease (SCD) mouse model [32,33]. These studies
+
+2
+
+suggest that targeted neuromodulation in the brain can ameliorate pain; however, further
+
+3
+
+investigation is needed to elucidate the underlying mechanisms driving the modulation of pain-
+
+4
+
+related behaviors and neural circuits. A deeper understanding of both cellular and
+
+5
+
+electrophysiological effects, including sustained modulation of neuronal expression and network-
+
+6
+
+level dynamics, will be essential to bridge critical knowledge gaps.
+
+7
+
+In this study, we investigated the mechanisms and safety of low-intensity tFUS via
+
+8
+
+integrated electrophysiological and cellular approaches in a humanized mouse model of chronic
+
+9
+
+pain. We hypothesize that tFUS with a lower pulse repetition frequency (PRF) can significantly
+
+10
+
+activate specific GABAergic interneurons, such as the Parvalbumin (PV) cells, and enhance
+
+11
+
+inhibitory effects in the mouse model of SCD which expresses >99% human sickle hemoglobin
+
+12
+
+and exhibits both severe chronic pain and hyperalgesia [34,35]. We first examined local evoked
+
+13
+
+responses, topographical brain activity, global network dynamics in excitation/inhibition (E/I)
+
+14
+
+balance using flexible 30-channel electroencephalography (EEG) recordings paired with a highly-
+
+15
+
+focused 128-element random array transducer. At the cellular level, we next incorporated
+
+16
+
+immunohistochemistry (IHC) targeting inhibitory circuit markers, including PV and Glutamate
+
+17
+
+Decarboxylase 67 (GAD67), a key GABA-synthesizing enzyme [36-39]. Additionally, we
+
+18
+
+evaluated the safety profile of 14-day repeated tFUS through blinded histological analysis of the
+
+19
+
+same brain samples examined by IHC. This comprehensive approach aimed to uncover how low-
+
+20
+
+intensity tFUS non-invasively modulates the inhibitory circuits at both the cellular and systems
+
+21
+
+levels, thereby providing foundational insights into its translational potential for chronic pain.
+
+22
+23
+
+2. Materials and methods
+
+5
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+2.1 Animals
+
+2
+
+All animal experimental procedures were approved by the Institutional Animal Care and
+
+3
+
+Use Committee of Carnegie Mellon University and the Long Beach VA Medical Center, and
+
+4
+
+complied with the National Institutes of Health guidelines. Female wild-type mice (C57BL/6J,
+
+5
+
+Jackson Laboratory, Bar Harbor, ME, USA), female and male humanized transgenic homozygous
+
+6
+
+Berkley sickle cell mice (HbSS-BERK), and male Wistar outbred rats (Hsd:WI, Envigo
+
+7
+
+Laboratory, Indianapolis, IN, USA) were used as subjects. HbSS-BERK mice were generated in-
+
+8
+
+house by cross-breeding homozygous (SS) males with hemizygous (AS) females [40]. (For
+
+9
+
+detailed mice information, see Supplementary Method S1.) Older mice were used in this study,
+
+10
+
+including HbSS-BERK mice (13-17 months) and age-matched wild-type mice (11-14 months), as
+
+11
+
+the hallmark feature chronic pain severity in SCD is known to worsen with age [33,35,41].
+
+12
+13
+
+2.2 Characterization of custom-developed 128-element random array transducer
+
+14
+
+To achieve high spatial specificity for precise stimulation within the small mouse brain, a
+
+15
+
+previously developed spherically-concave and highly-focused 128-element random array
+
+16
+
+ultrasound transducer at 1.5 MHz center frequency (H276, Sonic Concepts, Inc., Bothell, WA,
+
+17
+
+USA) was used in this study [32].
+
+18
+
+To evaluate the pressure and intensity profiles of tFUS through the mouse skull, we utilized
+
+19
+
+a customized ex-vivo 3D acoustic field mapping system with a needle hydrophone (HNR500, Onda
+
+20
+
+Corporation, Sunnyvale, CA, USA) and a three-axis positioning stage (XSlide, Velmex, Inc.,
+
+21
+
+Bloomfield, NY, USA) [33,42]. A freshly harvested skull from a euthanized mouse was positioned
+
+22
+
+between the array transducer and the hydrophone to closely mimic the in vivo tFUS configuration.
+
+23
+
+6
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+2.3 tFUS stimulation targeting procedures and parameters
+
+2
+
+Mice were anesthetized using 3% isoflurane with a 1 L/min oxygen flow for induction, and
+
+3
+
+1-1.5% isoflurane with a 0.3-0.5 L/min oxygen flow for maintenance. A heating pad was used to
+
+4
+
+maintain body temperature, and ophthalmic ointment was applied to protect the eyes. Core body
+
+5
+
+temperature was regularly monitored using a rectal temperature probe.
+
+6
+
+To estimate the targeted brain circuits using a 128-element random array transducer, we
+
+7
+
+followed previously established targeting procedures [32]. Briefly, the Allen Mouse Brain Atlas
+
+8
+
+was referenced to determine the coordinate of the ultrasound focus. The transducer was positioned
+
+9
+
+by visually aligning the transducer’s X-axis with the posterior edge of zygomatic structure and the
+
+10
+
+Y-axis with the mouse’s rostral caudal midline (Fig. 1A-B). We applied single- or multi-session
+
+11
+
+tFUS with specific parameters including tone-burst duration (TBD), ultrasound duration (UD),
+
+12
+
+inter-sonication interval (ISoI), pulse repetition frequency (PRF), and total sonication time (Fig.
+
+13
+
+1C).
+
+14
+15
+
+2.4 In vivo electrophysiology recordings and data analysis in mice
+
+16
+
+After securing the mouse head, cranial fur was removed using a depilatory cream under the
+
+17
+
+isoflurane anesthesia. EEG recordings were acquired using a 30-channel mouse electrode array
+
+18
+
+(HC32 Mouse EEG, NeuroNexus, Ann Arbor, MI, USA) placed on the scalp and stabilized with
+
+19
+
+saline. To analyze neuronal oscillations during resting-state activity and intrinsic response to tFUS,
+
+20
+
+EEG signals were obtained from the electrode positioned directly above and closest to the hindlimb
+
+21
+
+region of the primary somatosensory cortex (S1HL), identified using anatomical landmarks (Fig.
+
+22
+
+1B). Although scalp EEG is influenced by volume conduction, it reliably represents cortical
+
+23
+
+electrical dynamics [43]. EEG data acquisition was performed through a ZIF-Clip headstage
+
+7
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+connected to a PZ5 NeuroDigitizer and Synapse software (Tucker-Davis Technologies, Alachua,
+
+2
+
+FL, USA). Data was preprocessed using TDT-provided offline scripts and subsequently analyzed
+
+3
+
+with custom MATLAB scripts. Analyses included power spectral estimation, topographical
+
+4
+
+mapping, and assessment of E/I balance indicated by aperiodic exponent [44,45]. (For detailed
+
+5
+
+data analysis, see Supplementary Method S2.)
+
+6
+7
+
+2.5 Histology, imaging, and analysis
+
+8
+
+After 14-days of tFUS stimulation or sham treatment, mice were euthanized, perfused, and
+
+9
+
+brains were immediately collected and fixed following established protocol [32,46]. Paraffin-
+
+10
+
+embedded sections (4 μm) were processed and immunostained at HistoWiz, Inc. (Long Island City,
+
+11
+
+NY, USA) using an automated stainer (Leica Bond RX, Leica Microsystems, Nussloch, Germany)
+
+12
+
+with primary antibodies included anti-GAD67, anti-GABA, PV, anti-CD31, and anti-Iba1, with
+
+13
+
+detection performed using DAB reagents and hematoxylin. Hematoxylin and eosin (H&E) and
+
+14
+
+terminal deoxynucleotidyl transferase dUTP nick end labeling (TUNEL) assays were also
+
+15
+
+performed. Pathology assessment was blindly evaluated and confirmed by a senior board-certified
+
+16
+
+research pathologist. (For detailed staining protocols and pathology assessment, see
+
+17
+
+Supplementary Method S3.)
+
+18
+19
+
+2.6 Virus injection and optical stimulation during recordings in rats
+
+20
+
+Wistar rats were anesthetized with isoflurane and secured in a stereotaxic apparatus. PV-
+
+21
+
+ChR2(H134R)/cherry virus (Duke Viral Vector Core, Durham, NC, USA) was injected into left
+
+22
+
+S1 identified with the rat brain atlas (1 μL at 1.5 mm depth) [47], using a Hamilton syringe and
+
+23
+
+microinjection system. Animals were monitored following surgery, and recordings were
+
+8
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+performed 4–5 weeks later to allow viral expression. For neural recordings, a 32-channel EEG
+
+2
+
+electrode (HC32 Rat Functional, NeuroNexus, Ann Arbor, MI, USA) was placed on the skull, and
+
+3
+
+a 32-channel silicon optrode (A1x32-Poly3-10mm-50-177, NeuroNexus, Ann Arbor, MI, USA)
+
+4
+
+was inserted into left S1. Pulses of blue light (465 nm, 50-ms, 2-sec interval) were delivered via
+
+5
+
+PlexBright LED module (Plexon, Dallas, TX, USA) to selectively activate PV-positive
+
+6
+
+interneurons expressing ChR2. (For detailed surgical and injection procedures, see Supplementary
+
+7
+
+Method S4.)
+
+8
+9
+
+2.7 Statistical analysis
+
+10
+
+Data were presented as mean ± standard error of the mean (s.e.m.). Statistical analysis was
+
+11
+
+performed using commercial software (GraphPad Prism, San Diego, CA, USA). To assess changes
+
+12
+
+relative to the pre-stimulation baseline and differences in brain responses within the same subject,
+
+13
+
+a non-parametric paired t-test (Wilcoxon matched-pairs signed rank test) was employed with
+
+14
+
+significance thresholds: ns: not significant;
+
+15
+
+Additionally, intergroup comparisons between different treatment conditions were evaluated using
+
+16
+
+the non-parametric t-test (Mann-Whitney test) with significance levels: ns: not significant; #p<0.05,
+
+17
+
+##
+
+*
+
+p<0.05,
+
+**
+
+p<0.01,
+
+***
+
+p<0.001,
+
+****
+
+p<0.0001.
+
+p<0.01, ###p<0.001, ####p<0.0001.
+
+18
+19
+
+3. RESULTS
+
+20
+
+3.1 Single-session tFUS suppressed local theta oscillation consistent with PV-driven
+
+21
+
+inhibition
+
+22
+
+To investigate how specific tFUS parameters modulate intrinsic brain activity in pain
+
+23
+
+circuits, we integrated 30-channel scalp EEG recordings with a 128-element random array
+
+9
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+ultrasound transducer to evaluate tFUS-evoked brain responses in SCD mice. We first tested the
+
+2
+
+hypothesis that a single session tFUS could perturb local brain activity when precisely targeted to
+
+3
+
+specific pain-processing brain regions. During EEG recordings, following a baseline period,
+
+4
+
+ultrasound pulses were delivered to the right hemisphere’s S1HL region (200-µs TBD, 40 Hz or 3
+
+5
+
+kHz PRF, 100-ms UD, 2-sec ISoI, 20-min total sonication time; Fig. 1C). Using the excitation
+
+6
+
+parameter with 3 kHz PRF, we found significant activation in the targeted S1HL compared with
+
+7
+
+both the negative control and the 40 Hz PRF condition related to the inhibition parameter (Fig.
+
+8
+
+1D).
+
+9
+
+We next investigated whether intrinsic brain rhythms associated with chronic pain could
+
+10
+
+be modulated by single-session tFUS with a PRF of 40 Hz, previously shown to suppress pain-
+
+11
+
+related behaviors in SCD mice. We observed a significant suppression of low frequency brain
+
+12
+
+oscillations, particularly in the theta and alpha bands during 40 Hz tFUS targeting S1HL region
+
+13
+
+compared to the negative control (Fig. 1E). In contrast, 3 kHz tFUS produced excitatory effects,
+
+14
+
+showing a bidirectional pattern when comparing the low versus high PRF responses relative to the
+
+15
+
+negative control (Supplementary Fig. 1). To further investigate the mechanisms underlying tFUS
+
+16
+
+neuromodulation, we performed optogenetic activation of PV-positive interneurons in rats, which
+
+17
+
+significantly reduced theta, alpha, and beta band power (Fig. 1F), suggesting that PV activation
+
+18
+
+suppresses low-frequency oscillations. These findings align with the previous report showing that
+
+19
+
+silencing PV interneurons increases low-frequency activity [48], indicating that active PV
+
+20
+
+interneurons constrain these rhythms and play a central inhibitory role in shaping cortical dynamics.
+
+21
+
+The spectral outcomes of tFUS and optogenetics generally align yet not fully congruent,
+
+22
+
+suggesting that tFUS may engage broader or complementary inhibitory networks compared to the
+
+23
+
+specificity of optogenetic stimulation. Nevertheless, the shared suppression of the theta band
+
+10
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+suggests that the fast-spiking PV interneurons are key contributors to tFUS effects. While
+
+2
+
+GABAergic interneurons such as PV and somatostatin-positive (SST) cells both influence theta
+
+3
+
+oscillations, prior studies demonstrated that optogenetic suppression of SST reduces spontaneous
+
+4
+
+low-frequency (<30 Hz) activity, whereas suppression of PV increases it [48,49], underscoring
+
+5
+
+their distinct but complementary roles in modulating cortical oscillations. Thus, the observed
+
+6
+
+suppression of theta power following tFUS likely reflect PV-driven inhibition rather than SST
+
+7
+
+mechanisms.
+
+8
+9
+
+3.2 Multi-session tFUS enhanced network-level inhibitory activity consistent with PV-
+
+10
+
+mediated inhibition
+
+11
+
+In the local brain circuit, single-session tFUS stimulation with a PRF of 40 Hz resulted in
+
+12
+
+a marked suppression of theta and alpha band power. However, oscillatory changes alone may not
+
+13
+
+fully capture the complex dynamics of brain networks, particularly the balance between excitation
+
+14
+
+and inhibition. We therefore analyzed the aperiodic exponent of EEG, computed by fitting the
+
+15
+
+slope of the signal’s power spectrum as a marker of E/I balance (Fig. 2A). The E/I balance is a
+
+16
+
+crucial aspect of neural circuit function, influencing the network's ability to process information
+
+17
+
+[45]. Shifts in this balance can indicate whether cortical activity becomes more excitatory reflected
+
+18
+
+by a lower aperiodic exponent, or more inhibitory indicated by a higher aperiodic exponent
+
+19
+
+[44,50,51]. We found a significant reduction in the aperiodic exponent in female SCD mice relative
+
+20
+
+to female wild-type (Fig. 2B), reflecting a disrupted E/I balance commonly associated with chronic
+
+21
+
+pain features.
+
+22
+
+We then applied a single-session tFUS in female SCD mice; however, it did not
+
+23
+
+significantly alter E/I balance, suggesting a brief 20-min stimulation may be insufficient to induce
+
+11
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+an enhancement of global inhibitory activity (Fig. 2C). A 14-day multi-session tFUS (1 h/day) was
+
+2
+
+then implemented, and the change in E/I balance was assessed by resting-state EEG recordings
+
+3
+
+obtained the day after the final stimulation session (Fig. 2D). The multi-session tFUS resulted in
+
+4
+
+a significant increase in the aperiodic exponent in female SCD mice, indicating a shift toward
+
+5
+
+increased inhibitory activity, approaching levels observed in wild-type controls (Fig. 2E and G).
+
+6
+
+Interestingly, an additional 20-min tFUS following the 14-day stimulation further significantly
+
+7
+
+increased the aperiodic exponent compared to single-session tFUS in SCD mice, suggesting an
+
+8
+
+enhanced network-level inhibitory effect potentially driven by synaptic plastic changes (Fig. 2F
+
+9
+
+and I). For comparison, we further found that optogenetic activation of PV interneurons leads to a
+
+10
+
+robust increase in the aperiodic exponent, mirroring the strengthened inhibitory function induced
+
+11
+
+by multi-session tFUS, whereas activating SST interneurons significantly decreases the aperiodic
+
+12
+
+exponent (Supplementary Fig. 2). These findings support the hypothesis that PV-mediated, rather
+
+13
+
+than SST-driven, inhibition underlines the electrophysiological effects of tFUS.
+
+14
+15
+
+3.3 Multi-session tFUS enhanced local expressions of GAD67 and PV interneurons
+
+16
+
+As repeated tFUS stimulations induced a significant and sustained increase in global
+
+17
+
+inhibitory electrophysiological activity, we investigated cellular changes after multi-session 40 Hz
+
+18
+
+PRF tFUS using IHC analysis and blinded assessment (Fig. 3A). Assessment revealed significantly
+
+19
+
+higher GAD67-positive cells in the stimulated region compared to the contralateral side (Fig. 3B-
+
+20
+
+C), whereas no such difference was observed in the sham-treated group (Supplementary Fig. 3A).
+
+21
+
+These findings suggest that tFUS enhances inhibitory GABAergic signaling by increasing the
+
+22
+
+capacity for GABA synthesis, as reflected by elevated levels of GAD67.
+
+12
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+Building on the observed upregulation of GAD67, we next addressed the question of
+
+2
+
+whether tFUS could modulate specific subtypes of GABAergic interneurons, particularly PV-
+
+3
+
+expressing neurons, based on our findings related to theta oscillations, distinct E/I balance patterns,
+
+4
+
+and prior evidence involving optogenetic inactivation of PV neurons [48]. Given their important
+
+5
+
+role in maintaining E/I balance and known vulnerability in various neurological conditions [45],
+
+6
+
+we sought to determine whether PV interneurons are upregulated following multi-session tFUS
+
+7
+
+stimulation. Stimulation of left S1HL significantly increased the number of PV-positive cells at
+
+8
+
+the site relative to the contralateral region (Fig. 3D-E), but not from sham treatment
+
+9
+
+(Supplementary Fig. 3B). These findings suggest that tFUS strengthens local inhibitory networks
+
+10
+
+by promoting activity or expression of the PV GABAergic neurons.
+
+11
+
+We further examined whether non-neuronal cell types such as microglia and astrocytes
+
+12
+
+might also contribute. Since GABA is widely expressed in the brain, we alternatively used the H-
+
+13
+
+score, a semi-quantitative method for evaluating protein expression [52,53], to compare GABA
+
+14
+
+immunoreactivity between ipsilateral and contralateral regions. H-score analysis revealed that
+
+15
+
+neither tFUS nor sham treatment led to significant changes in GABA expression within microglia
+
+16
+
+and astrocytes across hemispheres (Fig. 3F-G and Supplementary Fig. 3C-D). Additionally, Iba1
+
+17
+
+levels remained unchanged following tFUS stimulation (Supplementary Fig. 3E-F), indicating a
+
+18
+
+lack of glial activation. These results suggest that tFUS at 40 Hz modulates GABAergic signaling
+
+19
+
+primarily through neuron-specific pathways in the humanized SCD mouse model.
+
+20
+21
+
+3.4 Multi-dimensional histological analyses confirmed safety of multi-session tFUS
+
+22
+
+To facilitate potential clinical translation, we conducted a thorough safety evaluation by
+
+23
+
+multi-dimensional histological analyses including H&E, TUNEL, and CD31 immunostaining,
+
+13
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+which are well-established approaches to evaluate tissue morphology [54], cellular integrity [55],
+
+2
+
+and vascular architecture [56], respectively. Following multi-session tFUS stimulation, H&E
+
+3
+
+staining revealed no gross morphological abnormalities, such as significant infiltration of
+
+4
+
+macrophages or neutrophils, inflammation, necrosis, apoptosis, hemorrhage, fibrosis, vacuolation,
+
+5
+
+or brain damage in either hemisphere under tFUS relative to the sham-treated group (Fig. 4A and
+
+6
+
+Supplementary Fig. 4A), reinforcing the structural safety of the protocol. Additionally, TUNEL
+
+7
+
+staining showed no evidence of apoptotic cell death as no TUNEL-positive nuclei were detected
+
+8
+
+in either brain region of tFUS-treated or sham-treated animals (Fig. 4B and Supplementary Fig.
+
+9
+
+4B). Considering that vascular structures in the SCD mouse model may exhibit heightened
+
+10
+
+vulnerability to mechanical perturbations12, we further examined vascular integrity using CD31, a
+
+11
+
+widely accepted marker of endothelial cells. CD31 immunostaining demonstrated similar vascular
+
+12
+
+distribution without signs of pathological angiogenesis, vessel disruption, or hemorrhage in both
+
+13
+
+hemispheres from tFUS-treated and sham-treated groups (Fig. 4C and Supplementary Fig. 4C).
+
+14
+
+Taken together, these results suggest that multi-session tFUS with a PRF of 40 Hz does not induce
+
+15
+
+detectable cytotoxic effects or vascular damage in the brain samples used in the IHC analysis.
+
+16
+17
+
+DISCUSSION
+
+18
+
+Prior studies have highlighted the potential of tFUS in pain management. However, how
+
+19
+
+tFUS mediates its effects is still poorly understood. In this study, we have demonstrated that low-
+
+20
+
+intensity tFUS with a PRF of 40 Hz engaged PV GABAergic interneurons in a humanized mouse
+
+21
+
+model of chronic pain using combined electrophysiological and molecular approaches. These
+
+22
+
+included enhanced local and global inhibitory activity in the pain-processing brain circuit, as
+
+23
+
+indicated by suppression of low-frequency oscillations at S1HL, elevated aperiodic exponent
+
+14
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+derived from resting-state EEG, and increased GAD67-immunoreactivity (i.r.) and PV
+
+2
+
+interneuron-i.r. in the stimulated region. Compared to high-intensity tFUS used in ablative
+
+3
+
+protocols, which eliminate cellular activity in the targeted area but risk collateral damage to
+
+4
+
+adjacent healthy circuits potentially leading to adverse side effects [57], this low-intensity tFUS
+
+5
+
+enables targeted neuromodulation while preserving structural and functional integrity. Importantly,
+
+6
+
+we showed tFUS effects without evidence of glial activation, cellular apoptosis, or vascular
+
+7
+
+disruption, confirming safety and neuron-specificity. This specificity underscores its potential as
+
+8
+
+a non-invasive and precise neuromodulation approach for chronic pain management, paving the
+
+9
+
+way for promising therapeutic applications.
+
+10
+
+Our results demonstrated that 40 Hz tFUS led to upregulation of both GAD67 and PV
+
+11
+
+expressions, two molecular hallmarks of the GABAergic inhibitory system. Given prior evidence
+
+12
+
+that GAD67 deficiency in PV interneurons resulted in impaired inhibitory transmission and
+
+13
+
+cortical disinhibition [39,58], the observed post-tFUS upregulation supports the restoration of
+
+14
+
+inhibitory activity. GAD67 is the enzyme that catalyzes synthesis of the inhibitory
+
+15
+
+neurotransmitter GABA from glutamate [36], and is currently being explored as a therapeutic
+
+16
+
+target for treating pain, including via gene therapy approaches [59,60]. Recent study in SCD
+
+17
+
+patients shown elevated brain glutamate, potentially suggesting the correlation between the
+
+18
+
+excitatory neurotransmitter and pain hypersensitivity [61]; thus, increased GAD67 expression may
+
+19
+
+help counterbalance this excitatory drive by enhancing the glutamate to GABA conversion. Our
+
+20
+
+approach utilizing non-invasive tFUS led to upregulation of GAD67, supporting its potential as a
+
+21
+
+convenient and cell-targeted strategy for pain relief. In parallel, GABAergic neurons in S1
+
+22
+
+primarily consist of PV, SST, and vasoactive intestinal peptide (VIP) interneurons [62]. These
+
+23
+
+inhibitory neuron subtypes differ in distribution, firing properties, and synaptic targets [63].
+
+15
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+Among them, PV interneurons are the dominant GABAergic population, characterized by rapid,
+
+2
+
+high-frequency spiking and strong perisomatic inhibition. Their loss significantly heightens pain
+
+3
+
+sensitivity [64–66], highlighting the relevance of PV GABAergic neurons for effective pain
+
+4
+
+treatment. In our study, we observed a significant increase in PV-positive cell expression in the
+
+5
+
+tFUS-stimulated area, positioning tFUS as a cell-type specific modality in this context.
+
+6
+
+A holistic interpretation of both electrophysiological and IHC findings revealed two
+
+7
+
+complementary clinical applications for the use of tFUS with a PRF of 40 Hz. A single-session
+
+8
+
+tFUS induced suppression of low-frequency EEG rhythms, consistent with short-term circuit
+
+9
+
+inhibition, but did not alter global E/I balance. Thus, it appeared effective for providing rapid relief
+
+10
+
+from acute or tonic pain, which typically arose from inflammation, healing, or mild injury and is
+
+11
+
+generally reversible. It modulated cortical excitability locally and temporarily without inducing
+
+12
+
+detectable morphological changes. As a non-pharmacological alternative, tFUS holds particular
+
+13
+
+promise for patients who may be contraindicated for pharmacological analgesics, which are
+
+14
+
+associated with risks such as gastrointestinal distress, organ toxicity, dependency, and overdose
+
+15
+
+[1–3,67,68]. In contrast, multi-session tFUS accumulated over time, engaging inhibitory circuits
+
+16
+
+through potential synaptic plasticity rather than short-term modulation. These findings aligned
+
+17
+
+with prior results from repetitive TMS, where multiple TMS stimulation induced inhibitory
+
+18
+
+plasticity in cortical networks [69]. This adaptive reorganization of a previously dysregulated
+
+19
+
+inhibitory circuit highlighted a novel therapeutic mechanism of low-PRF tFUS, complementing
+
+20
+
+previously studied pulse-locked neuromodulation or mechanosensitive ion channel effects [70,71].
+
+21
+
+By showing elevated PV-i.r. and GAD67-i.r. alongside persistent electrophysiological changes,
+
+22
+
+our study provided post-stimulation mechanistic evidence of functional network remodeling.
+
+23
+
+While previous reports have focused on acute electrophysiological responses, behavioral outcomes,
+
+16
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+or self-reported pain ratings [28–33], our findings expanded the mechanistic landscape to include
+
+2
+
+molecular and cellular adaptations in inhibitory circuits driven by repeated subthreshold
+
+3
+
+entrainment of PV neurons. Additionally, when single-session tFUS was applied to 14-day-treated
+
+4
+
+SCD mice, the stimulation effect was significantly greater compared to that observed with single-
+
+5
+
+session tFUS in naïve SCD mice, indicating that non-invasively repetitive stimulations can drive
+
+6
+
+synaptic plasticity even when each session is subtle and transient. Importantly, we observed no
+
+7
+
+signs of cellular or vascular damage across the 14-day stimulation compared to controls, which is
+
+8
+
+an essential safety consideration for any long-term neuromodulation therapy. These results
+
+9
+
+positioned low-intensity tFUS with 40 Hz PRF as a versatile and precision intervention, with
+
+10
+
+flexible dosing paradigms tailored for different clinical needs: single-session use for episodic pain
+
+11
+
+control, and multi-session delivery for chronic pain alleviation through inhibitory circuit
+
+12
+
+restoration. Moreover, the combined use of electrophysiological and immunohistochemical
+
+13
+
+endpoints provided cross-validated evidence for a reliable, non-invasive biomarker with
+
+14
+
+translational relevance. The power spectral changes and the aperiodic exponent derived from EEG,
+
+15
+
+a clinically accessible modality, closely reflected shifts in cortical inhibitory activity and mirrored
+
+16
+
+molecular findings of GAD67 and PV-positive interneurons upregulation. This convergence of
+
+17
+
+readouts suggested that EEG-based measurements may serve as practical surrogate biomarkers for
+
+18
+
+monitoring neuromodulatory engagement in clinical settings.
+
+19
+
+While our study provided multi-level evidence that repeated 40 Hz tFUS strengthened
+
+20
+
+cortical inhibitory activity and promoted long term circuit reorganization, several directions
+
+21
+
+remained to be explored. First, although the use of PV and GAD67 markers was deliberate and
+
+22
+
+mechanistically informative, future studies could incorporate a broader panel of IHC markers to
+
+23
+
+map the GABAergic and Glutamatergic responses more comprehensively. For example, the
+
+17
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+inclusion of SST, VIP, CaMKII, and GABA receptors could allow for a more detailed dissection
+
+2
+
+of cell type and synapse specific changes. Our results aligned with the overall low-frequency
+
+3
+
+power suppression observed during optogenetic activation of PV neurons, the statistical
+
+4
+
+significance inconsistency in the beta band could suggest other potential mechanisms contributing
+
+5
+
+to the inhibition, such as the activation of other GABAergic interneurons or the inhibition of
+
+6
+
+excitatory glutamatergic neurons. Mapping the involvement of additional GABAergic subtypes,
+
+7
+
+including SST, VIP, and their synaptic interactions with excitatory neurons would greatly enhance
+
+8
+
+our understanding of circuit-level reorganization and the precision of tFUS neuromodulation,
+
+9
+
+given the distinct roles these subtypes contribute to the overall sensory perception [72]. Second,
+
+10
+
+when grand-averaging EEG responses across 17 mice, we observed a relatively broader
+
+11
+
+distribution of activity (Supplementary Fig. 5), likely reflecting inter-animal anatomical variability
+
+12
+
+including slight differences in electrode placement, skull thickness, and cortical geometry, which
+
+13
+
+can influence the precise localization of evoked responses. Although this variability is less critical
+
+14
+
+given the relatively thin mouse skull, future studies should consider individualized targeting
+
+15
+
+strategies or improved anatomical registration approaches to better align responses across subjects.
+
+16
+
+Lastly, the translational pathway from rodent models to human application required careful
+
+17
+
+calibration of stimulation parameters including acoustic pressures and stimulation pulse paradigm.
+
+18
+
+In this study, we used humanized SCD mouse model; however, careful consideration must be
+
+19
+
+given to the selection of stimulation parameters due to fundamental biological differences between
+
+20
+
+rodents and humans, including differences in cortical organization and interneuron diversity [73].
+
+21
+
+Computational modeling, paired with validation in large animal models, will be critical to defining
+
+22
+
+safe and effective stimulation protocols for human use.
+
+18
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+Altogether, our findings highlighted that tFUS engages PV GABAergic inhibitory circuits
+
+2
+
+to counteract chronic pain features, supported by electrophysiological and cellular analyses. These
+
+3
+
+insights positioned tFUS neuromodulation as a clinically meaningful avenue for restoring
+
+4
+
+inhibitory balance in the brain, with the potential to redefine therapeutic strategies for chronic pain
+
+5
+
+and disorders rooted in circuit dysfunction.
+
+6
+7
+
+Declaration of competing interest
+
+8
+
+B.H. is an inventor of pending patent applications related to focused ultrasound. K.G.
+
+9
+
+reports research grants from Novartis, Zilker LLC, and UCI Foundation not related to this work.
+
+10
+
+Other authors declare no conflict of interest.
+
+11
+12
+
+Data availability
+
+13
+
+The data supporting the conclusions of this study are provided in the paper and
+
+14
+
+supplementary materials. Additional data will be made available at a public repository when the
+
+15
+
+paper is accepted.
+
+16
+17
+
+CRediT authorship contribution statement
+
+18
+
+Min Gon Kim: Conceptualization, Methodology, Investigation, Formal Analysis, Writing
+
+19
+
+– Original Draft, Writing – Review & Editing. Chih-Yu Yeh: Conceptualization, Methodology,
+
+20
+
+Investigation, Analysis, Writing – Original Draft, Writing – Review & Editing. Huan
+
+21
+
+Gao: Methodology, Investigation, Writing – Review & Editing. Keunhyung Lee: Methodology,
+
+22
+
+Writing – Review & Editing. Kalpna Gupta: Methodology, Resources, Writing – Review &
+
+19
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+
+Editing. Bin He: Conceptualization, Methodology, Investigation, Supervision, Resources, Writing
+
+2
+
+– Review & Editing.
+
+3
+4
+
+Acknowledgments
+
+5
+
+This work was supported in part by NIH (Grant Nos. NS131069, NS124564, EB029354,
+
+6
+
+HL147562, CA263806, and AT012868). The authors thank Dr. Kai Yu for useful discussions, Dr.
+
+7
+
+Julie Feldstein from Hitowiz company for providing the histologic analysis, and Dr. Donovan
+
+8
+
+Argueta for preparing paraffin-embedded brain specimens. Some cartoons in figures and
+
+9
+
+supplementary figures were created with BioRender.com.
+
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+
+20
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+
+References
+[1] Okie S. A flood of opioids, a rising tide of deaths. N Engl J Med 2010;363:1981–5.
+https://doi.org/10.1056/NEJMp1011512.
+[2] Ballantyne JC. Opioids for the Treatment of Chronic Pain: Mistakes Made, Lessons Learned,
+and
+Future
+Directions.
+Anesth
+Analg
+2017;125:1769–78.
+https://doi.org/10.1213/ANE.0000000000002500.
+[3] Paulozzi LJ, Weisler RH, Patkar AA. A national epidemic of unintentional prescription opioid
+overdose deaths: how physicians can help control it. J Clin Psychiatry 2011;72:589–92.
+https://doi.org/10.4088/JCP.10com06560.
+[4] Bronstein JM, Tagliati M, Alterman RL, Lozano AM, Volkmann J, Stefani A, et al. Deep brain
+stimulation for Parkinson disease: an expert consensus and review of key issues. Arch Neurol
+2011;68:165. https://doi.org/10.1001/archneurol.2010.260.
+[5] Boccard SGJ, Pereira EAC, Aziz TZ. Deep brain stimulation for chronic pain. J Clin Neurosci
+2015;22:1537–43. https://doi.org/10.1016/j.jocn.2015.04.005.
+[6] Johnson MD, Lim HH, Netoff TI, Connolly AT, Johnson N, Roy A, et al. Neuromodulation
+for brain disorders: challenges and opportunities. IEEE Trans Biomed Eng 2013;60:610–24.
+https://doi.org/10.1109/TBME.2013.2244890.
+[7] Wagner T, Valero-Cabre A, Pascual-Leone A. Noninvasive human brain stimulation. Annu
+Rev Biomed Eng 2007;9:527–65. https://doi.org/10.1146/annurev.bioeng.9.061206.133100.
+[8] Mayberg HS, Lozano AM, Voon V, McNeely HE, Seminowicz D, Hamani C, et al. Deep
+brain stimulation for treatment-resistant depression. Neuron 2005;45:651–60.
+https://doi.org/10.1016/j.neuron.2005.02.014.
+[9] Peterchev AV, Wagner TA, Miranda PC, Nitsche MA, Paulus W, Lisanby SH, et al.
+Fundamentals of transcranial electric and magnetic stimulation dose: definition, selection, and
+reporting practices. Brain Stimulat 2012;5:435–53. https://doi.org/10.1016/j.brs.2011.10.001.
+[10] Kang J, Lee H, Yu S, Lee M, Kim HJ, Kwon R, et al. Effects and safety of transcranial direct
+current stimulation on multiple health outcomes: an umbrella review of randomized clinical
+trials. Mol Psychiatry 2024;29:3789–801. https://doi.org/10.1038/s41380-024-02624-3.
+[11] Lefaucheur JP, Drouot X, Keravel Y, Nguyen JP. Pain relief induced by repetitive
+transcranial magnetic stimulation of precentral cortex. Neuroreport 2001;12:2963–5.
+https://doi.org/10.1097/00001756-200109170-00041.
+[12] Knotkova H, Leuschner Z, Soto E, Davoudzadeh E, Greenberg A, Cruciani R. (373)
+Evaluating outcomes of transcranial direct current stimulation (tDCS) in patients with chronic
+neuropathic pain. J Pain 2014;15:S69. https://doi.org/10.1016/j.jpain.2014.01.284.
+[13] Im JJ, Jeong H, Bikson M, Woods AJ, Unal G, Oh JK, et al. Effects of 6-month at-home
+transcranial direct current stimulation on cognition and cerebral glucose metabolism in
+Alzheimer’s
+disease.
+Brain
+Stimulation
+2019;12:1222–8.
+https://doi.org/10.1016/j.brs.2019.06.003.
+[14] Fry FJ, Ades HW, Fry WJ. Production of reversible changes in the central nervous system by
+ultrasound. Science 1958;127:83–4. https://doi.org/10.1126/science.127.3289.83.
+[15] Wang X, Yan J, Wang Z, Li X, Yuan Y. Neuromodulation effects of ultrasound stimulation
+under different parameters on mouse motor cortex. IEEE Trans Biomed Eng 2020;67:291–
+297. https://doi.org/10.1109/TBME.2019.2912840.
+
+21
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+
+[16] Zhu J, Xian Q, Hou X, Wong KF, Zhu T, Chen Z, et al. The mechanosensitive ion channel
+Piezo1 contributes to ultrasound neuromodulation. Proc Natl Acad Sci U S A
+2023;120:e2300291120. https://doi.org/10.1073/pnas.2300291120.
+[17] Darmani G, Ramezanpour H, Sarica C, Annirood R, Grippe T, Nankoo J-F, et al.
+Individualized non-invasive deep brain stimulation of the basal ganglia using transcranial
+ultrasound stimulation. Nat Commun 2025;16:2693. https://doi.org/10.1038/s41467-02557883-7.
+[18] Yoo S-S, Bystritsky A, Lee J-H, Zhang Y, Fischer K, Min B-K, et al. Focused ultrasound
+modulates
+region-specific
+brain
+activity.
+NeuroImage
+2011;56:1267–75.
+https://doi.org/10.1016/j.neuroimage.2011.02.058.
+[19] Yu K, Niu X, Krook-Magnuson E, He B. Intrinsic functional neuron-type selectivity of
+transcranial focused ultrasound neuromodulation. Nat Commun 2021;12:2519.
+https://doi.org/10.1038/s41467-021-22743-7.
+[20] Legon W, Sato TF, Opitz A, Mueller J, Barbour A, Williams A, et al. Transcranial focused
+ultrasound modulates the activity of primary somatosensory cortex in humans. Nat Neurosci
+2014;17:322–9. https://doi.org/10.1038/nn.3620.
+[21] Kosnoff J, Yu K, Liu C, He B. Transcranial focused ultrasound to V5 enhances human visual
+motion brain-computer interface by modulating feature-based attention. Nat Commun
+2024;15:4382. https://doi.org/10.1038/s41467-024-48576-8.
+[22] Martínez-Fernández R, Rodríguez-Rojas R, Del Álamo M, Hernández-Fernández F, PinedaPardo JA, Dileone M, et al. Focused ultrasound subthalamotomy in patients with asymmetric
+Parkinson’s
+disease:
+a
+pilot
+study.
+Lancet
+Neurol
+2018;17:54–63.
+https://doi.org/10.1016/S1474-4422(17)30403-9.
+[23] Fasano A, De Vloo P, Llinas M, Hlasny E, Kucharczyk W, Hamani C, et al. Magnetic
+Resonance Imaging-Guided Focused Ultrasound Thalamotomy in Parkinson Tremor:
+Reoperation After Benefit Decay. Mov Disord Off J Mov Disord Soc 2018;33:848–9.
+https://doi.org/10.1002/mds.27348.
+[24] Beisteiner R, Matt E, Fan C, Baldysiak H, Schönfeld M, Philippi Novak T, et al. Transcranial
+Pulse Stimulation with Ultrasound in Alzheimer’s Disease—A New Navigated Focal Brain
+Therapy. Adv Sci 2019;7:1902583. https://doi.org/10.1002/advs.201902583.
+[25] Lipsman N, Meng Y, Bethune AJ, Huang Y, Lam B, Masellis M, et al. Blood–brain barrier
+opening in Alzheimer’s disease using MR-guided focused ultrasound. Nat Commun
+2018;9:2336. https://doi.org/10.1038/s41467-018-04529-6.
+[26] Mooney SJ, Nobrega JN, Levitt AJ, Hynynen K. Antidepressant effects of focused ultrasound
+induced
+blood-brain-barrier
+opening.
+Behav
+Brain
+Res
+2018;342:57–61.
+https://doi.org/10.1016/j.bbr.2018.01.004.
+[27] Riis TS, Feldman DA, Losser AJ, Okifuji A, Kubanek J. Noninvasive targeted modulation of
+pain
+circuits
+with
+focused
+ultrasonic
+waves.
+Pain
+2024;165:2829–39.
+https://doi.org/10.1097/j.pain.0000000000003322.
+[28] Strohman A, Payne B, In A, Stebbins K, Legon W. Low-Intensity Focused Ultrasound to the
+Human Dorsal Anterior Cingulate Attenuates Acute Pain Perception and Autonomic
+Responses. J Neurosci 2024;44. https://doi.org/10.1523/JNEUROSCI.1011-23.2023.
+[29] Badran BW, Caulfield KA, Stomberg-Firestein S, Summers PM, Dowdle LT, Savoca M, et
+al. Sonication of the anterior thalamus with MRI-Guided transcranial focused ultrasound
+(tFUS) alters pain thresholds in healthy adults: A double-blind, sham-controlled study. Brain
+Stimulat 2020;13:1805–12. https://doi.org/10.1016/j.brs.2020.10.007.
+22
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+
+[30] Hameroff S, Trakas M, Duffield C, Annabi E, Gerace MB, Boyle P, et al. Transcranial
+ultrasound (TUS) effects on mental states: a pilot study. Brain Stimulat 2013;6:409–15.
+https://doi.org/10.1016/j.brs.2012.05.002.
+[31] Zhang T, Wang Z, Liang H, Wu Z, Li J, Ou-Yang J, et al. Transcranial Focused Ultrasound
+Stimulation of Periaqueductal Gray for Analgesia. IEEE Trans Biomed Eng 2022;69:3155–62.
+https://doi.org/10.1109/TBME.2022.3162073.
+[32] Kim MG, Yu K, Yeh C-Y, Fouda R, Argueta D, Kiven S, et al. Low-intensity transcranial
+focused ultrasound suppresses pain by modulating pain-processing brain circuits. Blood
+2024;144:1101–15. https://doi.org/10.1182/blood.2023023718.
+[33] Kim MG, Yeh C-Y, Yu K, Li Z, Gupta K, He B. Analgesic effect of simultaneously targeting
+multiple pain processing brain circuits in an aged humanized mouse model of chronic pain by
+transcranial
+focused
+ultrasound.
+APL
+Bioeng
+2025;9:016108.
+https://doi.org/10.1063/5.0236108.
+[34] Pászty C, Brion CM, Manci E, Witkowska HE, Stevens ME, Mohandas N, et al. Transgenic
+knockout mice with exclusively human sickle hemoglobin and sickle cell disease. Science
+1997;278:876–8. https://doi.org/10.1126/science.278.5339.876.
+[35] Kohli DR, Li Y, Khasabov SG, Gupta P, Kehl LJ, Ericson ME, et al. Pain-related behaviors
+and neurochemical alterations in mice expressing sickle hemoglobin: modulation by
+cannabinoids. Blood 2010;116:456–65. https://doi.org/10.1182/blood-2010-01-260372.
+[36] Sperk G, Wieselthaler-Hölzl A, Pirker S, Tasan R, Strasser SS, Drexel M, et al. Glutamate
+decarboxylase 67 is expressed in hippocampal mossy fibers of temporal lobe epilepsy patients.
+Hippocampus 2012;22:590–603. https://doi.org/10.1002/hipo.20923.
+[37] Fujihara K, Miwa H, Kakizaki T, Kaneko R, Mikuni M, Tanahira C, et al. Glutamate
+Decarboxylase 67 Deficiency in a Subset of GABAergic Neurons Induces SchizophreniaRelated
+Phenotypes.
+Neuropsychopharmacology
+2015;40:2475–86.
+https://doi.org/10.1038/npp.2015.117.
+[38] Miyata S, Kakizaki T, Fujihara K, Obinata H, Hirano T, Nakai J, et al. Global knockdown of
+glutamate decarboxylase 67 elicits emotional abnormality in mice. Mol Brain 2021;14:5.
+https://doi.org/10.1186/s13041-020-00713-2.
+[39] Lazarus MS, Krishnan K, Huang ZJ. GAD67 Deficiency in Parvalbumin Interneurons
+Produces Deficits in Inhibitory Transmission and Network Disinhibition in Mouse Prefrontal
+Cortex. Cereb Cortex 2015;25:1290–6. https://doi.org/10.1093/cercor/bht322.
+[40] Sagi V, Song-Naba WL, Benson BA, Joshi SS, Gupta K. Mouse Models of Pain in Sickle
+Cell Disease. Curr Protoc Neurosci 2018;85:e54. https://doi.org/10.1002/cpns.54.
+[41] Lei J, Benson B, Tran H, Ofori-Acquah SF, Gupta K. Comparative Analysis of Pain
+Behaviours in Humanized Mouse Models of Sickle Cell Anemia. PLOS ONE
+2016;11:e0160608. https://doi.org/10.1371/journal.pone.0160608.
+[42] Kim MG, Yu K, Niu X, He B. Investigation of displacement of intracranial electrode induced
+by focused ultrasound stimulation. IEEE Trans Instrum Meas 2021;70:9600509.
+https://doi.org/10.1109/tim.2021.3125978.
+[43] He B, Sohrabpour A, Brown E, Liu Z. Electrophysiological Source Imaging: A Noninvasive
+Window to Brain Dynamics. Annu Rev Biomed Eng 2018;20:171–96.
+https://doi.org/10.1146/annurev-bioeng-062117-120853.
+[44] Gao R, Peterson EJ, Voytek B. Inferring synaptic excitation/inhibition balance from field
+potentials. NeuroImage 2017;158:70–8. https://doi.org/10.1016/j.neuroimage.2017.06.078.
+
+23
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+
+[45] Donoghue T, Haller M, Peterson EJ, Varma P, Sebastian P, Gao R, et al. Parameterizing
+neural power spectra into periodic and aperiodic components. Nat Neurosci 2020;23:1655–65.
+https://doi.org/10.1038/s41593-020-00744-x.
+[46] Tran H, Sagi V, Jarrett S, Palzer EF, Badgaiyan RD, Gupta K. Diet and companionship
+modulate pain via a serotonergic mechanism. Sci Rep 2021;11:2330.
+https://doi.org/10.1038/s41598-021-81654-1.
+[47] Paxinos G, Watson C. The Rat Brain in Stereotaxic Coordinates. 6th ed. Academic Press;
+2006.
+[48] Chen G, Zhang Y, Li X, Zhao X, Ye Q, Lin Y, et al. Distinct Inhibitory Circuits Orchestrate
+Cortical beta and gamma Band Oscillations. Neuron 2017;96:1403-1418.e6.
+https://doi.org/10.1016/j.neuron.2017.11.033.
+[49] Huang P, Xiang X, Chen X, Li H. Somatostatin Neurons Govern Theta Oscillations Induced
+by
+Salient
+Visual
+Signals.
+Cell
+Rep
+2020;33:108415.
+https://doi.org/10.1016/j.celrep.2020.108415.
+[50] Turri C, Di Dona G, Santoni A, Zamfira DA, Franchin L, Melcher D, et al. Periodic and
+Aperiodic EEG Features as Potential Markers of Developmental Dyslexia. Biomedicines
+2023;11:1607. https://doi.org/10.3390/biomedicines11061607.
+[51] Lombardi F, Herrmann HJ, de Arcangelis L. Balance of excitation and inhibition determines
+1/f
+power
+spectrum
+in
+neuronal
+networks.
+Chaos
+2017;27:047402.
+https://doi.org/10.1063/1.4979043.
+[52] McCarty KS, Miller LS, Cox EB, Konrath J, McCarty KS. Estrogen receptor analyses.
+Correlation of biochemical and immunohistochemical methods using monoclonal antireceptor
+antibodies. Arch Pathol Lab Med 1985;109:716–21.
+[53] Numata M, Morinaga S, Watanabe T, Tamagawa H, Yamamoto N, Shiozawa M, et al. The
+clinical significance of SWI/SNF complex in pancreatic cancer. Int J Oncol 2013;42:403–10.
+https://doi.org/10.3892/ijo.2012.1723.
+[54] Fischer AH, Jacobson KA, Rose J, Zeller R. Hematoxylin and eosin staining of tissue and
+cell sections. CSH Protoc 2008;2008:pdb.prot4986. https://doi.org/10.1101/pdb.prot4986.
+[55] Kyrylkova K, Kyryachenko S, Leid M, Kioussi C. Detection of Apoptosis by TUNEL Assay.
+In: Kioussi C, editor. Odontogenesis Methods Mol. Biol., vol. 887, Humana Press; 2012, p.
+41–7. https://doi.org/10.1007/978-1-61779-860-3_5.
+[56] Cheung K, Ma L, Wang G, Coe D, Ferro R, Falasca M, et al. CD31 signals confer immune
+privilege to the vascular endothelium. Proc Natl Acad Sci U S A 2015;112:E5815-5824.
+https://doi.org/10.1073/pnas.1509627112.
+[57] Elias WJ, Lipsman N, Ondo WG, Ghanouni P, Kim YG, Lee W, et al. A Randomized Trial
+of Focused Ultrasound Thalamotomy for Essential Tremor. N Engl J Med 2016;375:730–9.
+https://doi.org/10.1056/NEJMoa1600159.
+[58] Chattopadhyaya B, Di Cristo G, Wu CZ, Knott G, Kuhlman S, Fu Y, et al. GAD67-mediated
+GABA Synthesis and Signaling Regulate Inhibitory Synaptic Innervation in the Visual Cortex.
+Neuron 2007;54:889–903. https://doi.org/10.1016/j.neuron.2007.05.015.
+[59] Charron A, Pepino L, Malapert P, Debrauwer V, Castets F, Salio C, et al. Sex-related
+exacerbation of injury-induced mechanical hypersensitivity in GAD67 haplodeficient mice.
+Pain 2024;165:192–201. https://doi.org/10.1097/j.pain.0000000000003012.[60]
+Kanda
+H, Kanao M, Liu S, Yi H, Iida T, Levitt RC, et al. HSV vector-mediated GAD67 suppresses
+neuropathic pain induced by perineural HIV gp120 in rats through inhibition of ROS and
+Wnt5a. Gene Ther 2016;23:340–8. https://doi.org/10.1038/gt.2016.3.
+24
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+
+[60] Kanda H, Kanao M, Liu S, Yi H, Iida T, Levitt RC, et al. HSV vector-mediated GAD67
+suppresses neuropathic pain induced by perineural HIV gp120 in rats through inhibition of
+ROS and Wnt5a. Gene Ther 2016;23:340–8. https://doi.org/10.1038/gt.2016.3.
+[61] Zhou X, Ichesco E, Pucka AQ, Liu Z, O’Brien AR, Harte SE, et al. Elevated posterior insula
+glutamate in patients with sickle cell disease. J Pain 2025;27:104743.
+https://doi.org/10.1016/j.jpain.2024.104743.
+[62] Tremblay R, Lee S, Rudy B. GABAergic Interneurons in the Neocortex: From Cellular
+Properties to Circuits. Neuron 2016;91:260–92. https://doi.org/10.1016/j.neuron.2016.06.033.
+[63] Rudy B, Fishell G, Lee S, Hjerling-Leffler J. Three groups of interneurons account for nearly
+100% of neocortical GABAergic neurons. Dev Neurobiol 2011;71:45–61.
+https://doi.org/10.1002/dneu.20853.
+[64] Guo Z, Ni H, Cui Z, Zhu Z, Kang J, Wang D, et al. Pain sensitivity related to gamma
+oscillation of parvalbumin interneuron in primary somatosensory cortex in Dync1i1−/− mice.
+Neurobiol Dis 2023;183:106170. https://doi.org/10.1016/j.nbd.2023.106170.
+[65] Qiu H, Miraucourt LS, Petitjean H, Xu M, Theriault C, Davidova A, et al. Parvalbumin gates
+chronic pain through the modulation of firing patterns in inhibitory neurons. Proc Natl Acad
+Sci U S A 2024;121:e2403777121. https://doi.org/10.1073/pnas.2403777121.
+[66] Petitjean H, Pawlowski SA, Fraine SL, Sharif B, Hamad D, Fatima T, et al. Dorsal Horn
+Parvalbumin Neurons Are Gate-Keepers of Touch-Evoked Pain after Nerve Injury. Cell Rep
+2015;13:1246–57. https://doi.org/10.1016/j.celrep.2015.09.080.
+[67] Martel MO, Finan PH, Dolman AJ, Subramanian S, Edwards RR, Wasan AD, et al. Selfreports of medication side effects and pain-related activity interference in patients with chronic
+pain:
+a
+longitudinal
+cohort
+study.
+Pain
+2015;156:1092–100.
+https://doi.org/10.1097/j.pain.0000000000000154.
+[68] Urits I, Li N, Berardino K, Artounian KA, Bandi P, Jung JW, et al. The use of antineuropathic
+medications for the treatment of chronic pain. Best Pract Res Clin Anaesthesiol 2020;34:493–
+506. https://doi.org/10.1016/j.bpa.2020.08.007.
+[69] Klomjai W, Katz R, Lackmy-Vallée A. Basic principles of transcranial magnetic stimulation
+(TMS) and repetitive TMS (rTMS). Ann Phys Rehabil Med 2015;58:208–13.
+https://doi.org/10.1016/j.rehab.2015.05.005.
+[70] Tyler WJ, Tufail Y, Finsterwald M, Tauchmann ML, Olson EJ, Majestic C. Remote
+Excitation of Neuronal Circuits Using Low-Intensity, Low-Frequency Ultrasound. PLOS ONE
+2008;3:e3511. https://doi.org/10.1371/journal.pone.0003511.
+[71] Kubanek J, Shukla P, Das A, Baccus SA, Goodman MB. Ultrasound Elicits Behavioral
+Responses through Mechanical Effects on Neurons and Ion Channels in a Simple Nervous
+System. J Neurosci 2018;38:3081–91. https://doi.org/10.1523/JNEUROSCI.1458-17.2018.
+[72] Yu J, Hu H, Agmon A, Svoboda K. Recruitment of GABAergic Interneurons in the Barrel
+Cortex
+during
+Active
+Tactile
+Behavior.
+Neuron
+2019;104:412-427.e4.
+https://doi.org/10.1016/j.neuron.2019.07.027.
+[73] Hodge RD, Bakken TE, Miller JA, Smith KA, Barkan ER, Graybuck LT, et al. Conserved
+cell types with divergent features in human versus mouse cortex. Nature 2019;573:61–8.
+https://doi.org/10.1038/s41586-019-1506-7.
+
+25
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+
+Figure 1. Single-session tFUS induced local brain circuit modulation revealed by EEG. (A)
+Schematic of tFUS stimulation using a 128-element random array transducer. It features dynamic
+beam steering capabilities as demonstrated by red and blue beams when targeting specific brain
+circuits. (B) EEG recording setup with 30-channel flexible electrode along with highly focused
+26
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+
+ultrasound stimulation beam as presented by S1HL stimulation with the location of the analyzed
+electrode representing S1HL activity. (C) Single-session tFUS stimulation with selected
+parameters: a PRF of 40 Hz or control value, a UD of 100-ms, an ISoI of 2-sec, and a total
+sonication time of 20-min. Recording timeline below illustrates EEG acquisition during a 99-trial
+baseline period (TP1) followed by 600 trials of tFUS stimulation or control (TP2-TP7). (D)
+Representative EEG traces and topographic maps during tFUS with PRF of a 3 kHz related to
+excitatory effect show that a single-session tFUS can perturb local brain activity. The gray
+rectangle represents the tFUS stimulation or negative control period. (E) Significant suppression
+of low-frequency EEG oscillations, particularly within the theta and alpha bands, was observed
+with 40 Hz PRF tFUS in SCD mice (n=17). (F) Significant suppression of low-frequency EEG
+oscillations, especially in the theta, alpha, and beta bands, was similarly observed with optogenetic
+activation of PV-positive interneurons in rats (n=8). #p <0.05, ##p <0.01 using t test with MannWhitney test; *p <0.05 using t test with Wilcoxon matched-pairs signed rank test. ns, not
+significant.
+
+16
+17
+18
+
+27
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+
+Figure 2. Multi-session tFUS induced global cortical inhibitory activity measured by EEG
+aperiodic exponent analysis. (A) Illustration of slope of the power spectrum showing the
+aperiodic exponent (blue) fit to the original power spectrum (green), used as a marker of E/I
+balance. (B) Aperiodic exponent was significantly reduced in SCD mice (n=17) compared to wildtype controls (n=8), suggesting a disrupted E/I balance. (C) Compared to negative control group,
+single-session tFUS with a PRF of 40 Hz did not produce a significant change in aperiodic
+exponent in SCD mice exhibiting chronic pain phenotypes. (D) Multi-session tFUS stimulation
+paradigm: 14 consecutive days of 1-hour daily tFUS stimulation with a PRF of 40 Hz, a UD of
+400-ms, and an IsoI of 4-sec. (E) Aperiodic exponent significantly increased in SCD mice
+following multi-session tFUS at S1HL (n=5), reaching levels comparable to wild-type mice. (F)
+An additional single-session tFUS delivered after the 14-day stimulation significantly increased
+the aperiodic exponent compared to 20-min single-session tFUS in sickle mice, indicating
+amplified inhibitory effect. (G) Scalp EEG topographic maps of aperiodic exponent values showed
+a progressive increase from untreated SCD mice and post-multi-session tFUS. (I) Potential longterm synaptic plastic changes along with multi-session tFUS were investigated by comparing
+responses to single-session 20-min tFUS in SCD mice and an additional single-session tFUS in
+14-day treated SCD mice. ###p<0.001 using t test with Mann-Whitney test; ns: not significant.
+28
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+6
+7
+
+Figure 3. Multi-session tFUS increased neuronal GABAergic capacity assessed by IHC. (A)
+Schematic of histology processing workflow: mice underwent 14 days of tFUS, followed by brain
+perfusion, fixation, paraffin embedding, and blind IHC analysis comparing ipsilateral (stimulated)
+and contralateral (unstimulated) brain regions in SCD mice. (B) Representative IHC image of
+GAD67. (C) Quantification of GAD67-positive cells revealed a significant increase in the treated
+hemisphere following multi-session tFUS, suggesting enhanced capacity for GABA synthesis
+29
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+(n=5). (D) Representative IHC image of PV-positive neurons. (E) Quantification of PV-positive
+cells showed a significant increase in the stimulated hemisphere, indicating enhanced engagement
+of fast-spiking inhibitory interneurons (n=5). (F) Representative IHC image of GABA expression.
+Yellow, green, red, and white circles represent neuron, strong astrocyte, weaker oligodendrocyte,
+and microglial cells, respectively. (G) H-score quantification of GABA immunoreactivity in
+microglia and astrocytes showed no significant difference between ipsilateral and contralateral
+hemispheres, indicating that tFUS did not alter non-neuronal inhibitory signaling (n=5). *p <0.05
+using t test with Wilcoxon matched-pairs signed rank test; ns, not significant. Scale bars represent
+100 µm.
+
+30
+
+bioRxiv preprint doi: https://doi.org/10.1101/2025.10.08.680737; this version posted October 8, 2025. The copyright holder for this preprint
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+Figure 4. Multi-session tFUS did not induce pathological changes as assessed by histological
+analysis. (A) Representative H&E-stained section showed preserved tissue architecture in both
+the ipsilateral and contralateral brain regions following 14-day tFUS. No signs of macrophages,
+neutrophils, inflammation, necrosis, apoptosis, hemorrhage, fibrosis, vacuolation were detected
+across hemispheres. (B) Representative image of TUNEL staining revealed an absence of TUNELpositive nuclei, indicating no evidence of necrosis or apoptotic cell death in either hemisphere. (C)
+Representative image of CD31 immunostaining indicated normal vascular architecture and
+distribution, with no signs of hemorrhage or abnormal angiogenesis. Scale bars represent 100 µm.
+
+31
+
+
