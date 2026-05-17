@@ -6,17 +6,19 @@
 <title>Paper Reading Notes — 罗重威</title>
 <style>
 :root {
-  --bg: #f7f8f5;
+  --bg: #f6f7fc;
   --paper: #ffffff;
-  --ink: #1f2933;
-  --muted: #5b6776;
-  --muted-2: #94a3b8;
-  --line: #e1e5dc;
-  --line-hover: #c5cdb9;
-  --accent: #0f766e;
-  --accent-soft: #e0f2ef;
-  --accent-hover: #0b5d56;
-  --accent-tint: #cbe7e0;
+  --ink: #1e1b3a;
+  --muted: #6b6f8f;
+  --muted-2: #9da1bf;
+  --line: #e4e6f3;
+  --line-hover: #c9cce6;
+  --accent: #7c7fe8;
+  --accent-soft: #ebecf9;
+  --accent-hover: #6366d4;
+  --accent-tint: #d8daf3;
+  --shadow: 0 1px 2px rgba(70, 70, 130, 0.04), 0 1px 8px rgba(70, 70, 130, 0.03);
+  --shadow-hover: 0 2px 4px rgba(70, 70, 130, 0.06), 0 4px 16px rgba(70, 70, 130, 0.06);
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -68,7 +70,7 @@ h1 {
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.sort-btn:hover { color: var(--ink); background: rgba(15,118,110,0.04); }
+.sort-btn:hover { color: var(--ink); background: rgba(124,127,232,0.06); }
 .sort-btn.active {
   background: var(--accent-soft);
   color: var(--accent);
@@ -94,11 +96,15 @@ h1 {
 .paper {
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 18px 22px;
-  transition: border-color 0.15s ease;
+  box-shadow: var(--shadow);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
-.paper:hover { border-color: var(--line-hover); }
+.paper:hover {
+  border-color: var(--line-hover);
+  box-shadow: var(--shadow-hover);
+}
 
 .paper-title {
   font-weight: 600;
@@ -155,7 +161,8 @@ footer {
 footer a { color: var(--accent); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 footer code {
-  background: #ebeee8;
+  background: var(--accent-soft);
+  color: var(--accent-hover);
   padding: 1px 6px;
   border-radius: 4px;
   font-size: 0.92em;
